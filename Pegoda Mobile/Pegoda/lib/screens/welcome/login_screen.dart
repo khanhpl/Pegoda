@@ -73,9 +73,9 @@ class _LoginScreenState extends State<LoginScreen> {
   void splitRole() async {
     setState(() {
       if(choosen == "1"){
-        Navigator.pushNamed(context, '/pccHomeScreen');
+        Navigator.pushNamed(context, '/pccMain');
       }else{
-        Navigator.pushNamed(context, '/cusHomeScreen');
+        Navigator.pushNamed(context, '/cusMain');
       }
     });
   }
