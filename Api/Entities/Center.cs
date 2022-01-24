@@ -1,0 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Api.Entities
+{
+    public class Center
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Service { get; set; }
+        public string Address { get; set; }
+        public float Longitude { get; set; }
+        public float Latitude { get; set; }
+    }
+}
