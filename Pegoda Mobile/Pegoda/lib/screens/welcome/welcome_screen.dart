@@ -1,16 +1,18 @@
 
 import 'package:flutter/material.dart';
+import '../../MyLib/constants.dart' as Constants;
 
 class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
     var _pageWidth = MediaQuery.of(context).size.width;
+    var _bgColor = Constants.bgColor;
     return Material(
       child: Container(
         width: _pageWidth,
         height: _pageHeight,
-        color: Color(0xFFBFEFFF),
+        color: _bgColor,
         alignment: Alignment.center,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -20,17 +22,18 @@ class WelcomeScreen extends StatelessWidget {
             children: [
               Container(
                 child: Image.asset(
-                  'assets/ic_pegoda.png',
+                  'assets/Pegoda.png',
                   width: _pageWidth * 0.7,
                   height: _pageHeight * 0.3,
                 ),
               ),
               Container(
-                child: Text('Bring the best services \nto your pet.',
+                child: Text('Mang những dịch vụ tốt nhất\n Đến với thú cưng của bạn.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: _pageHeight * 0.025,
                     fontWeight: FontWeight.w400,
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -38,7 +41,7 @@ class WelcomeScreen extends StatelessWidget {
               Container(
                 child: TextButton(
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.black87,
+                    backgroundColor: Color(0xFF7289DA),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
@@ -49,7 +52,7 @@ class WelcomeScreen extends StatelessWidget {
                   child: Container(
 
                     child: Text(
-                      'Next',
+                      'Tiếp Theo',
                       style: TextStyle(
                         fontSize: _pageHeight * 0.025,
                         color: Colors.white,
