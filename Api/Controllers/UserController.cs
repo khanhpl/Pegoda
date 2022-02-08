@@ -5,7 +5,6 @@ using Api.Modals;
 using Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using static Api.Controllers.BasicApiController;
 
 namespace Api.Controllers
 {
@@ -31,7 +30,7 @@ namespace Api.Controllers
                 RoleId = newUser.RoleId
             };
             await _service.Create(user);
-            return NoContent();
+            return CreatedAtAction(nameof(GetByUserName), new { userName = newUser.Name }, newUser);
         }
 
         [HttpGet("{username}")]
