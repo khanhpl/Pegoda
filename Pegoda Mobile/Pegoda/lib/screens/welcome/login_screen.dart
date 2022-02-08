@@ -134,7 +134,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     Spacer(),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, '/forgotPasswordScreen');
+                      },
                       child: Text(
                         'Quên mật khẩu?',
                         style: TextStyle(
