@@ -6,12 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
-    public class BasicApiController
+    [Route("/api/[controller]")]
+    [ApiController]
+    public class BaseApiController : ControllerBase
     {
-        [Route("/api/[controller]")]
-        [ApiController]
-        public class BaseApiController : ControllerBase
-        {
-        }
     }
 }

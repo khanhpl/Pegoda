@@ -6,7 +6,6 @@ using Api.Modals;
 using Api.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Mvc;
-using static Api.Controllers.BasicApiController;
 
 namespace Api.Controllers
 {

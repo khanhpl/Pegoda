@@ -42,6 +42,8 @@ namespace Api
             services.AddTransient<RoleService, RoleService>();
             services.AddTransient<IUserRepository<User>, UserRepository>();
             services.AddTransient<UserService, UserService>();
+            services.AddTransient<IAnimalRepository<Animal>, AnimalRepository>();
+            services.AddTransient<AnimalService, AnimalService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
