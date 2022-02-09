@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Entities;
-using Api.Modals;
 using Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -19,14 +18,10 @@ namespace Api.Controllers
         }
         [HttpPost]
         [SwaggerOperation(Summary = "Create new animal")]
-        public async Task<ActionResult> Create(CreateAnimalModal newAnimal)
+        public async Task<ActionResult> Create(Animal newAnimal)
         {
-            Animal animal = new Animal
-            {
-                Type = newAnimal.Type
-            };
-            await _service.Create(animal);
-            return CreatedAtAction(nameof(GetById), new { id = animal.Id }, animal);
+            await _service.Create(newAnimal);
+            return CreatedAtAction(nameof(GetById), new { id = newAnimal.Id }, newAnimal);
         }
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update animal")]

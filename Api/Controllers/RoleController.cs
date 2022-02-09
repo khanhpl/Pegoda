@@ -18,7 +18,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        [SwaggerOperation(Summary = "Create new role")]
+        [SwaggerOperation(Summary = "Register new role")]
         public async Task<ActionResult> Create(ResponseRoleModal newRole)
         {
             Role role = new Role
@@ -26,7 +26,7 @@ namespace Api.Controllers
                 Name = newRole.Name
             };
             await _service.Create(role);
-            return CreatedAtAction(nameof(GetById), new { id = role.Id }, role);
+            return NoContent();
         }
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update role")]
