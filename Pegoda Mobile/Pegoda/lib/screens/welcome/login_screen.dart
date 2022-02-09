@@ -96,23 +96,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     Expanded(
-                      child: Container(
-                        child: IconButton(
-                          icon: !_showPass
-                              ? ImageIcon(
-                                  AssetImage('assets/welcome/eye.png'),
-                                  color: Colors.black26,
-                                  size: _pageHeight * 0.05,
-                                )
-                              : ImageIcon(
-                                  AssetImage('assets/welcome/eye.png'),
-                                  color: Colors.blue,
-                                  size: _pageHeight * 0.05,
-                                ),
-                          onPressed: () {
-                            showPass();
-                          },
-                        ),
+                      child: IconButton(
+                        icon: !_showPass
+                            ? ImageIcon(
+                                AssetImage('assets/welcome/eye.png'),
+                                color: Colors.black26,
+                                size: _pageHeight * 0.05,
+                              )
+                            : ImageIcon(
+                                AssetImage('assets/welcome/eye.png'),
+                                color: Colors.blue,
+                                size: _pageHeight * 0.05,
+                              ),
+                        onPressed: () {
+                          showPass();
+                        },
                       ),
                     ),
                   ],
@@ -123,7 +121,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Row(
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, '/registerScreen');
+                      },
                       child: Text(
                         'Đăng ký ngay',
                         style: TextStyle(
@@ -134,9 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     Spacer(),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/forgotPasswordScreen');
-                      },
+                      onTap: () {},
                       child: Text(
                         'Quên mật khẩu?',
                         style: TextStyle(
@@ -214,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Colors.blue,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: FlatButton(
+                child: TextButton(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -244,7 +242,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: FlatButton(
+                child: TextButton(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -268,7 +266,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {},
                 ),
               ),
-
               SizedBox(height: _pageHeight * 0.1),
             ],
           ),
