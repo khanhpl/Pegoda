@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:pegoda/screens/customer/cus_home_screen.dart';
+import '../MyLib/constants.dart' as Constants;
 class CusMain extends StatefulWidget {
   int selectedIndex = 0;
 
@@ -17,6 +18,7 @@ class _CusMainSate extends State<CusMain> {
   int selectedIndex;
   bool isBottomNav;
   _CusMainSate({required this.selectedIndex, required this.isBottomNav});
+  var _bgColor = Constants.bgColor;
 
   Widget pageCaller(index) {
     switch (selectedIndex) {
@@ -50,7 +52,7 @@ class _CusMainSate extends State<CusMain> {
         style: TabStyle.react,
         backgroundColor: Colors.white,
         color: Colors.grey[700],
-        activeColor: Colors.black,
+        activeColor: _bgColor,
         onTap: _onItemTapped,
         initialActiveIndex: selectedIndex,
         top: 0.0,
