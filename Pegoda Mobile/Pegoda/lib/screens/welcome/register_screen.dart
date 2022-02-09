@@ -12,6 +12,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final myController = TextEditingController();
   var choosen = "";
   bool _showPass = false;
+  bool _showRetypePass = false;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: _pageHeight * 0.025,),
+              SizedBox(height: _pageHeight * 0.025),
               Container(
                 height: _pageHeight * 0.06,
                 alignment: Alignment.centerLeft,
@@ -172,7 +173,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Container(
                       width: _pageWidth * 0.5,
                       child: TextField(
-                        obscureText: !_showPass,
+                        obscureText: !_showRetypePass,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Xác nhận Mật khẩu ',
                           hintStyle: TextStyle(
@@ -185,7 +186,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Expanded(
                       child: Container(
                         child: IconButton(
-                          icon: !_showPass
+                          icon: !_showRetypePass
                               ? ImageIcon(
                             AssetImage('assets/welcome/eye.png'),
                             color: Colors.black26,
@@ -197,7 +198,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             size: _pageHeight * 0.05,
                           ),
                           onPressed: () {
-                            showPass();
+                            showRetypePass();
                           },
                         ),
                       ),
@@ -257,7 +258,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
 
-              )
+              ),
+              SizedBox(height: _pageHeight * 0.3),
             ],
           ),
         ),
@@ -271,6 +273,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _showPass = false;
       } else {
         _showPass = true;
+      }
+    });
+  }
+  void showRetypePass() async {
+    setState(() {
+      if (_showRetypePass == true) {
+        _showRetypePass = false;
+      } else {
+        _showRetypePass = true;
       }
     });
   }

@@ -20,7 +20,6 @@ void main() {
         '/pccMain': (context) => PCCMain(selectedIndex: 0, isBottomNav: true),
         '/cusMain': (context) => CusMain(selectedIndex: 0, isBottomNav: true),
 
-
       },
     ),
   );
