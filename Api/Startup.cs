@@ -50,6 +50,8 @@ namespace Api
             services.AddTransient<ServiceService, ServiceService>();
             services.AddTransient<ICustomerRepository<Customer>, CustomerRepository>();
             services.AddTransient<CustomerService, CustomerService>();
+            services.AddTransient<IPetRepository<Pet>, PetRepository>();
+            services.AddTransient<PetService, PetService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
