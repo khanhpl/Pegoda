@@ -1,17 +1,42 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pegoda/screens/customer/up_nav_bar.dart';
-import '../../MyLib/constants.dart' as Constants;
-
+import 'package:pegoda/MyLib/class/coupon.dart';
+import 'package:pegoda/screens/customer/cus_main/show_coupon_on_home_screen.dart';
+import 'package:pegoda/screens/customer/cus_main/up_nav_bar.dart';
+import '../../../MyLib/constants.dart' as Constants;
 import 'package:carousel_pro/carousel_pro.dart';
 
-class CusHomeScreen extends StatelessWidget {
+class CusHomeScreen extends StatefulWidget {
+  @override
+  State<CusHomeScreen> createState() => _CusHomeScreenState();
+}
+
+class _CusHomeScreenState extends State<CusHomeScreen> {
   @override
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
     var _pageWidth = MediaQuery.of(context).size.width;
     var _bgColor = Constants.bgColor;
+    List<Coupon> _couponList = [
+      Coupon(
+          couponImage: 'assets/cus/main_screen/coupon1.png',
+          couponContent: 'Bí kíp chăm sóc thú cưng mùa dịch cùng pet box.'),
+      Coupon(
+          couponImage: 'assets/cus/main_screen/coupon2.jpg',
+          couponContent: 'Grooming spa ưu đãi lên đến 45%'),
+      Coupon(
+          couponImage: 'assets/cus/main_screen/coupon3.jpg',
+          couponContent: 'Ú tim tìm boss ưu đã lên đến 50%'),
+      Coupon(
+          couponImage: 'assets/cus/main_screen/coupon4.jpg',
+          couponContent: 'Sen ơi ở đây có giảm giá nhà gỗ lofe pet nè'),
+      Coupon(
+          couponImage: 'assets/cus/main_screen/coupon5.jpg',
+          couponContent: 'Trải nghiệm siêu tiết kiệm'),
+      Coupon(
+          couponImage: 'assets/cus/main_screen/coupon6.jpg',
+          couponContent: 'Sale tết lên đến 50%'),
+    ];
     return Scaffold(
       appBar: UpAppBar(context),
       body: Material(
@@ -19,7 +44,10 @@ class CusHomeScreen extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(_pageWidth * 0.03, _pageHeight * 0.03,
               _pageWidth * 0.03, _pageHeight * 0.1),
           child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            // physics: ClampingScrollPhysics(),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //slide
@@ -76,15 +104,13 @@ class CusHomeScreen extends StatelessWidget {
                             child: Text(
                               'Trung tâm \nnổi bật',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400
-                              ),
+                              style: TextStyle(fontWeight: FontWeight.w400),
                             ),
                           ),
                         ],
                       ),
 
-                      SizedBox(width: _pageWidth*0.03),
+                      SizedBox(width: _pageWidth * 0.03),
                       //Dịch vụ nổi bật
                       Column(
                         children: [
@@ -109,15 +135,13 @@ class CusHomeScreen extends StatelessWidget {
                             child: Text(
                               'Dịch vụ \nnổi bật',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400
-                              ),
+                              style: TextStyle(fontWeight: FontWeight.w400),
                             ),
                           ),
                         ],
                       ),
 
-                      SizedBox(width: _pageWidth*0.03),
+                      SizedBox(width: _pageWidth * 0.03),
                       //Câu hỏi thường gặp
                       Column(
                         children: [
@@ -142,15 +166,13 @@ class CusHomeScreen extends StatelessWidget {
                             child: Text(
                               'Câu hỏi \nthường gặp',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400
-                              ),
+                              style: TextStyle(fontWeight: FontWeight.w400),
                             ),
                           ),
                         ],
                       ),
 
-                      SizedBox(width: _pageWidth*0.03),
+                      SizedBox(width: _pageWidth * 0.03),
                       //Tư vấn trực tuyến
                       Column(
                         children: [
@@ -175,15 +197,13 @@ class CusHomeScreen extends StatelessWidget {
                             child: Text(
                               'Tư vấn \ntrực tuyến',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400
-                              ),
+                              style: TextStyle(fontWeight: FontWeight.w400),
                             ),
                           ),
                         ],
                       ),
 
-                      SizedBox(width: _pageWidth*0.03),
+                      SizedBox(width: _pageWidth * 0.03),
                       //Thư viện bệnh lý
                       Column(
                         children: [
@@ -208,9 +228,7 @@ class CusHomeScreen extends StatelessWidget {
                             child: Text(
                               'Thư viện \nbệnh lý',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400
-                              ),
+                              style: TextStyle(fontWeight: FontWeight.w400),
                             ),
                           ),
                         ],
@@ -219,6 +237,7 @@ class CusHomeScreen extends StatelessWidget {
                   ),
                 ),
 
+                //khuyến mãi
                 SizedBox(height: _pageHeight * 0.03),
                 Container(
                   child: Text(
@@ -230,6 +249,23 @@ class CusHomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(height: _pageHeight * 0.02),
+                Container(
+                  height: _pageHeight*0.22,
+                  child: ListView.separated(
+                    // physics: NeverScrollableScrollPhysics(),
+                    // shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _couponList.length,
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(width: _pageWidth * 0.03);
+                    },
+                    itemBuilder: (BuildContext context, int index) {
+                      return ShowCouponOnHomeScreen(coupon: _couponList[index]);
+                    },
+                  ),
+                ),
+
                 SizedBox(height: _pageHeight * 0.02),
               ],
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
-import 'package:pegoda/screens/customer/cus_home_screen.dart';
+import 'package:pegoda/screens/customer/cus_main/cus_home_screen.dart';
 import '../MyLib/constants.dart' as Constants;
 
 class CusMain extends StatefulWidget {

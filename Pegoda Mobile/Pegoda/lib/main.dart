@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pegoda/controllers/customer_main.dart';
 import 'package:pegoda/controllers/pet_care_center_main.dart';
-import 'package:pegoda/screens/customer/cus_home_screen.dart';
+import 'package:pegoda/screens/customer/cus_main/cus_home_screen.dart';
 import 'package:pegoda/screens/pet_care_center/pcc_home_screen.dart';
 import 'package:pegoda/screens/welcome/login_screen.dart';
 import 'package:pegoda/screens/welcome/welcome_screen.dart';
