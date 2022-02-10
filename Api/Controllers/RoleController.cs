@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Api.Entities;
-using Api.Modals;
+using Api.Models;
 using Api.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Mvc;

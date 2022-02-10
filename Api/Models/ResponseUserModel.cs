@@ -1,9 +1,8 @@
 ﻿using System;
-namespace Api.Modals
+namespace Api.Models
 {
-    public class UpdateUserModal
+    public class ResponseUserModal
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Image { get; set; }
