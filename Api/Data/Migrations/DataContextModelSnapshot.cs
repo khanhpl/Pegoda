@@ -71,8 +71,8 @@ namespace Api.Data.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("CenterId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
@@ -83,9 +83,10 @@ namespace Api.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("CenterId");
+                    b.HasKey("Id");
 
                     b.ToTable("Customers");
                 });
@@ -332,17 +333,6 @@ namespace Api.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Api.Entities.Customer", b =>
-                {
-                    b.HasOne("Api.Entities.Center", "Center")
-                        .WithMany()
-                        .HasForeignKey("CenterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Center");
                 });
 
             modelBuilder.Entity("Api.Entities.Order", b =>

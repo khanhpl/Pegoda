@@ -5,15 +5,18 @@ using Api.Data;
 using Api.Entities;
 using Api.Modals;
 using Microsoft.EntityFrameworkCore;
+using quiz_app_dotnet_api.Helper;
 
 namespace Api.Repositories
 {
     public class UserRepository : IUserRepository<User>
     {
         private readonly DataContext _context;
-        public UserRepository(DataContext context)
+        private readonly IJwtHelper _jwtHelper;
+        public UserRepository(DataContext context, IJwtHelper jwtHelper)
         {
             _context = context;
+            _jwtHelper = jwtHelper;
         }
         public async Task<User> Create(User user)
         {
@@ -31,19 +34,28 @@ namespace Api.Repositories
             return user;
         }
 
-        //public bool Login(LoginModal loginModal)
-        //{
-        //    User user = _context.Users.FirstOrDefault(u => u.Name == loginModal.Name);
-        //    if (user == null)
-        //    {
-        //        return false;
-        //    }
-        //    if (user.Password == loginModal.Password)
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
+        public async Task<ResponseLoginModal> Login(LoginModal loginModal)
+        {
+            Customer customer = await _context.Customers.FirstOrDefaultAsync(x => x.Email == loginModal.Email);
+            if (customer != null)
+            {
+                if (customer.Password != loginModal.Password)
+                {
+                    return null;
+                }
+                else
+                {
+                    string Token = _jwtHelper.generateJwtToken(customer);
+                    ResponseLoginModal responseLoginModal = new ResponseLoginModal
+                    {
+                        Email = customer.Email,
+                        Token = Token,
+                    };
+                    return responseLoginModal;
+                }
+            }
+            return null;
+        }
         public async Task<bool> Delete(Guid id)
         {
             User user = await _context.Users.FindAsync(id);
@@ -61,6 +73,13 @@ namespace Api.Repositories
             _context.Users.Update(newUser);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<Customer> Register(Customer customer)
+        {
+            await _context.Customers.AddAsync(customer);
+            await _context.SaveChangesAsync();
+            return customer;
         }
     }
 }

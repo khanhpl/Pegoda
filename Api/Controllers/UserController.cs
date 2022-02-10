@@ -16,22 +16,22 @@ namespace Api.Controllers
             _service = service;
         }
 
-        [Route("Register")]
-        [HttpPost]
-        [SwaggerOperation(Summary = "Register new user")]
-        public async Task<ActionResult> Register(ResponseUserModal newUser)
-        {
-            User user = new User
-            {
-                Name = newUser.Name,
-                Address = newUser.Address,
-                Image = newUser.Image,
-                Email = newUser.Email,
-                RoleId = newUser.RoleId
-            };
-            await _service.Create(user);
-            return CreatedAtAction(nameof(GetByUserName), new { userName = newUser.Name }, newUser);
-        }
+        // [Route("Register")]
+        // [HttpPost]
+        // [SwaggerOperation(Summary = "Register new user")]
+        // public async Task<ActionResult> Register(ResponseUserModal newUser)
+        // {
+        //     User user = new User
+        //     {
+        //         Name = newUser.Name,
+        //         Address = newUser.Address,
+        //         Image = newUser.Image,
+        //         Email = newUser.Email,
+        //         RoleId = newUser.RoleId
+        //     };
+        //     await _service.Create(user);
+        //     return CreatedAtAction(nameof(GetByUserName), new { userName = newUser.Name }, newUser);
+        // }
 
         [HttpGet("{username}")]
         [SwaggerOperation(Summary = "Get information user by username")]
@@ -52,17 +52,29 @@ namespace Api.Controllers
             };
             return Ok(user);
         }
-        //[Route("Login")]
-        //[HttpPost]
-        //public ActionResult Login(LoginModal loginModal)
-        //{
-        //    var response = _service.Login(loginModal);
-        //    if (!response)
-        //    {
-        //        return BadRequest(new { message = "User name or password not correct" });
-        //    }
-        //    return NoContent();
-        //}
+        [Route("Login")]
+        [HttpPost]
+        public async Task<ActionResult> Login(LoginModal loginModal)
+        {
+            ResponseLoginModal response = await _service.Login(loginModal);
+            if (response == null)
+            {
+                return BadRequest(new { message = "User name or password not correct" });
+            }
+            return Ok(response);
+        }
+        [Route("Register")]
+        [HttpPost]
+        public async Task<ActionResult> Register(LoginModal loginModal)
+        {
+            Customer customerRegister = new Customer
+            {
+                Email = loginModal.Email,
+                Password = loginModal.Password
+            };
+            Customer customer = await _service.Register(customerRegister);
+            return Ok(customer);
+        }
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete user by Id")]
         public async Task<ActionResult> Delete(Guid id)
