@@ -80,7 +80,40 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
+                      //Tìm kiếm
+                      Column(
+                        children: [
+                          Container(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/searchScreen');
+                              },
+                              child: Icon(
+                                Icons.search,
+                                size: _pageWidth * 0.3 * 0.33,
+                                color: Colors.white,
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                shape: CircleBorder(),
+                                padding: EdgeInsets.all(5),
+                                primary: _bgColor,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: _pageHeight * 0.03),
+                          Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Tìm kiếm\ndịch vụ',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                        ],
+                      ),
+
                       //Trung tâm nổi bật
+                      SizedBox(width: _pageWidth * 0.03),
                       Column(
                         children: [
                           Container(
@@ -203,36 +236,6 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                         ],
                       ),
 
-                      SizedBox(width: _pageWidth * 0.03),
-                      //Thư viện bệnh lý
-                      Column(
-                        children: [
-                          Container(
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              child: Icon(
-                                Icons.book,
-                                size: _pageWidth * 0.3 * 0.33,
-                                color: Colors.white,
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                shape: CircleBorder(),
-                                padding: EdgeInsets.all(5),
-                                primary: _bgColor,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: _pageHeight * 0.03),
-                          Container(
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Thư viện \nbệnh lý',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontWeight: FontWeight.w400),
-                            ),
-                          ),
-                        ],
-                      ),
                     ],
                   ),
                 ),
