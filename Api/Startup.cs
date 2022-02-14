@@ -46,6 +46,10 @@ namespace Api
             services.AddTransient<CenterService, CenterService>();
             services.AddTransient<IServiceRepository<Service>, ServiceRepository>();
             services.AddTransient<ServiceService, ServiceService>();
+            services.AddTransient<ICustomerRepository<Customer>, CustomerRepository>();
+            services.AddTransient<CustomerService, CustomerService>();
+            services.AddTransient<IPetRepository<Pet>, PetRepository>();
+            services.AddTransient<PetService, PetService>();
             services.AddTransient<IStaffRepository<Staff>, StaffRepository>();
             services.AddTransient<StaffService, StaffService>();
             services.AddTransient<IUserRepository<User>, UserRepository>();
