@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Api.Modals
+namespace Api.Models
 {
     public class ResponseRoleModal
     {
