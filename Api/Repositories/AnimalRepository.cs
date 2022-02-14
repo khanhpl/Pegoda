@@ -18,31 +18,31 @@ namespace Api.Repositories
         }
         public async Task<Animal> Create(Animal animal)
         {
-            await _context.Animals.AddAsync(animal);
+            await _context.Animal.AddAsync(animal);
             await _context.SaveChangesAsync();
             return animal;
         }
 
         public async Task<bool> Delete(Guid id)
         {
-            Animal animal = await _context.Animals.FirstOrDefaultAsync(x => x.Id == id);
+            Animal animal = await _context.Animal.FirstOrDefaultAsync(x => x.Id == id);
             if (animal == null)
             {
                 return false;
             }
-            _context.Animals.Remove(animal);
+            _context.Animal.Remove(animal);
             await _context.SaveChangesAsync();
             return true;
         }
 
         public List<Animal> GetAll()
         {
-            return _context.Animals.ToList();
+            return _context.Animal.ToList();
         }
 
         public async Task<Animal> GetById(Guid id)
         {
-            Animal animal = await _context.Animals.FirstOrDefaultAsync(x => x.Id == id);
+            Animal animal = await _context.Animal.FirstOrDefaultAsync(x => x.Id == id);
             if (animal == null)
             {
                 return null;
@@ -52,12 +52,12 @@ namespace Api.Repositories
 
         public async Task<bool> Update(Animal newAnimal)
         {
-            Animal animal = await _context.Animals.AsNoTracking().FirstOrDefaultAsync(x => x.Id == newAnimal.Id);
+            Animal animal = await _context.Animal.AsNoTracking().FirstOrDefaultAsync(x => x.Id == newAnimal.Id);
             if (animal == null)
             {
                 return false;
             }
-            _context.Animals.Update(newAnimal);
+            _context.Animal.Update(newAnimal);
             await _context.SaveChangesAsync();
             return true;
         }
