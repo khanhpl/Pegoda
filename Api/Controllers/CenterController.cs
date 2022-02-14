@@ -39,16 +39,7 @@ namespace Api.Controllers
             {
                 return BadRequest();
             }
-            Center center = new Center
-            {
-                Id = updateCenter.Id,
-                Name = updateCenter.Name,
-                Service = updateCenter.Service,
-                Address = updateCenter.Address,
-                Longitude = updateCenter.Longitude,
-                Latitude = updateCenter.Latitude
-            };
-            bool check = await _service.Update(center);
+            bool check = await _service.Update(updateCenter);
             if (!check)
             {
                 return NotFound();
