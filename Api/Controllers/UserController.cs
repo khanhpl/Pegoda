@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Api.Entities;
-using Api.Modals;
+using Api.Models;
 using Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

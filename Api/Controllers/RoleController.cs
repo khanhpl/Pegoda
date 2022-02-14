@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Api.Entities;
-using Api.Modals;
+using Api.Models;
 using Api.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +18,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        [SwaggerOperation(Summary = "Register new role")]
+        [SwaggerOperation(Summary = "Create new role")]
         public async Task<ActionResult> Create(ResponseRoleModal newRole)
         {
             Role role = new Role
@@ -26,7 +26,7 @@ namespace Api.Controllers
                 Name = newRole.Name
             };
             await _service.Create(role);
-            return NoContent();
+            return CreatedAtAction(nameof(GetById), new { id = role.Id }, role);
         }
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update role")]
