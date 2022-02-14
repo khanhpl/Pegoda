@@ -17,7 +17,7 @@ namespace Api.Controllers
             _service = service;
         }
         [HttpPost]
-        [SwaggerOperation(Summary = "Register new service")]
+        [SwaggerOperation(Summary = "Create new service")]
         public async Task<ActionResult> Create(ResponseServiceModal newService)
         {
             Service service = new Service
@@ -43,6 +43,7 @@ namespace Api.Controllers
             }
             Service service = new Service
             {
+                Id = updateService.Id,
                 Name = updateService.Name,
                 Price = updateService.Price,
                 Description = updateService.Description,
