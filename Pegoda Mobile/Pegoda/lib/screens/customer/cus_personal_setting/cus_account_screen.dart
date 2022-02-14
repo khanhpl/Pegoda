@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pegoda/MyLib/class/account_choice.dart';
 import '../../../MyLib/constants.dart' as Constants;
 import '../../../MyLib/globals.dart' as globals;
 
@@ -19,6 +20,7 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
         padding: EdgeInsets.only(left: _pageWidth*0.03, right: _pageHeight*0.03),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: _pageHeight*0.05),
               Container(
@@ -76,6 +78,16 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
                 ),
               ),
               SizedBox(height: _pageHeight*0.03),
+              Text(
+                'Tài khoản',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: _pageHeight*0.028,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: _pageHeight*0.02),
+              AccountChoice(icon: Icons.account_box_rounded, choiceTitle: 'Cài đặt tài khoản', choiceLink: '')
             ],
           ),
         ),
