@@ -46,6 +46,8 @@ namespace Api
             services.AddTransient<StaffService, StaffService>();
             services.AddTransient<IUserRepository<User>, UserRepository>();
             services.AddTransient<UserService, UserService>();
+            services.AddTransient<IPaymentRepository<Payment>, PaymentRepository>();
+            services.AddTransient<PaymentService, PaymentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
