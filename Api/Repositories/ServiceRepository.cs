@@ -17,24 +17,24 @@ namespace Api.Repositories
         }
         public async Task<Service> Create(Service service)
         {
-            await _context.Services.AddAsync(service);
+            await _context.Service.AddAsync(service);
             await _context.SaveChangesAsync();
             return service;
         }
         public async Task<bool> Update(Service newService)
         {
-            Service service = _context.Services.AsNoTracking().FirstOrDefault(x => x.Id == newService.Id);
+            Service service = _context.Service.AsNoTracking().FirstOrDefault(x => x.Id == newService.Id);
             if (service == null)
             {
                 return false;
             }
-            _context.Services.Update(newService);
+            _context.Service.Update(newService);
             await _context.SaveChangesAsync();
             return true;
         }
         public async Task<Service> GetById(Guid id)
         {
-            Service service = await _context.Services.Where(x => x.Id == id).FirstOrDefaultAsync();
+            Service service = await _context.Service.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (service == null)
             {
                 return null;
@@ -43,16 +43,16 @@ namespace Api.Repositories
         }
         public List<Service> GetAll()
         {
-            return _context.Services.ToList();
+            return _context.Service.ToList();
         }
         public async Task<bool> Delete(Guid id)
         {
-            Service service = await _context.Services.FirstOrDefaultAsync(x => x.Id == id);
+            Service service = await _context.Service.FirstOrDefaultAsync(x => x.Id == id);
             if (service == null)
             {
                 return false;
             }
-            _context.Services.Remove(service);
+            _context.Service.Remove(service);
             await _context.SaveChangesAsync();
             return true;
         }

@@ -17,31 +17,31 @@ namespace Api.Repositories
         }
         public async Task<Customer> Create(Customer customer)
         {
-            await _context.Customers.AddAsync(customer);
+            await _context.Customer.AddAsync(customer);
             await _context.SaveChangesAsync();
             return customer;
         }
 
         public async Task<bool> Delete(Guid id)
         {
-            Customer customer = await _context.Customers.FirstOrDefaultAsync(x => x.Id == id);
+            Customer customer = await _context.Customer.FirstOrDefaultAsync(x => x.Id == id);
             if (customer == null)
             {
                 return false;
             }
-            _context.Customers.Remove(customer);
+            _context.Customer.Remove(customer);
             await _context.SaveChangesAsync();
             return true;
         }
 
         public List<Customer> GetAll()
         {
-            return _context.Customers.ToList();
+            return _context.Customer.ToList();
         }
 
         public async Task<Customer> GetById(Guid id)
         {
-            Customer customer = await _context.Customers.FirstOrDefaultAsync(x => x.Id == id);
+            Customer customer = await _context.Customer.FirstOrDefaultAsync(x => x.Id == id);
             if (customer == null)
             {
                 return null;
@@ -51,12 +51,12 @@ namespace Api.Repositories
 
         public async Task<bool> Update(Customer newCustomer)
         {
-            Customer customer = await _context.Customers.AsNoTracking().FirstOrDefaultAsync(x => x.Id == newCustomer.Id);
+            Customer customer = await _context.Customer.AsNoTracking().FirstOrDefaultAsync(x => x.Id == newCustomer.Id);
             if (customer == null)
             {
                 return false;
             }
-            _context.Customers.Update(newCustomer);
+            _context.Customer.Update(newCustomer);
             await _context.SaveChangesAsync();
             return true;
         }

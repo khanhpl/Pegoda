@@ -17,31 +17,31 @@ namespace Api.Repositories
         }
         public async Task<OrderItem> Create(OrderItem orderItem)
         {
-            await _context.OrderItems.AddAsync(orderItem);
+            await _context.OrderItem.AddAsync(orderItem);
             await _context.SaveChangesAsync();
             return orderItem;
         }
 
         public async Task<bool> Delete(Guid id)
         {
-            OrderItem orderItem = await _context.OrderItems.FirstOrDefaultAsync(x => x.Id == id);
+            OrderItem orderItem = await _context.OrderItem.FirstOrDefaultAsync(x => x.Id == id);
             if (orderItem == null)
             {
                 return false;
             }
-            _context.OrderItems.Remove(orderItem);
+            _context.OrderItem.Remove(orderItem);
             await _context.SaveChangesAsync();
             return true;
         }
 
         public List<OrderItem> GetAll()
         {
-            return _context.OrderItems.ToList();
+            return _context.OrderItem.ToList();
         }
 
         public async Task<OrderItem> GetById(Guid id)
         {
-            OrderItem orderItem = await _context.OrderItems.FirstOrDefaultAsync(x => x.Id == id);
+            OrderItem orderItem = await _context.OrderItem.FirstOrDefaultAsync(x => x.Id == id);
             if (orderItem == null)
             {
                 return null;
@@ -51,12 +51,12 @@ namespace Api.Repositories
 
         public async Task<bool> Update(OrderItem newOrderItem)
         {
-            OrderItem orderItem = await _context.OrderItems.AsNoTracking().FirstOrDefaultAsync(x => x.Id == newOrderItem.Id);
+            OrderItem orderItem = await _context.OrderItem.AsNoTracking().FirstOrDefaultAsync(x => x.Id == newOrderItem.Id);
             if (orderItem == null)
             {
                 return false;
             }
-            _context.OrderItems.Update(orderItem);
+            _context.OrderItem.Update(orderItem);
             await _context.SaveChangesAsync();
             return true;
         }

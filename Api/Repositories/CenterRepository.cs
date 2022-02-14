@@ -17,24 +17,24 @@ namespace Api.Repositories
         }
         public async Task<Center> Create(Center center)
         {
-            await _context.Centers.AddAsync(center);
+            await _context.Center.AddAsync(center);
             await _context.SaveChangesAsync();
             return center;
         }
         public async Task<bool> Update(Center newCenter)
         {
-            Center center = _context.Centers.AsNoTracking().FirstOrDefault(x => x.Id == newCenter.Id);
+            Center center = _context.Center.AsNoTracking().FirstOrDefault(x => x.Id == newCenter.Id);
             if (center == null)
             {
                 return false;
             }
-            _context.Centers.Update(newCenter);
+            _context.Center.Update(newCenter);
             await _context.SaveChangesAsync();
             return true;
         }
         public async Task<Center> GetById(Guid id)
         {
-            Center center = await _context.Centers.Where(x => x.Id == id).FirstOrDefaultAsync();
+            Center center = await _context.Center.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (center == null)
             {
                 return null;
@@ -43,16 +43,16 @@ namespace Api.Repositories
         }
         public List<Center> GetAll()
         {
-            return _context.Centers.ToList();
+            return _context.Center.ToList();
         }
         public async Task<bool> Delete(Guid id)
         {
-            Center center = await _context.Centers.FirstOrDefaultAsync(x => x.Id == id);
+            Center center = await _context.Center.FirstOrDefaultAsync(x => x.Id == id);
             if (center == null)
             {
                 return false;
             }
-            _context.Centers.Remove(center);
+            _context.Center.Remove(center);
             await _context.SaveChangesAsync();
             return true;
         }
