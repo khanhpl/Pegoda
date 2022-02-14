@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../MyLib/constants.dart' as Constants;
+import '../../../MyLib/constants.dart' as Constants;
 
 class SearchScreen extends StatelessWidget {
   @override
@@ -108,44 +108,7 @@ class SearchScreen extends StatelessWidget {
               ),
 
               //thời gian đặt lịch
-              SizedBox(height: _pageHeight * 0.02),
-              FlatButton(
-                onPressed: () {},
-                padding: EdgeInsets.all(0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  width: _pageWidth,
-                  height: _pageHeight * 0.1,
-                  child: Row(
-                    children: [
-                      SizedBox(width: _pageWidth * 0.03),
-                      Container(
-                        child: Icon(
-                          Icons.timelapse,
-                          color: Colors.black87,
-                        ),
-                        margin: EdgeInsets.only(left: 10),
-                      ),
-                      SizedBox(width: _pageWidth * 0.03),
-                      Expanded(
-                        child: Container(
-                          child: Text(
-                            'Chọn thời gian đặt lịch',
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.w400,
-                              fontSize: _pageHeight * 0.025,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+
 
               SizedBox(height: _pageHeight*0.02),
               Container(
@@ -159,6 +122,7 @@ class SearchScreen extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
+                    Navigator.pushNamed(context, '/searchResultScreen');
                   },
                   child: Text(
                     'Tìm Kiếm',

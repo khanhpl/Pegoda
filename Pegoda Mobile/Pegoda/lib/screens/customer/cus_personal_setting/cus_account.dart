@@ -16,10 +16,7 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: _bgColor,
-        leading: IconButton(
-          onPressed: (){},
-          icon: Icons.close,
-        ),
+        leading: Icon(Icons.close),
         title: Container(
           width: _pageWidth*0.6,
           height: _pageHeight*0.03,
