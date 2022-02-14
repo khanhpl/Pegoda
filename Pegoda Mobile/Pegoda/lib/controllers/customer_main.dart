@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:pegoda/screens/customer/cus_main/cus_home_screen.dart';
+import 'package:pegoda/screens/customer/cus_personal_setting/cus_account.dart';
 import '../MyLib/constants.dart' as Constants;
 
 class CusMain extends StatefulWidget {
@@ -32,7 +33,7 @@ class _CusMainSate extends State<CusMain> {
       case 2:
         return CusHomeScreen();
       case 3:
-        return CusHomeScreen();
+        return CusAccountScreen();
 
       default:
         return CusHomeScreen();

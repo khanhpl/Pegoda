@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pegoda/controllers/customer_main.dart';
 import 'package:pegoda/controllers/pet_care_center_main.dart';
 import 'package:pegoda/screens/customer/cus_main/cus_home_screen.dart';
+import 'package:pegoda/screens/customer/cus_personal_setting/cus_account.dart';
 import 'package:pegoda/screens/pet_care_center/home/pcc_home_screen.dart';
 import 'package:pegoda/screens/pet_care_center/search_screen.dart';
 import 'package:pegoda/screens/welcome/confirm_code_screen.dart';
@@ -27,6 +28,8 @@ void main() {
         '/confirmCodeScreen': (context) => ConfirmCodeScreen(),
         '/setNewPasswordScreen': (context) => SetNewPasswordScreen(),
         '/searchScreen': (context) => SearchScreen(),
+        '/cusAccount': (context) => CusMain(selectedIndex: 3, isBottomNav: true),
+
 
       },
     ),
