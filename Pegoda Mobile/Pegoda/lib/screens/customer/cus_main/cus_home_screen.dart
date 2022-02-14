@@ -41,8 +41,8 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
       appBar: UpAppBar(context),
       body: Material(
         child: Container(
-          padding: EdgeInsets.fromLTRB(_pageWidth * 0.03, _pageHeight * 0.03,
-              _pageWidth * 0.03, _pageHeight * 0.1),
+          padding: EdgeInsets.fromLTRB(_pageWidth * 0.03, 0,
+              _pageWidth * 0.03, 0),
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             // physics: ClampingScrollPhysics(),
@@ -50,6 +50,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: _pageHeight*0.03),
                 //slide
                 Container(
                   height: _pageHeight * 0.2,

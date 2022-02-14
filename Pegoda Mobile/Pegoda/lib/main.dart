@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pegoda/controllers/customer_main.dart';
 import 'package:pegoda/controllers/pet_care_center_main.dart';
 import 'package:pegoda/screens/customer/cus_main/cus_home_screen.dart';
-import 'package:pegoda/screens/customer/cus_personal_setting/cus_account.dart';
-import 'package:pegoda/screens/customer/search/search_result_screen.dart';
 import 'package:pegoda/screens/pet_care_center/home/pcc_home_screen.dart';
 import 'package:pegoda/screens/customer/search/search_screen.dart';
 import 'package:pegoda/screens/welcome/confirm_code_screen.dart';
@@ -21,8 +19,6 @@ void main() {
         '/': (context) => WelcomeScreen(),
         '/loginScreen': (context) => LoginScreen(),
         '/registerScreen': (context) => RegisterScreen(),
-        '/cusHomeScreen': (context) => CusHomeScreen(),
-        '/pccHomeScreen': (context) => PCCHomeScreen(),
         '/pccMain': (context) => PCCMain(selectedIndex: 0, isBottomNav: true),
         '/cusMain': (context) => CusMain(selectedIndex: 0, isBottomNav: true),
         '/forgotPasswordScreen': (context) => ForgotPasswordScreen(),
@@ -30,7 +26,6 @@ void main() {
         '/setNewPasswordScreen': (context) => SetNewPasswordScreen(),
         '/searchScreen': (context) => SearchScreen(),
         '/cusAccount': (context) => CusMain(selectedIndex: 3, isBottomNav: true),
-        '/searchResultScreen': (context) => SearchResultScreen(),
 
 
       },

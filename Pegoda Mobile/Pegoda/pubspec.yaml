@@ -67,6 +67,7 @@ flutter:
     - assets/
     - assets/welcome/
     - assets/cus/main_screen/
+    - assets/cus/account_screen/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

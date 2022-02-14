@@ -2,7 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../MyLib/constants.dart' as Constants;
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  var _countResult;
+
+  var _resultLabel = '';
+
   @override
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
@@ -29,6 +38,8 @@ class SearchScreen extends StatelessWidget {
             _pageWidth * 0.03, _pageHeight * 0.03),
         child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //tìm kiếm dịch vụ
               Container(
@@ -109,8 +120,7 @@ class SearchScreen extends StatelessWidget {
 
               //thời gian đặt lịch
 
-
-              SizedBox(height: _pageHeight*0.02),
+              SizedBox(height: _pageHeight * 0.02),
               Container(
                 width: _pageWidth,
                 height: _pageHeight * 0.06,
@@ -122,7 +132,7 @@ class SearchScreen extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/searchResultScreen');
+                    _search();
                   },
                   child: Text(
                     'Tìm Kiếm',
@@ -134,10 +144,48 @@ class SearchScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: _pageHeight * 0.03),
+              Container(
+                child: Text.rich(
+                  TextSpan(
+                      text: _countResult != null ? '($_countResult)' : '',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: _pageHeight * 0.025,
+                        color: Colors.black87,
+                      ),
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text: _resultLabel,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: _pageHeight * 0.025,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ]),
+                ),
+              ),
+
+              //show result
+              SizedBox(height: _pageHeight * 0.02),
+
+
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _search() {
+    setState(() {
+      if (_countResult != null) {
+        _countResult++;
+      } else {
+        _countResult = 0;
+      }
+      _resultLabel = 'Kết quả tìm kiếm';
+    });
   }
 }

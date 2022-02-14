@@ -53,14 +53,15 @@ class _CusMainSate extends State<CusMain> {
       body: pageCaller(selectedIndex),
       bottomNavigationBar: isBottomNav == true
           ? ConvexAppBar(
-              height: size.height * 0.1,
+              height: size.height * 0.08,
               style: TabStyle.react,
               backgroundColor: Colors.white,
               color: Colors.grey[700],
               activeColor: _bgColor,
               onTap: _onItemTapped,
               initialActiveIndex: selectedIndex,
-              top: 0.0,
+              top: -16,
+              curveSize: 80,
               items: [
                 TabItem(
                   icon: Icons.home,
