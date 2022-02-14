@@ -17,24 +17,24 @@ namespace Api.Repositories
         }
         public async Task<Role> Create(Role role)
         {
-            await _context.Roles.AddAsync(role);
+            await _context.Role.AddAsync(role);
             await _context.SaveChangesAsync();
             return role;
         }
         public async Task<bool> Update(Role newRole)
         {
-            Role role = _context.Roles.AsNoTracking().FirstOrDefault(x => x.Id == newRole.Id);
+            Role role = _context.Role.AsNoTracking().FirstOrDefault(x => x.Id == newRole.Id);
             if (role == null)
             {
                 return false;
             }
-            _context.Roles.Update(newRole);
+            _context.Role.Update(newRole);
             await _context.SaveChangesAsync();
             return true;
         }
         public async Task<Role> GetById(Guid id)
         {
-            Role role = await _context.Roles.Where(x => x.Id == id).FirstOrDefaultAsync();
+            Role role = await _context.Role.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (role == null)
             {
                 return null;
@@ -43,16 +43,16 @@ namespace Api.Repositories
         }
         public List<Role> GetAll()
         {
-            return _context.Roles.ToList();
+            return _context.Role.ToList();
         }
         public async Task<bool> Delete(Guid id)
         {
-            Role role = await _context.Roles.FirstOrDefaultAsync(x => x.Id == id);
+            Role role = await _context.Role.FirstOrDefaultAsync(x => x.Id == id);
             if (role == null)
             {
                 return false;
             }
-            _context.Roles.Remove(role);
+            _context.Role.Remove(role);
             await _context.SaveChangesAsync();
             return true;
         }

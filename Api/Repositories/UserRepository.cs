@@ -17,13 +17,13 @@ namespace Api.Repositories
         }
         public async Task<User> Create(User user)
         {
-            await _context.Users.AddAsync(user);
+            await _context.User.AddAsync(user);
             await _context.SaveChangesAsync();
             return user;
         }
         public User GetByUserName(string username)
         {
-            User user = _context.Users.FirstOrDefault(u => u.Name == username);
+            User user = _context.User.FirstOrDefault(u => u.Name == username);
             if (user == null)
             {
                 return null;
@@ -33,7 +33,7 @@ namespace Api.Repositories
 
         //public bool Login(LoginModal loginModal)
         //{
-        //    User user = _context.Users.FirstOrDefault(u => u.Name == loginModal.Name);
+        //    User user = _context.User.FirstOrDefault(u => u.Name == loginModal.Name);
         //    if (user == null)
         //    {
         //        return false;
@@ -46,19 +46,19 @@ namespace Api.Repositories
         //}
         public async Task<bool> Delete(Guid id)
         {
-            User user = await _context.Users.FindAsync(id);
-            _context.Users.Remove(user);
+            User user = await _context.User.FindAsync(id);
+            _context.User.Remove(user);
             await _context.SaveChangesAsync();
             return true;
         }
         public async Task<bool> Update(User newUser)
         {
-            User user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == newUser.Id);
+            User user = await _context.User.AsNoTracking().FirstOrDefaultAsync(x => x.Id == newUser.Id);
             if (user == null)
             {
                 return false;
             }
-            _context.Users.Update(newUser);
+            _context.User.Update(newUser);
             await _context.SaveChangesAsync();
             return true;
         }

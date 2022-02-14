@@ -39,7 +39,6 @@ namespace Api.Controllers
             {
                 return BadRequest();
             }
-            
             bool check = await _service.Update(updateCenter);
             if (!check)
             {

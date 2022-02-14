@@ -40,8 +40,6 @@ namespace Api
             });
             services.AddTransient<IRoleRepository<Role>, RoleRepository>();
             services.AddTransient<RoleService, RoleService>();
-            services.AddTransient<IUserRepository<User>, UserRepository>();
-            services.AddTransient<UserService, UserService>();
             services.AddTransient<IAnimalRepository<Animal>, AnimalRepository>();
             services.AddTransient<AnimalService, AnimalService>();
             services.AddTransient<ICenterRepository<Center>, CenterRepository>();
@@ -52,17 +50,21 @@ namespace Api
             services.AddTransient<CustomerService, CustomerService>();
             services.AddTransient<IPetRepository<Pet>, PetRepository>();
             services.AddTransient<PetService, PetService>();
+            services.AddTransient<IStaffRepository<Staff>, StaffRepository>();
+            services.AddTransient<StaffService, StaffService>();
+            services.AddTransient<IUserRepository<User>, UserRepository>();
+            services.AddTransient<UserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1"));
-            }
+            // if (env.IsDevelopment())
+            // {
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1"));
+            // }
 
             app.UseHttpsRedirection();
 

@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Api.Modals
 {
-    public class LoginModal
+    public class LoginModel
     {
         public string Email { get; set; }
     }
