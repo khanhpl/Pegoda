@@ -37,6 +37,7 @@ dependencies:
   convex_bottom_bar: ^3.0.0
   carousel_pro: ^1.0.0
   flutter_rating_bar: ^4.0.0
+  image_picker: ^0.8.4+4
 
 dev_dependencies:
   flutter_test:
