@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:pegoda/screens/customer/cus_main/cus_home_screen.dart';
-import 'package:pegoda/screens/customer/cus_personal_setting/cus_account_screen.dart';
+import 'package:pegoda/screens/customer/cus_account/cus_account_screen.dart';
 import 'package:pegoda/screens/customer/notification/notification_screen.dart';
 import 'package:pegoda/screens/customer/pet/pet_screen.dart';
 import '../MyLib/constants.dart' as Constants;
@@ -31,10 +31,12 @@ class _CusMainSate extends State<CusMain> {
       case 0:
         return CusHomeScreen();
       case 1:
+        isBottomNav = false;
         return NotificationScreen();
       case 2:
         return PetScreen();
       case 3:
+        isBottomNav = false;
         return CusAccountScreen();
 
       default:

@@ -18,12 +18,13 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
     // TODO: implement build
     return Material(
       child: Container(
-        padding: EdgeInsets.only(left: _pageWidth*0.03, right: _pageHeight*0.03),
+        padding:
+            EdgeInsets.only(left: _pageWidth * 0.03, right: _pageHeight * 0.03),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: _pageHeight*0.05),
+              SizedBox(height: _pageHeight * 0.05),
               Container(
                 width: double.infinity,
                 alignment: Alignment.center,
@@ -32,70 +33,80 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                        child: IconButton(
-                          onPressed: () {
-                            // Navigator.pop(context);
-                            Navigator.pushNamed(context, '/cusMain');
-                          },
-                          icon: ImageIcon(
-                            AssetImage('assets/cus/account_screen/cancel.png'),
-                            size: _pageHeight * 0.04,
-                            color: Color(0xFFBDBDBD),
-                          ),
-                        )),
+                      child: IconButton(
+                        onPressed: () {
+                          // Navigator.pop(context);
+                          Navigator.pushNamed(context, '/cusMain');
+                        },
+                        icon: ImageIcon(
+                          AssetImage('assets/cus/account_screen/cancel.png'),
+                          size: _pageHeight * 0.04,
+                          color: Color(0xFFBDBDBD),
+                        ),
+                      ),
+                    ),
                     Spacer(),
                     Text(
                       'Chào, Khánh Phan',
                       textAlign: TextAlign.center,
                     ),
                     Spacer(),
-
                     globals.isAvatarChecked == false
                         ? Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image:
-                          AssetImage('assets/ic_pegoda.png'),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      width: _pageHeight * 0.07,
-                      height: _pageHeight * 0.07,
-                    )
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: AssetImage('assets/ic_pegoda.png'),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            width: _pageHeight * 0.07,
+                            height: _pageHeight * 0.07,
+                          )
                         : Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: FileImage(globals.avatarFile),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      width: _pageHeight * 0.07,
-                      height: _pageHeight * 0.07,
-                    ),
-
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: FileImage(globals.avatarFile),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            width: _pageHeight * 0.07,
+                            height: _pageHeight * 0.07,
+                          ),
                   ],
                 ),
               ),
-              SizedBox(height: _pageHeight*0.03),
+              SizedBox(height: _pageHeight * 0.03),
               Text(
                 'Tài khoản',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: _pageHeight*0.028,
+                  fontSize: _pageHeight * 0.028,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              SizedBox(height: _pageHeight*0.02),
-              AccountChoice(icon: Icons.account_box_rounded, choiceTitle: 'Cài đặt tài khoản', choiceLink: ''),
-              SizedBox(height: _pageHeight*0.03),
-              AccountChoice(icon: Icons.pets, choiceTitle: 'Thú cưng', choiceLink: '/petScreen'),
-              SizedBox(height: _pageHeight*0.03),
-              AccountChoice(icon: Icons.history, choiceTitle: 'Lịch sử đặt lịch', choiceLink: ''),
-              SizedBox(height: _pageHeight*0.03),
-              AccountChoice(icon: Icons.settings_outlined, choiceTitle: 'Cài đặt chung', choiceLink: ''),
-              SizedBox(height: _pageHeight*0.05),
+              SizedBox(height: _pageHeight * 0.02),
+              AccountChoice(
+                  icon: Icons.account_box_rounded,
+                  choiceTitle: 'Cài đặt tài khoản',
+                  choiceLink: ''),
+              SizedBox(height: _pageHeight * 0.03),
+              AccountChoice(
+                  icon: Icons.pets,
+                  choiceTitle: 'Thú cưng',
+                  choiceLink: '/petScreen'),
+              SizedBox(height: _pageHeight * 0.03),
+              AccountChoice(
+                  icon: Icons.history,
+                  choiceTitle: 'Lịch sử đặt lịch',
+                  choiceLink: ''),
+              SizedBox(height: _pageHeight * 0.03),
+              AccountChoice(
+                  icon: Icons.settings_outlined,
+                  choiceTitle: 'Cài đặt chung',
+                  choiceLink: ''),
+              SizedBox(height: _pageHeight * 0.05),
               Container(
                 height: _pageHeight * 0.15,
                 padding: EdgeInsets.all(10.0),
@@ -113,8 +124,7 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
                       width: _pageWidth * 0.2,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image:
-                          AssetImage('assets/Pegoda.png'),
+                          image: AssetImage('assets/Pegoda.png'),
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -160,7 +170,7 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
                         child: Text(
                           'Đánh giá ngay',
                           style:
-                          TextStyle(color: Colors.black45, fontSize: 10.0),
+                              TextStyle(color: Colors.black45, fontSize: 10.0),
                           textAlign: TextAlign.center,
                         ),
                       ),
