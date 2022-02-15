@@ -76,10 +76,10 @@ namespace Api.Controllers
             return Ok(responseStaffModal);
         }
         [HttpGet]
-        [SwaggerOperation(Summary = "Get all Staff")]
-        public ActionResult GetAll()
+        [SwaggerOperation(Summary = "Get list Staff")]
+        public ActionResult GetList()
         {
-            List<Staff> listStaffs = _service.GetAll();
+            List<Staff> listStaffs = _service.GetList();
 
             return Ok(listStaffs);
         }

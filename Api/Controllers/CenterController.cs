@@ -58,10 +58,10 @@ namespace Api.Controllers
             return Ok(center);
         }
         [HttpGet]
-        [SwaggerOperation(Summary = "Get all center")]
-        public ActionResult GetAll()
+        [SwaggerOperation(Summary = "Get list center")]
+        public ActionResult GetList()
         {
-            List<Center> listCenters = _service.GetAll();
+            List<Center> listCenters = _service.GetList();
 
             return Ok(listCenters);
         }

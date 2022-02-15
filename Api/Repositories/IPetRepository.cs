@@ -10,7 +10,7 @@ namespace Api.Repositories
         Task<Pet> Create(Pet pet);
         Task<bool> Update(Pet newPet);
         Task<Pet> GetById(Guid id);
-        List<Pet> GetAll();
+        List<Pet> GetList();
         Task<bool> Delete(Guid id);
     }
 }

@@ -10,7 +10,7 @@ namespace Api.Repositories
         Task<Service> Create(Service service);
         Task<bool> Update(Service newService);
         Task<Service> GetById(Guid id);
-        List<Service> GetAll();
+        List<Service> GetList();
         Task<bool> Delete(Guid id);
     }
 }

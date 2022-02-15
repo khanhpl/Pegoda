@@ -10,7 +10,7 @@ namespace Api.Repositories
         Task<Customer> Create(Customer customer);
         Task<bool> Update(Customer customer);
         Task<Customer> GetById(Guid id);
-        List<Customer> GetAll();
+        List<Customer> GetList();
         Task<bool> Delete(Guid id);
     }
 }

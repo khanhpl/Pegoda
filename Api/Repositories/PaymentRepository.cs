@@ -34,7 +34,7 @@ namespace Api.Repositories
             return true;
         }
 
-        public List<Payment> GetAll()
+        public List<Payment> GetList()
         {
             return _context.Payment.ToList();
         }

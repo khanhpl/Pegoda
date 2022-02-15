@@ -35,7 +35,7 @@ namespace Api.Repositories
             return true;
         }
 
-        public List<Staff> GetAll()
+        public List<Staff> GetList()
         {
             return _context.Staff.Include(x => x.Center).ToList();
         }

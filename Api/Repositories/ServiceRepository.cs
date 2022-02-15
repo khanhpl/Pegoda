@@ -41,7 +41,7 @@ namespace Api.Repositories
             }
             return service;
         }
-        public List<Service> GetAll()
+        public List<Service> GetList()
         {
             return _context.Service.ToList();
         }

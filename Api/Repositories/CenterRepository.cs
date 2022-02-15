@@ -41,7 +41,7 @@ namespace Api.Repositories
             }
             return center;
         }
-        public List<Center> GetAll()
+        public List<Center> GetList()
         {
             return _context.Center.ToList();
         }

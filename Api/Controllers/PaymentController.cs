@@ -67,10 +67,10 @@ namespace Api.Controllers
             return Ok(payment);
         }
         [HttpGet]
-        [SwaggerOperation(Summary = "Get all payment")]
-        public ActionResult GetAll()
+        [SwaggerOperation(Summary = "Get list payment")]
+        public ActionResult GetList()
         {
-            List<Payment> listPayments = _service.GetAll();
+            List<Payment> listPayments = _service.GetList();
 
             return Ok(listPayments);
         }
