@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:pegoda/screens/customer/cus_main/cus_home_screen.dart';
+import 'package:pegoda/screens/customer/cus_account/cus_account_screen.dart';
+import 'package:pegoda/screens/customer/notification/notification_screen.dart';
+import 'package:pegoda/screens/customer/pet/pet_screen.dart';
 import '../MyLib/constants.dart' as Constants;
 
 class CusMain extends StatefulWidget {
@@ -28,11 +31,13 @@ class _CusMainSate extends State<CusMain> {
       case 0:
         return CusHomeScreen();
       case 1:
-        return CusHomeScreen();
+        isBottomNav = false;
+        return NotificationScreen();
       case 2:
-        return CusHomeScreen();
+        return PetScreen();
       case 3:
-        return CusHomeScreen();
+        isBottomNav = false;
+        return CusAccountScreen();
 
       default:
         return CusHomeScreen();
@@ -52,14 +57,15 @@ class _CusMainSate extends State<CusMain> {
       body: pageCaller(selectedIndex),
       bottomNavigationBar: isBottomNav == true
           ? ConvexAppBar(
-              height: size.height * 0.1,
+              height: size.height * 0.08,
               style: TabStyle.react,
               backgroundColor: Colors.white,
               color: Colors.grey[700],
               activeColor: _bgColor,
               onTap: _onItemTapped,
               initialActiveIndex: selectedIndex,
-              top: 0.0,
+              top: -16,
+              curveSize: 80,
               items: [
                 TabItem(
                   icon: Icons.home,
