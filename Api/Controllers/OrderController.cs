@@ -43,6 +43,7 @@ namespace Api.Controllers
             }
             Order order = new Order
             {
+                Id = updateOrder.Id,
                 Date = updateOrder.Date,
                 TotalPrice = updateOrder.TotalPrice,
                 Status = updateOrder.Status,

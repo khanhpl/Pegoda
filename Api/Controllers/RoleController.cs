@@ -36,12 +36,7 @@ namespace Api.Controllers
             {
                 return BadRequest();
             }
-            Role role = new Role
-            {
-                Id = updateRole.Id,
-                Name = updateRole.Name
-            };
-            bool check = await _service.Update(role);
+            bool check = await _service.Update(updateRole);
             if (!check)
             {
                 return NotFound();

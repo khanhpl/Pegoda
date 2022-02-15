@@ -46,6 +46,7 @@ namespace Api.Controllers
             }
             OrderItem orderItem = new OrderItem
             {
+                Id = updateOrderItem.Id,
                 Price = updateOrderItem.Price,
                 Quantity = updateOrderItem.Quantity,
                 Status = updateOrderItem.Status,

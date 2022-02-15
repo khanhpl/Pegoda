@@ -26,7 +26,7 @@ namespace Api.Controllers
                 Amount = newPayment.Amount,
                 PaymentCode = newPayment.PaymentCode,
                 Image = newPayment.Image,
-                OrderId  = newPayment.OrderId
+                OrderId = newPayment.OrderId
             };
             await _service.Create(payment);
             return CreatedAtAction(nameof(GetById), new { id = payment.Id }, payment);
@@ -41,6 +41,7 @@ namespace Api.Controllers
             }
             Payment payment = new Payment
             {
+                Id = updatePayment.Id,
                 Name = updatePayment.Name,
                 Amount = updatePayment.Amount,
                 PaymentCode = updatePayment.PaymentCode,
@@ -55,7 +56,7 @@ namespace Api.Controllers
             return NoContent();
         }
         [HttpGet("{id}")]
-        [SwaggerOperation(Summary = "Get paymnet by Id")]
+        [SwaggerOperation(Summary = "Get payment by Id")]
         public async Task<ActionResult> GetById(Guid id)
         {
             Payment payment = await _service.GetById(id);
