@@ -1,9 +1,9 @@
 ﻿using System;
-namespace Api.Modals
+namespace Api.Models
 {
-    public class ResponseCenterModal
+    public class ResponseCenterModel
     {
-        
+
         public string Name { get; set; }
         public string Service { get; set; }
         public string Address { get; set; }

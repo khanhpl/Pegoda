@@ -1,7 +1,7 @@
 ﻿using System;
-namespace Api.Modals
+namespace Api.Models
 {
-    public class ResponseServiceModal
+    public class ResponseServiceModel
     {
         public string Name { get; set; }
         public float Price { get; set; }
@@ -10,6 +10,6 @@ namespace Api.Modals
         public int Duration { get; set; }
         public Guid CenterId { get; set; }
         public Guid AnimalId { get; set; }
-        
+
     }
 }

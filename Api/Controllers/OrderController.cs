@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Api.Entities;
-using Api.Modals;
+using Api.Models;
 using Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -18,7 +18,7 @@ namespace Api.Controllers
         }
         [HttpPost]
         [SwaggerOperation(Summary = "Create new center")]
-        public async Task<ActionResult> Create(ResponseOrderModal newOrder)
+        public async Task<ActionResult> Create(ResponseOrderModel newOrder)
         {
             Order order = new Order
             {
@@ -35,7 +35,7 @@ namespace Api.Controllers
         }
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update order")]
-        public async Task<ActionResult> Update(Guid id, UpdateOrderModal updateOrder)
+        public async Task<ActionResult> Update(Guid id, UpdateOrderModel updateOrder)
         {
             if (id != updateOrder.Id)
             {

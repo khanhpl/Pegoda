@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Api.Entities;
-using Api.Modals;
+using Api.Models;
 using Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -18,7 +18,7 @@ namespace Api.Controllers
         }
         [HttpPost]
         [SwaggerOperation(Summary = "Create new customer")]
-        public async Task<ActionResult> Create(ResponseCustomerModal newCustomer)
+        public async Task<ActionResult> Create(ResponseCustomerModel newCustomer)
         {
             Customer customer = new Customer
             {
@@ -34,7 +34,7 @@ namespace Api.Controllers
         }
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update customer")]
-        public async Task<ActionResult> Update(Guid id, UpdateCustomerModal updateCustomer)
+        public async Task<ActionResult> Update(Guid id, UpdateCustomerModel updateCustomer)
         {
             if (id != updateCustomer.Id)
             {

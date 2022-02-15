@@ -1,7 +1,7 @@
 ﻿using System;
-namespace Api.Modals
+namespace Api.Models
 {
-    public class ResponseCustomerModal
+    public class ResponseCustomerModel
     {
         public string Name { get; set; }
         public int Age { get; set; }

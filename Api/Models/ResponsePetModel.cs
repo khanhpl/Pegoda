@@ -1,7 +1,7 @@
 ﻿using System;
-namespace Api.Modals
+namespace Api.Models
 {
-    public class ResponsePetModal
+    public class ResponsePetModel
     {
         public string Name { get; set; }
         public string Status { get; set; }

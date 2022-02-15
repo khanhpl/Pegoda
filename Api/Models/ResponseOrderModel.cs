@@ -1,9 +1,8 @@
 ﻿using System;
-namespace Api.Modals
+namespace Api.Models
 {
-    public class UpdateOrderModal
+    public class ResponseOrderModel
     {
-        public Guid Id { get; set; }
         public DateTime Date { get; set; }
         public float TotalPrice { get; set; }
         public string Status { get; set; }
