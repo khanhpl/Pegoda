@@ -21,21 +21,21 @@ namespace Api.Services
         {
             return await _repo.Update(newService);
         }
+        public List<Service> GetAll(int pageNumber, int pageSize)
+        {
+            return _repo.GetAll(pageNumber, pageSize);
+        }
         public async Task<Service> GetById(Guid id)
         {
             return await _repo.GetById(id);
-        }
-        public List<Service> GetAll()
-        {
-            return _repo.GetAll();
         }
         public async Task<bool> Delete(Guid id)
         {
             return await _repo.Delete(id);
         }
-        public async Task<List<Service>> SearchByName(String name)
+        public async Task<List<Service>> SearchByName(String name, int pageNumber , int pageSize)
         {
-            return await _repo.SearchByName(name);
+            return await _repo.SearchByName(name, pageNumber, pageSize);
         }
     }
 }
