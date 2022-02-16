@@ -90,7 +90,7 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
               AccountChoice(
                   icon: Icons.account_box_rounded,
                   choiceTitle: 'Cài đặt tài khoản',
-                  choiceLink: ''),
+                  choiceLink: '/personalSettingScreen'),
               SizedBox(height: _pageHeight * 0.03),
               AccountChoice(
                   icon: Icons.pets,
