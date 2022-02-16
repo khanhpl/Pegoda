@@ -89,5 +89,16 @@ namespace Api.Controllers
             }
             return NoContent();
         }
+        [HttpGet("/search/{name}")]
+        [SwaggerOperation(Summary = "Search by name")]
+        public async Task<List<Service>> SearchByName(String name)
+        {
+            List<Service> service = await _service.SearchByName(name);
+            if (service == null)
+            {
+                return null;
+            }
+            return service;
+        }
     }
 }

@@ -56,5 +56,14 @@ namespace Api.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+        public async Task<List<Service>> SearchByName(String name)
+        {
+            List<Service> service = await _context.Service.Where(x => x.Name == name).ToListAsync();
+            if (service == null)
+            {
+                return null;
+            }
+            return service;
+        }
     }
 }

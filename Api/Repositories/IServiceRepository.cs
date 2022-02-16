@@ -12,5 +12,6 @@ namespace Api.Repositories
         Task<Service> GetById(Guid id);
         List<Service> GetAll();
         Task<bool> Delete(Guid id);
+        Task<List<Service>> SearchByName(String name);
     }
 }

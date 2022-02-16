@@ -33,5 +33,9 @@ namespace Api.Services
         {
             return await _repo.Delete(id);
         }
+        public async Task<List<Service>> SearchByName(String name)
+        {
+            return await _repo.SearchByName(name);
+        }
     }
 }
