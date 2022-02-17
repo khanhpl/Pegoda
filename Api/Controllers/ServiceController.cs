@@ -70,7 +70,14 @@ namespace Api.Controllers
             }
             return Ok(service);
         }
-        
+        [HttpGet]
+        [SwaggerOperation(Summary = "Get list service")]
+        public ActionResult GetList()
+        {
+            List<Service> listServices = _service.GetList();
+
+            return Ok(listServices);
+        }
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete service by Id")]
         public async Task<ActionResult> Delete(Guid id)

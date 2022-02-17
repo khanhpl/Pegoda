@@ -34,7 +34,7 @@ namespace Api.Repositories
             return true;
         }
 
-        public List<Customer> GetAll()
+        public List<Customer> GetList()
         {
             return _context.Customer.ToList();
         }

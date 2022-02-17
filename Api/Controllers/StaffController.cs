@@ -45,7 +45,8 @@ namespace Api.Controllers
                 CenterId = updateStaff.CenterId,
                 Gender = updateStaff.Gender,
                 Image = updateStaff.Image,
-                Name = updateStaff.Name
+                Name = updateStaff.Name,
+                Email = updateStaff.Email,
             };
             bool check = await _service.Update(staff);
             if (!check)
@@ -69,15 +70,16 @@ namespace Api.Controllers
                 CenterId = staff.CenterId,
                 Gender = staff.Gender,
                 Image = staff.Image,
-                Name = staff.Name
+                Name = staff.Name,
+                Email = staff.Email,
             };
             return Ok(responseStaffModal);
         }
         [HttpGet]
-        [SwaggerOperation(Summary = "Get all Staff")]
-        public ActionResult GetAll()
+        [SwaggerOperation(Summary = "Get list Staff")]
+        public ActionResult GetList()
         {
-            List<Staff> listStaffs = _service.GetAll();
+            List<Staff> listStaffs = _service.GetList();
 
             return Ok(listStaffs);
         }

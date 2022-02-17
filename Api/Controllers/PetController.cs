@@ -69,10 +69,10 @@ namespace Api.Controllers
             return Ok(pet);
         }
         [HttpGet]
-        [SwaggerOperation(Summary = "Get all pet")]
-        public ActionResult GetAll()
+        [SwaggerOperation(Summary = "Get list pet")]
+        public ActionResult GetList()
         {
-            List<Pet> listPets = _service.GetAll();
+            List<Pet> listPets = _service.GetList();
 
             return Ok(listPets);
         }

@@ -45,6 +45,10 @@ namespace Api.Repositories
             }
             return center;
         }
+        public List<Center> GetList()
+        {
+            return _context.Center.ToList();
+        }
         public async Task<bool> Delete(Guid id)
         {
             Center center = await _context.Center.FirstOrDefaultAsync(x => x.Id == id);

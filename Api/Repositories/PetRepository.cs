@@ -41,7 +41,7 @@ namespace Api.Repositories
             }
             return pet;
         }
-        public List<Pet> GetAll()
+        public List<Pet> GetList()
         {
             return _context.Pet.ToList();
         }

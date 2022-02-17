@@ -11,7 +11,7 @@ namespace Api.Repositories
         Task<Animal> Create(Animal animal);
         Task<bool> Update(Animal animal);
         Task<Animal> GetById(Guid id);
-        List<Animal> GetAll();
+        List<Animal> GetList();
         Task<bool> Delete(Guid id);
     }
 }

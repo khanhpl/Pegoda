@@ -57,6 +57,14 @@ namespace Api.Controllers
             }
             return Ok(center);
         }
+        [HttpGet]
+        [SwaggerOperation(Summary = "Get list center")]
+        public ActionResult GetList()
+        {
+            List<Center> listCenters = _service.GetList();
+
+            return Ok(listCenters);
+        }
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete center by Id")]
         public async Task<ActionResult> Delete(Guid id)

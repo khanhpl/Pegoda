@@ -41,7 +41,7 @@ namespace Api.Repositories
             }
             return order;
         }
-        public List<Order> GetAll()
+        public List<Order> GetList()
         {
             return _context.Order.ToList();
         }

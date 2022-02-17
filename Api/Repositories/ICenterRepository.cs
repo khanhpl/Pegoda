@@ -10,7 +10,7 @@ namespace Api.Repositories
         Task<Center> Create(Center center);
         Task<bool> Update(Center newCenter);
         Task<Center> GetById(Guid id);
-        List<Center> GetAll();
+        List<Center> GetList();
         Task<bool> Delete(Guid id);
         Task<List<Center>> SearchByAddressAndName(String address, String name);
     }

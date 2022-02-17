@@ -10,7 +10,7 @@ namespace Api.Repositories
         Task<Payment> Create(Payment payment);
         Task<bool> Update(Payment payment);
         Task<Payment> GetById(Guid id);
-        List<Payment> GetAll();
+        List<Payment> GetList();
         Task<bool> Delete(Guid id);
     }
 }

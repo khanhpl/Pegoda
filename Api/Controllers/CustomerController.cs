@@ -23,6 +23,7 @@ namespace Api.Controllers
             Customer customer = new Customer
             {
                 Name = newCustomer.Name,
+                Email = newCustomer.Email,
                 Age = newCustomer.Age,
                 Gender = newCustomer.Gender,
                 Image = newCustomer.Image,
@@ -34,21 +35,13 @@ namespace Api.Controllers
         }
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update customer")]
-        public async Task<ActionResult> Update(Guid id, UpdateCustomerModel updateCustomer)
+        public async Task<ActionResult> Update(Guid id, Customer updateCustomer)
         {
             if (id != updateCustomer.Id)
             {
                 return BadRequest();
             }
-            Customer customer = new Customer
-            {
-                Name = updateCustomer.Name,
-                Age = updateCustomer.Age,
-                Gender = updateCustomer.Gender,
-                Image = updateCustomer.Image,
-                Address = updateCustomer.Address
-            };
-            bool check = await _service.Update(customer);
+            bool check = await _service.Update(updateCustomer);
             if (!check)
             {
                 return NotFound();
@@ -67,10 +60,10 @@ namespace Api.Controllers
             return Ok(customer);
         }
         [HttpGet]
-        [SwaggerOperation(Summary = "Get all customer")]
-        public ActionResult GetAll()
+        [SwaggerOperation(Summary = "Get list customer")]
+        public ActionResult GetList()
         {
-            List<Customer> listCustomers = _service.GetAll();
+            List<Customer> listCustomers = _service.GetList();
 
             return Ok(listCustomers);
         }
