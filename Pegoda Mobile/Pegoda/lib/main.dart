@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pegoda/controllers/customer_main.dart';
+import 'package:pegoda/screens/customer/cus_account/cus_app_infor_screen.dart';
+import 'package:pegoda/screens/customer/cus_account/cus_app_setting_screen.dart';
 import 'package:pegoda/screens/customer/cus_account/cus_personal_setting_screen.dart';
 import 'package:pegoda/screens/customer/cus_account/order_history_screen.dart';
 import 'package:pegoda/screens/customer/notification/notification_screen.dart';
@@ -29,7 +31,8 @@ void main() {
         '/notificationScreen': (context) => CusMain(selectedIndex: 1, isBottomNav: false),
         '/personalSettingScreen': (context) => PersonalSettingScreen(),
         '/orderHistoryScreen': (context) => OrderHistoryScreen(),
-
+        '/appInforScreen': (context) => AppInforScreen(),
+        '/appSettingScreen': (context) => AppSettingScreen()
 
 
 
