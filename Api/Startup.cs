@@ -31,6 +31,7 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(options => options.UseSqlServer(_config.GetConnectionString("DbConnection")));
+            services.AddRouting(options => options.LowercaseUrls = true);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -42,10 +43,24 @@ namespace Api
             services.AddTransient<RoleService, RoleService>();
             services.AddTransient<IAnimalRepository<Animal>, AnimalRepository>();
             services.AddTransient<AnimalService, AnimalService>();
+            services.AddTransient<ICenterRepository<Center>, CenterRepository>();
+            services.AddTransient<CenterService, CenterService>();
+            services.AddTransient<IServiceRepository<Service>, ServiceRepository>();
+            services.AddTransient<ServiceService, ServiceService>();
+            services.AddTransient<ICustomerRepository<Customer>, CustomerRepository>();
+            services.AddTransient<CustomerService, CustomerService>();
+            services.AddTransient<IPetRepository<Pet>, PetRepository>();
+            services.AddTransient<PetService, PetService>();
+            services.AddTransient<IOrderRepository<Order>, OrderRepository>();
+            services.AddTransient<OrderService, OrderService>();
+            services.AddTransient<IOrderItemRepository<OrderItem>, OrderItemRepository>();
+            services.AddTransient<OrderItemService, OrderItemService>();
             services.AddTransient<IStaffRepository<Staff>, StaffRepository>();
             services.AddTransient<StaffService, StaffService>();
             services.AddTransient<IUserRepository<User>, UserRepository>();
             services.AddTransient<UserService, UserService>();
+            services.AddTransient<IPaymentRepository<Payment>, PaymentRepository>();
+            services.AddTransient<PaymentService, PaymentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

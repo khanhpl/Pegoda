@@ -11,20 +11,28 @@ namespace Api.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
-        public DbSet<Animal> Animals { get; set; }
-        public DbSet<Center> Centers { get; set; }
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<Payment> Payments { get; set; }
-        public DbSet<Pet> Pets { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<Service> Services { get; set; }
-        public DbSet<Staff> Staffs { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<Animal> Animal { get; set; }
+        public DbSet<Center> Center { get; set; }
+        public DbSet<Customer> Customer { get; set; }
+        public DbSet<Order> Order { get; set; }
+        public DbSet<OrderItem> OrderItem { get; set; }
+        public DbSet<Payment> Payment { get; set; }
+        public DbSet<Pet> Pet { get; set; }
+        public DbSet<Role> Role { get; set; }
+        public DbSet<Service> Service { get; set; }
+        public DbSet<Staff> Staff { get; set; }
+        public DbSet<User> User { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.EnableSensitiveDataLogging();
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+
         }
     }
 }
