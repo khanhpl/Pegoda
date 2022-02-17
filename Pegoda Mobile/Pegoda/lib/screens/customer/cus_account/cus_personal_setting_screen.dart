@@ -78,7 +78,7 @@ class _PersonalSettingScreenState extends State<PersonalSettingScreen> {
                           ),
                           child: Icon(
                             Icons.add_a_photo,
-                            color: Colors.grey[200],
+                            color: Colors.white,
                           ),
                         )
                       : Container(
