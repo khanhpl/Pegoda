@@ -6,6 +6,7 @@ import 'package:pegoda/screens/customer/cus_account/cus_personal_setting_screen.
 import 'package:pegoda/screens/customer/cus_account/order_history_screen.dart';
 import 'package:pegoda/screens/customer/cus_main/questions_screen.dart';
 import 'package:pegoda/screens/customer/notification/notification_screen.dart';
+import 'package:pegoda/screens/customer/pet/add_pet_screen.dart';
 import 'package:pegoda/screens/customer/search/search_screen.dart';
 import 'package:pegoda/screens/welcome/confirm_code_screen.dart';
 import 'package:pegoda/screens/welcome/forgot_password_screen.dart';
@@ -35,6 +36,7 @@ void main() {
         '/appInforScreen': (context) => AppInforScreen(),
         '/appSettingScreen': (context) => AppSettingScreen(),
         '/questionScreen': (context) => QuestionsScreen(),
+        '/addPetScreen': (context) => AddPetScreen(),
 
 
 
