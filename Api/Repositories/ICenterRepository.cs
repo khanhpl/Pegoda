@@ -12,5 +12,6 @@ namespace Api.Repositories
         Task<Center> GetById(Guid id);
         List<Center> GetList();
         Task<bool> Delete(Guid id);
+        Task<List<Center>> SearchByAddressAndName(String address, String name);
     }
 }
