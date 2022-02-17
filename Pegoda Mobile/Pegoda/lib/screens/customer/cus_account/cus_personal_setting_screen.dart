@@ -72,7 +72,7 @@ class _PersonalSettingScreenState extends State<PersonalSettingScreen> {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               image: AssetImage(
-                                  'assets/cus/account_screen/cancel.png'),
+                                  'assets/ic_pegoda.png'),
                               fit: BoxFit.fill,
                             ),
                           ),
