@@ -32,7 +32,7 @@ namespace Api.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
-        public List<Service> GetAll(int pageNumber, int pageSize)
+        public List<Service> GetList(int pageNumber, int pageSize)
         {
             return _context.Service.ToPagedList(pageNumber, pageSize).ToList();
         }

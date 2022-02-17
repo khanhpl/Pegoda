@@ -21,9 +21,9 @@ namespace Api.Services
         {
             return await _repo.Update(newService);
         }
-        public List<Service> GetAll(int pageNumber, int pageSize)
+        public List<Service> GetList(int pageNumber, int pageSize)
         {
-            return _repo.GetAll(pageNumber, pageSize);
+            return _repo.GetList(pageNumber, pageSize);
         }
         public async Task<Service> GetById(Guid id)
         {
@@ -33,7 +33,7 @@ namespace Api.Services
         {
             return await _repo.Delete(id);
         }
-        public async Task<List<Service>> SearchByName(String name, int pageNumber , int pageSize)
+        public async Task<List<Service>> SearchByName(String name, int pageNumber, int pageSize)
         {
             return await _repo.SearchByName(name, pageNumber, pageSize);
         }

@@ -70,14 +70,6 @@ namespace Api.Controllers
             }
             return Ok(service);
         }
-        [HttpGet]
-        [SwaggerOperation(Summary = "Get list service")]
-        public ActionResult GetList()
-        {
-            List<Service> listServices = _service.GetList();
-
-            return Ok(listServices);
-        }
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete service by Id")]
         public async Task<ActionResult> Delete(Guid id)
@@ -95,17 +87,18 @@ namespace Api.Controllers
         {
             if (name == null)
             {
-                List<Service> listService = _service.GetAll( pageNumber,  pageSize);
+                List<Service> listService = _service.GetList(pageNumber, pageSize);
 
                 return listService;
             }
-            else { 
-            List<Service> service = await _service.SearchByName(name,  pageNumber, pageSize);
-            if (service == null)
+            else
             {
-                return null;
-            }
-            return service;
+                List<Service> service = await _service.SearchByName(name, pageNumber, pageSize);
+                if (service == null)
+                {
+                    return null;
+                }
+                return service;
             }
         }
     }

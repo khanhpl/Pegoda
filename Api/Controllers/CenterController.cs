@@ -57,14 +57,6 @@ namespace Api.Controllers
             }
             return Ok(center);
         }
-        [HttpGet]
-        [SwaggerOperation(Summary = "Get list center")]
-        public ActionResult GetList()
-        {
-            List<Center> listCenters = _service.GetList();
-
-            return Ok(listCenters);
-        }
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete center by Id")]
         public async Task<ActionResult> Delete(Guid id)
@@ -80,13 +72,13 @@ namespace Api.Controllers
         [SwaggerOperation(Summary = "Search by name and address")]
         public async Task<List<Center>> SearchByAddressAndName(String name, String address)
         {
-            if(name == null || address == null)
+            if (name == null || address == null)
             {
-                List<Center> listCenters = _service.GetAll();
-
+                List<Center> listCenters = _service.GetList();
                 return listCenters;
             }
-            else {
+            else
+            {
                 List<Center> service = await _service.SearchByAddressAndName(name, address);
                 if (service == null)
                 {
@@ -94,7 +86,7 @@ namespace Api.Controllers
                 }
                 return service;
             }
-            
+
         }
     }
 }
