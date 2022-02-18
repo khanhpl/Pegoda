@@ -55,7 +55,7 @@ namespace Api.Controllers
         }
         [Route("Login")]
         [HttpPost]
-        [SwaggerOperation(Summary = "Get Token")]
+        [SwaggerOperation(Summary = "Login")]
         public ActionResult Login(LoginModel loginModal)
         {
             var response = _service.Login(loginModal);
@@ -63,7 +63,7 @@ namespace Api.Controllers
             {
                 return BadRequest(new { message = "User name or password not correct" });
             }
-            return Ok(response);
+            return Ok(new { token = response });
         }
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete user by Id")]
