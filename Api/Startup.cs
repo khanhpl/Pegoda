@@ -56,6 +56,17 @@ namespace Api
                 };
             });
 
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000", "http://localhost:3001", "https://www.pegoda.xyz")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -102,6 +113,8 @@ namespace Api
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {
