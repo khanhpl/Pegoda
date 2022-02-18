@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Api.Entities;
+using Api.Modals;
 using Api.Models;
 using Api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -52,17 +53,18 @@ namespace Api.Controllers
             };
             return Ok(user);
         }
-        //[Route("Login")]
-        //[HttpPost]
-        //public ActionResult Login(LoginModal loginModal)
-        //{
-        //    var response = _service.Login(loginModal);
-        //    if (!response)
-        //    {
-        //        return BadRequest(new { message = "User name or password not correct" });
-        //    }
-        //    return NoContent();
-        //}
+        [Route("Login")]
+        [HttpPost]
+        [SwaggerOperation(Summary = "Get Token")]
+        public ActionResult Login(LoginModel loginModal)
+        {
+            var response = _service.Login(loginModal);
+            if (response == null)
+            {
+                return BadRequest(new { message = "User name or password not correct" });
+            }
+            return Ok(response);
+        }
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete user by Id")]
         public async Task<ActionResult> Delete(Guid id)
