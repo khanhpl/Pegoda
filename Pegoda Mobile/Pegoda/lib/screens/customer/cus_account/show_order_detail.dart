@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pegoda/MyLib/class/order.dart';
+import 'package:pegoda/MyLib/class/order_review.dart';
 
 class ShowOrderDetail extends StatelessWidget{
-  Order order;
-  ShowOrderDetail({required this.order});
+  OrderReview orderReview;
+  ShowOrderDetail({required this.orderReview});
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -71,7 +71,7 @@ class ShowOrderDetail extends StatelessWidget{
                         Expanded(
                           child: Container(
                             child: Text(
-                              order.OrderID,
+                              orderReview.OrderID,
                               style: TextStyle(
                                 color: Color(0xff333333),
                                 fontSize: size.height * 0.02,
@@ -99,7 +99,7 @@ class ShowOrderDetail extends StatelessWidget{
                         Expanded(
                           child: Container(
                             child: Text(
-                              order.PetName,
+                              orderReview.PetName,
                               style: TextStyle(
                                 color: Color(0xff333333),
                                 fontSize: size.height * 0.02,
@@ -128,7 +128,7 @@ class ShowOrderDetail extends StatelessWidget{
                         Expanded(
                           child: Container(
                             child: Text(
-                              order.PCCName,
+                              orderReview.PCCName,
                               style: TextStyle(
                                 color: Color(0xff333333),
                                 fontSize: size.height * 0.02,
@@ -157,7 +157,7 @@ class ShowOrderDetail extends StatelessWidget{
                         Expanded(
                           child: Container(
                             child: Text(
-                              order.Service,
+                              orderReview.Service,
                               style: TextStyle(
                                 color: Color(0xff333333),
                                 fontSize: size.height * 0.02,
@@ -186,7 +186,7 @@ class ShowOrderDetail extends StatelessWidget{
                         Expanded(
                           child: Container(
                             child: Text(
-                              order.TotalPrice,
+                              orderReview.TotalPrice,
                               style: TextStyle(
                                 color: Color(0xff333333),
                                 fontSize: size.height * 0.02,
@@ -215,7 +215,7 @@ class ShowOrderDetail extends StatelessWidget{
                         Expanded(
                           child: Container(
                             child: Text(
-                              order.Note,
+                              orderReview.Note,
                               style: TextStyle(
                                 color: Color(0xff333333),
                                 fontSize: size.height * 0.02,
@@ -244,7 +244,7 @@ class ShowOrderDetail extends StatelessWidget{
                         Expanded(
                           child: Container(
                             child: Text(
-                              order.Date,
+                              orderReview.Date,
                               style: TextStyle(
                                 color: Color(0xff333333),
                                 fontSize: size.height * 0.02,
@@ -273,7 +273,7 @@ class ShowOrderDetail extends StatelessWidget{
                         Expanded(
                           child: Container(
                             child: Text(
-                              order.Status,
+                              orderReview.Status,
                               style: TextStyle(
                                 color: Color(0xffFF3300),
                                 fontSize: size.height * 0.02,

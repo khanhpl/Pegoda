@@ -170,7 +170,6 @@ class _SearchScreenState extends State<SearchScreen> {
               //show result
               SizedBox(height: _pageHeight * 0.02),
 
-
             ],
           ),
         ),

@@ -1,4 +1,4 @@
-class Order {
+class OrderReview {
   var OrderID;
   var Date;
   var PetName;
@@ -7,7 +7,7 @@ class Order {
   var TotalPrice;
   var Note;
   var Status;
-  Order({required this.OrderID, required this.Date, required this.PetName, this.PCCName, required this.Service,
+  OrderReview({required this.OrderID, required this.Date, required this.PetName, this.PCCName, required this.Service,
     required this.TotalPrice, required this.Note, required this.Status});
 
 }

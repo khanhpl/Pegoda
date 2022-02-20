@@ -136,7 +136,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                           Container(
                             alignment: Alignment.center,
                             child: Text(
-                              'Trung tâm \nnổi bật',
+                              'Trung tâm \ngần nhất',
                               textAlign: TextAlign.center,
                               style: TextStyle(fontWeight: FontWeight.w400),
                             ),
@@ -167,7 +167,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                           Container(
                             alignment: Alignment.center,
                             child: Text(
-                              'Dịch vụ \nnổi bật',
+                              'Dịch vụ \ngần nhất',
                               textAlign: TextAlign.center,
                               style: TextStyle(fontWeight: FontWeight.w400),
                             ),

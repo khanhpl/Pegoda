@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pegoda/MyLib/class/order.dart';
+import 'package:pegoda/MyLib/class/order_review.dart';
 import '../../../MyLib/globals.dart' as globals;
 import 'show_order_item.dart';
 
@@ -9,8 +9,8 @@ class OrderHistoryScreen extends StatefulWidget {
 }
 
 class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
-  List<Order> _orderList = [
-    Order(
+  List<OrderReview> _orderReviewList = [
+    OrderReview(
       OrderID: '#123456',
       Date: '16/2/2022',
       PetName: 'Con cá',
@@ -20,7 +20,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
       Note: 'Nhẹ tay',
       Status: 'Đang xử lý',
     ),
-    Order(
+    OrderReview(
       OrderID: '#123456',
       Date: '16/2/2022',
       PetName: 'Con cá',
@@ -30,7 +30,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
       Note: 'Nhẹ tay',
       Status: 'Đang xử lý',
     ),
-    Order(
+    OrderReview(
       OrderID: '#123456',
       Date: '16/2/2022',
       PetName: 'Con cá',
@@ -84,12 +84,12 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
-                itemCount: _orderList.length,
+                itemCount: _orderReviewList.length,
                 separatorBuilder: (BuildContext context, int index) {
                   return SizedBox(height: size.height * 0.02);
                 },
                 itemBuilder: (BuildContext context, int index) {
-                  return ShowOrderItem(order: _orderList[index]);
+                  return ShowOrderItem(orderReview: _orderReviewList[index]);
                 },
               ),
             ],

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:pegoda/MyLib/class/order.dart';
+import 'package:pegoda/MyLib/class/order_review.dart';
 import 'package:pegoda/screens/customer/cus_account/show_order_detail.dart';
 
 class ShowOrderItem extends StatefulWidget {
-  Order order;
+  OrderReview orderReview;
 
-  ShowOrderItem({required this.order});
+  ShowOrderItem({required this.orderReview});
 
   @override
-  State<ShowOrderItem> createState() => _ShowOrderItemState(order: this.order);
+  State<ShowOrderItem> createState() => _ShowOrderItemState(orderReview: this.orderReview);
 }
 
 class _ShowOrderItemState extends State<ShowOrderItem> {
-  Order order;
+  OrderReview orderReview;
 
-  _ShowOrderItemState({required this.order});
+  _ShowOrderItemState({required this.orderReview});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ShowOrderDetail(order: this.order),
+                builder: (context) => ShowOrderDetail(orderReview: this.orderReview),
               ),
             );
           },
@@ -55,7 +55,7 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Mã đặt lịch' + order.OrderID,
+                      'Mã đặt lịch' + orderReview.OrderID,
                       style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: size.height * 0.016,
@@ -64,7 +64,7 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
                     ),
                     SizedBox(height: size.height * 0.006),
                     Text(
-                      'Thú cưng: ' + order.PetName,
+                      'Thú cưng: ' + orderReview.PetName,
                       style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: size.height * 0.016,
@@ -74,7 +74,7 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
                     SizedBox(height: size.height * 0.006),
                     RichText(
                       text: TextSpan(
-                        text: order.Date + ' | ',
+                        text: orderReview.Date + ' | ',
                         style: TextStyle(
                           color: Color(0xff666666),
                           fontSize: size.height * 0.016,
@@ -82,7 +82,7 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
                         ),
                         children: [
                           TextSpan(
-                            text: order.Status,
+                            text: orderReview.Status,
                             style: TextStyle(
                               color: Color(0xffFF3300),
                             ),
@@ -95,7 +95,7 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
               ),
               Spacer(),
               Text(
-                order.TotalPrice,
+                orderReview.TotalPrice,
                 style: TextStyle(
                   color: Color(0xff333333),
                   fontSize: size.height * 0.016,

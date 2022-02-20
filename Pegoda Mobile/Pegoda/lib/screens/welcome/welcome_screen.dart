@@ -1,72 +1,32 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pegoda/controllers/customer_main.dart';
+import 'package:pegoda/screens/welcome/sign_up_widget.dart';
 import '../../MyLib/constants.dart' as Constants;
 
 class WelcomeScreen extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    var _pageHeight = MediaQuery.of(context).size.height;
-    var _pageWidth = MediaQuery.of(context).size.width;
-    var _bgColor = Constants.bgColor;
-    return Material(
-      child: Container(
-        width: _pageWidth,
-        height: _pageHeight,
-        color: _bgColor,
-        alignment: Alignment.center,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                child: Image.asset(
-                  'assets/Pegoda.png',
-                  width: _pageWidth * 0.7,
-                  height: _pageHeight * 0.3,
-                ),
-              ),
-              Container(
-                child: Text('Mang những dịch vụ tốt nhất\n Đến với thú cưng của bạn.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: _pageHeight * 0.025,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              SizedBox(height: _pageHeight*0.05),
-              Container(
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Color(0xFF7289DA),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/loginScreen');
-                  },
-                  child: Container(
+  Widget build(BuildContext context) => Material(
+        child: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
 
-                    child: Text(
-                      'Tiếp Theo',
-                      style: TextStyle(
-                        fontSize: _pageHeight * 0.025,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  )
-
-                ),
-              ),
-            ],
-          ),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasData) {
+              final user = FirebaseAuth.instance.currentUser!;
+              String s = user.uid;
+              print("uid: " + s);
+              return CusMain(selectedIndex: 0, isBottomNav: true);
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Something went wrong!'));
+            } else {
+              // final user = FirebaseAuth.instance.currentUser!;
+              // print("ten nguoi dung" + user.displayName!);
+              return SignUpWidget();
+            }
+          },
         ),
-      ),
-    );
-  }
+      );
 }
