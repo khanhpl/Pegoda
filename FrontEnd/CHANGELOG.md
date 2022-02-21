@@ -2,13 +2,13 @@
 
 ###### Sep 18, 2021
 
-- Support MIU v5.0.0 official release
-- Upgrade some dependencies to the latest versions
+-   Support MIU v5.0.0 official release
+-   Upgrade some dependencies to the latest versions
 
 ###### Aug 18, 2021
 
-- Update `src/theme/typography.js`
-- Upgrade some dependencies to the latest versions
+-   Update `src/theme/typography.js`
+-   Upgrade some dependencies to the latest versions
 
 ---
 
@@ -16,8 +16,8 @@
 
 ###### Jul 23, 2021
 
-- Support MUI v5.0.0-beta.1
-- Upgrade some dependencies to the latest versions
+-   Support MUI v5.0.0-beta.1
+-   Upgrade some dependencies to the latest versions
 
 ---
 
