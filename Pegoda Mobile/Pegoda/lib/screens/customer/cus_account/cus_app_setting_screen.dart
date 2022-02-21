@@ -233,6 +233,7 @@ class _AppSettingScreenState extends State<AppSettingScreen> {
                       onPressed: () {
                         final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
                         provider.logout();
+                        Navigator.pushNamed(context, '/');
                       },
                     ),
                   ),

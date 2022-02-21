@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
             '/cusAccountScreen': (context) =>
                 CusMain(selectedIndex: 3, isBottomNav: false),
             '/petScreen': (context) =>
-                CusMain(selectedIndex: 2, isBottomNav: true),
+                CusMain(selectedIndex: 1, isBottomNav: true),
             '/notificationScreen': (context) =>
                 CusMain(selectedIndex: 1, isBottomNav: false),
             '/personalSettingScreen': (context) => PersonalSettingScreen(),

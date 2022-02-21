@@ -25,12 +25,12 @@ class PetScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: _pageWidth * 0.6,
-              height: _pageHeight * 0.03,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/PegodaName.png'),
-                  fit: BoxFit.fill,
+              child: Text(
+                'Thú cưng',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: _pageHeight*0.05,
                 ),
               ),
             ),
