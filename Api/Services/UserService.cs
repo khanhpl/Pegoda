@@ -20,9 +20,9 @@ namespace Api.Services
         //{
         //    return _repo.Login(loginModal);
         //}
-        public User GetByEmail(string email)
+        public User GetByUserName(string username)
         {
-            return _repo.GetByEmail(email);
+            return _repo.GetByUserName(username);
         }
         public async Task<bool> Delete(Guid id)
         {

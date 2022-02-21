@@ -21,9 +21,9 @@ namespace Api.Repositories
             await _context.SaveChangesAsync();
             return user;
         }
-        public User GetByEmail(string email)
+        public User GetByUserName(string username)
         {
-            User user = _context.User.FirstOrDefault(u => u.Email == email);
+            User user = _context.User.FirstOrDefault(u => u.Name == username);
             if (user == null)
             {
                 return null;
