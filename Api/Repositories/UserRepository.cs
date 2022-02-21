@@ -5,18 +5,15 @@ using Api.Data;
 using Api.Entities;
 using Api.Modals;
 using Microsoft.EntityFrameworkCore;
-using quiz_app_dotnet_api.Helper;
 
 namespace Api.Repositories
 {
     public class UserRepository : IUserRepository<User>
     {
         private readonly DataContext _context;
-        private readonly IJwtHelper _jwtHelper;
-        public UserRepository(DataContext context, IJwtHelper jwtHelper)
+        public UserRepository(DataContext context)
         {
             _context = context;
-            _jwtHelper = jwtHelper;
         }
         public async Task<User> Create(User user)
         {
@@ -34,15 +31,19 @@ namespace Api.Repositories
             return user;
         }
 
-        public string Login(LoginModel loginModel)
-        {
-            User user = _context.User.FirstOrDefault(u => u.Email == loginModel.Email);
-            if (user == null)
-            {
-                return null;
-            }
-            return _jwtHelper.generateJwtToken(user);
-        }
+        //public bool Login(LoginModal loginModal)
+        //{
+        //    User user = _context.User.FirstOrDefault(u => u.Name == loginModal.Name);
+        //    if (user == null)
+        //    {
+        //        return false;
+        //    }
+        //    if (user.Password == loginModal.Password)
+        //    {
+        //        return true;
+        //    }
+        //    return false;
+        //}
         public async Task<bool> Delete(Guid id)
         {
             User user = await _context.User.FindAsync(id);

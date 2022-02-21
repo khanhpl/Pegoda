@@ -16,8 +16,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var _pageHeight = MediaQuery.of(context).size.height;
-    var _pageWidth = MediaQuery.of(context).size.width;
+    var _pageHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
+    var _pageWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
     var _bgColor = Constants.bgColor;
 
     return Material(
@@ -25,8 +31,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         width: _pageWidth,
         height: _pageHeight,
         color: _bgColor,
-        padding:
-            EdgeInsets.fromLTRB(_pageWidth * 0.15, 0, _pageWidth * 0.15, 0),
+        padding: EdgeInsets.fromLTRB(
+            _pageWidth * 0.15, 0, _pageWidth * 0.15, 0),
         alignment: Alignment.center,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -34,14 +40,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/Pegoda.png',
+              Image.asset('assets/Pegoda.png',
                 width: _pageWidth * 0.7,
-                height: _pageHeight * 0.3,
-              ),
-              SizedBox(
-                height: _pageHeight * 0.03,
-              ),
+                height: _pageHeight * 0.3,),
+              SizedBox(height: _pageHeight * 0.03,),
               Container(
                 child: Text(
                   'Đăng ký',
@@ -51,9 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: _pageHeight * 0.025,
-              ),
+              SizedBox(height: _pageHeight * 0.025,),
               Container(
                 height: _pageHeight * 0.06,
                 alignment: Alignment.centerLeft,
@@ -80,6 +80,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
+
                 ),
                 child: TextField(
                   decoration: InputDecoration.collapsed(
@@ -91,9 +92,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: _pageHeight * 0.025,
-              ),
+              SizedBox(height: _pageHeight * 0.025,),
               Container(
                 height: _pageHeight * 0.06,
                 alignment: Alignment.centerLeft,
@@ -112,9 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: _pageHeight * 0.025,
-              ),
+              SizedBox(height: _pageHeight * 0.025,),
               Container(
                 height: _pageHeight * 0.06,
                 alignment: Alignment.centerLeft,
@@ -144,15 +141,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: IconButton(
                           icon: !_showPass
                               ? ImageIcon(
-                                  AssetImage('assets/welcome/eye.png'),
-                                  color: Colors.black26,
-                                  size: _pageHeight * 0.05,
-                                )
+                            AssetImage('assets/welcome/eye.png'),
+                            color: Colors.black26,
+                            size: _pageHeight * 0.05,
+                          )
                               : ImageIcon(
-                                  AssetImage('assets/welcome/eye.png'),
-                                  color: Colors.blue,
-                                  size: _pageHeight * 0.05,
-                                ),
+                            AssetImage('assets/welcome/eye.png'),
+                            color: Colors.blue,
+                            size: _pageHeight * 0.05,
+                          ),
                           onPressed: () {
                             showPass();
                           },
@@ -162,9 +159,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: _pageHeight * 0.025,
-              ),
+              SizedBox(height: _pageHeight * 0.025,),
               Container(
                 height: _pageHeight * 0.06,
                 alignment: Alignment.centerLeft,
@@ -193,15 +188,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: IconButton(
                           icon: !_showRetypePass
                               ? ImageIcon(
-                                  AssetImage('assets/welcome/eye.png'),
-                                  color: Colors.black26,
-                                  size: _pageHeight * 0.05,
-                                )
+                            AssetImage('assets/welcome/eye.png'),
+                            color: Colors.black26,
+                            size: _pageHeight * 0.05,
+                          )
                               : ImageIcon(
-                                  AssetImage('assets/welcome/eye.png'),
-                                  color: Colors.blue,
-                                  size: _pageHeight * 0.05,
-                                ),
+                            AssetImage('assets/welcome/eye.png'),
+                            color: Colors.blue,
+                            size: _pageHeight * 0.05,
+                          ),
                           onPressed: () {
                             showRetypePass();
                           },
@@ -211,9 +206,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: _pageHeight * 0.03,
-              ),
+
+              SizedBox(height: _pageHeight * 0.03,),
               Container(
                 width: _pageWidth * 0.5,
                 child: TextButton(
@@ -223,7 +217,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: (){
                     Navigator.pushNamed(context, '/loginScreen');
                   },
                   child: Text(
@@ -236,9 +230,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: _pageHeight * 0.015,
-              ),
+              SizedBox(height: _pageHeight * 0.015,),
               Container(
                 child: Row(
                   children: [
@@ -265,6 +257,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ],
                 ),
+
               ),
               SizedBox(height: _pageHeight * 0.3),
             ],
@@ -283,7 +276,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
     });
   }
-
   void showRetypePass() async {
     setState(() {
       if (_showRetypePass == true) {
@@ -294,3 +286,4 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
   }
 }
+

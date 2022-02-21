@@ -100,12 +100,12 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
               AccountChoice(
                   icon: Icons.history,
                   choiceTitle: 'Lịch sử đặt lịch',
-                  choiceLink: '/orderHistoryScreen'),
+                  choiceLink: ''),
               SizedBox(height: _pageHeight * 0.03),
               AccountChoice(
                   icon: Icons.settings_outlined,
                   choiceTitle: 'Cài đặt chung',
-                  choiceLink: '/appSettingScreen'),
+                  choiceLink: ''),
               SizedBox(height: _pageHeight * 0.05),
               Container(
                 height: _pageHeight * 0.15,
