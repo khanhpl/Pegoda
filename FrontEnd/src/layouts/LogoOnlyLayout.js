@@ -1,8 +1,8 @@
-import { Link as RouterLink, Outlet } from 'react-router-dom';
+import { Link as RouterLink, Outlet } from 'react-router-dom'
 // material
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles'
 // components
-import Logo from '../components/Logo';
+import Logo from '../components/Logo'
 
 // ----------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   [theme.breakpoints.up('sm')]: {
     padding: theme.spacing(5, 5, 0)
   }
-}));
+}))
 
 // ----------------------------------------------------------------------
 
@@ -24,11 +24,11 @@ export default function LogoOnlyLayout() {
   return (
     <>
       <HeaderStyle>
-        <RouterLink to="/">
-          <Logo />
-        </RouterLink>
+        {/* <RouterLink to="/"> */}
+        <Logo />
+        {/* </RouterLink> */}
       </HeaderStyle>
       <Outlet />
     </>
-  );
+  )
 }

@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
+import PropTypes from 'prop-types'
+import { Link as RouterLink } from 'react-router-dom'
 // material
-import { styled } from '@mui/material/styles';
-import { Typography } from '@mui/material';
+import { styled } from '@mui/material/styles'
+import { Typography } from '@mui/material'
 // components
-import Logo from '../components/Logo';
+import Logo from '../components/Logo'
 //
-import { MHidden } from '../components/@material-extend';
+import { MHidden } from '../components/@material-extend'
 
 // ----------------------------------------------------------------------
 
@@ -24,20 +24,20 @@ const HeaderStyle = styled('header')(({ theme }) => ({
     alignItems: 'flex-start',
     padding: theme.spacing(7, 5, 0, 7)
   }
-}));
+}))
 
 // ----------------------------------------------------------------------
 
 AuthLayout.propTypes = {
   children: PropTypes.node
-};
+}
 
 export default function AuthLayout({ children }) {
   return (
     <HeaderStyle>
-      <RouterLink to="/">
-        <Logo />
-      </RouterLink>
+      {/* <RouterLink to="/"> */}
+      <Logo width={135} height={135} />
+      {/* </RouterLink> */}
 
       <MHidden width="smDown">
         <Typography
@@ -50,5 +50,5 @@ export default function AuthLayout({ children }) {
         </Typography>
       </MHidden>
     </HeaderStyle>
-  );
+  )
 }

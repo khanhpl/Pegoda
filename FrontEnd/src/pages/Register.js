@@ -1,14 +1,14 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom'
 // material
-import { styled } from '@mui/material/styles';
-import { Box, Card, Link, Container, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles'
+import { Box, Card, Link, Container, Typography } from '@mui/material'
 // layouts
-import AuthLayout from '../layouts/AuthLayout';
+import AuthLayout from '../layouts/AuthLayout'
 // components
-import Page from '../components/Page';
-import { MHidden } from '../components/@material-extend';
-import { RegisterForm } from '../components/authentication/register';
-import AuthSocial from '../components/authentication/AuthSocial';
+import Page from '../components/Page'
+import { MHidden } from '../components/@material-extend'
+import { RegisterForm } from '../components/authentication/register'
+import AuthSocial from '../components/authentication/AuthSocial'
 
 // ----------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex'
   }
-}));
+}))
 
 const SectionStyle = styled(Card)(({ theme }) => ({
   width: '100%',
@@ -25,7 +25,7 @@ const SectionStyle = styled(Card)(({ theme }) => ({
   flexDirection: 'column',
   justifyContent: 'center',
   margin: theme.spacing(2, 0, 2, 2)
-}));
+}))
 
 const ContentStyle = styled('div')(({ theme }) => ({
   maxWidth: 480,
@@ -35,19 +35,20 @@ const ContentStyle = styled('div')(({ theme }) => ({
   flexDirection: 'column',
   justifyContent: 'center',
   padding: theme.spacing(12, 0)
-}));
+}))
 
 // ----------------------------------------------------------------------
 
 export default function Register() {
   return (
     <RootStyle title="Register | Minimal-UI">
-      <AuthLayout>
+      {/* <AuthLayout>
         Already have an account? &nbsp;
         <Link underline="none" variant="subtitle2" component={RouterLink} to="/login">
           Login
         </Link>
-      </AuthLayout>
+      </AuthLayout> */}
+      <AuthLayout />
 
       <MHidden width="mdDown">
         <SectionStyle>
@@ -64,12 +65,12 @@ export default function Register() {
             <Typography variant="h4" gutterBottom>
               Get started absolutely free.
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
+            {/* <Typography sx={{ color: 'text.secondary' }}>
               Free forever. No credit card needed.
-            </Typography>
+            </Typography> */}
           </Box>
 
-          <AuthSocial />
+          {/* <AuthSocial /> */}
 
           <RegisterForm />
 
@@ -96,5 +97,5 @@ export default function Register() {
         </ContentStyle>
       </Container>
     </RootStyle>
-  );
+  )
 }
