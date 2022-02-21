@@ -33,11 +33,11 @@ namespace Api.Controllers
             return CreatedAtAction(nameof(GetByUserName), new { userName = newUser.Name }, newUser);
         }
 
-        [HttpGet("{username}")]
-        [SwaggerOperation(Summary = "Get information user by username")]
-        public ActionResult GetByUserName(string username)
+        [HttpGet("{email}")]
+        [SwaggerOperation(Summary = "Get information user by email")]
+        public ActionResult GetByUserName(string email)
         {
-            User response = _service.GetByUserName(username);
+            User response = _service.GetByEmail(email);
             if (response == null)
             {
                 return NotFound();
