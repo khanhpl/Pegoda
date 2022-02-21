@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Api.Entities;
+using Api.Modals;
 using Api.Models;
 using Api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +25,9 @@ namespace Api.Controllers
             User user = new User
             {
                 Name = newUser.Name,
+                Email = newUser.Email,
                 Address = newUser.Address,
                 Image = newUser.Image,
-                Email = newUser.Email,
                 RoleId = newUser.RoleId
             };
             await _service.Create(user);
@@ -45,24 +46,24 @@ namespace Api.Controllers
             ResponseUserModal user = new ResponseUserModal
             {
                 Name = response.Name,
+                Email = response.Email,
                 Address = response.Address,
                 Image = response.Image,
-                Email = response.Email,
                 RoleId = response.RoleId
             };
             return Ok(user);
         }
-        //[Route("Login")]
-        //[HttpPost]
-        //public ActionResult Login(LoginModal loginModal)
-        //{
-        //    var response = _service.Login(loginModal);
-        //    if (!response)
-        //    {
-        //        return BadRequest(new { message = "User name or password not correct" });
-        //    }
-        //    return NoContent();
-        //}
+        [Route("Login")]
+        [HttpPost]
+        public ActionResult Login(LoginModel loginModel)
+        {
+            var response = _service.Login(loginModel);
+            if (response == null)
+            {
+                return BadRequest(new { message = "User name or password not correct" });
+            }
+            return Ok(new { token = response });
+        }
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete user by Id")]
         public async Task<ActionResult> Delete(Guid id)
@@ -87,8 +88,8 @@ namespace Api.Controllers
             {
                 Id = updateUser.Id,
                 Name = updateUser.Name,
-                Address = updateUser.Address,
                 Email = updateUser.Email,
+                Address = updateUser.Address,
                 Image = updateUser.Image,
                 RoleId = updateUser.RoleId
             };
