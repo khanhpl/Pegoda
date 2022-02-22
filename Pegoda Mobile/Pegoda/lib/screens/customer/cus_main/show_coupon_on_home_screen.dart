@@ -25,8 +25,8 @@ class _ShowCouponOnHomeScreenState extends State<ShowCouponOnHomeScreen> {
         child: Column(
           children: [
             Container(
-              width: _pageWidth*0.4,
-              height: _pageHeight*0.15,
+              width: _pageWidth*0.6,
+              height: _pageHeight*0.25,
               decoration: BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage(coupon.couponImage),

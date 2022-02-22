@@ -14,7 +14,7 @@ class NotificationScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         toolbarHeight: _pageHeight * 0.1,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               child: Text(
@@ -22,7 +22,7 @@ class NotificationScreen extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: _pageHeight*0.05,
+                  fontSize: _pageHeight*0.03,
                 ),
               ),
             ),
