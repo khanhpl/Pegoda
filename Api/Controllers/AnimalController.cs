@@ -19,7 +19,7 @@ namespace Api.Controllers
         }
         [HttpPost]
         [SwaggerOperation(Summary = "Create new animal")]
-        public async Task<ActionResult> Create(CreateAnimalModal newAnimal)
+        public async Task<ActionResult> Create(CreateAnimalModel newAnimal)
         {
             Animal animal = new Animal
             {
@@ -55,10 +55,10 @@ namespace Api.Controllers
             return Ok(animal);
         }
         [HttpGet]
-        [SwaggerOperation(Summary = "Get all animal")]
-        public ActionResult GetAll()
+        [SwaggerOperation(Summary = "Get list animal")]
+        public ActionResult GetList()
         {
-            List<Animal> listAnimals = _service.GetAll();
+            List<Animal> listAnimals = _service.GetList();
 
             return Ok(listAnimals);
         }

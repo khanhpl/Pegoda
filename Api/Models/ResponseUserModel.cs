@@ -1,8 +1,9 @@
 ﻿using System;
 namespace Api.Models
 {
-    public class ResponseUserModal
+    public class ResponseUserModel
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Image { get; set; }

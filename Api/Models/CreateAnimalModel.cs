@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Api.Models
 {
-    public class CreateAnimalModal
+    public class CreateAnimalModel
     {
         public string Type { get; set; }
     }

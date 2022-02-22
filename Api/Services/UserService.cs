@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Api.Entities;
+using Api.Models;
 using Api.Repositories;
 
 namespace Api.Services
@@ -16,13 +17,13 @@ namespace Api.Services
         {
             return await _repo.Create(user);
         }
-        //public bool Login(LoginModal loginModal)
-        //{
-        //    return _repo.Login(loginModal);
-        //}
-        public User GetByUserName(string username)
+        public string Login(LoginModel loginModel)
         {
-            return _repo.GetByUserName(username);
+            return _repo.Login(loginModel);
+        }
+        public User GetByEmail(string email)
+        {
+            return _repo.GetByEmail(email);
         }
         public async Task<bool> Delete(Guid id)
         {

@@ -19,7 +19,7 @@ namespace Api.Controllers
 
         [HttpPost]
         [SwaggerOperation(Summary = "Create new role")]
-        public async Task<ActionResult> Create(ResponseRoleModal newRole)
+        public async Task<ActionResult> Create(ResponseRoleModel newRole)
         {
             Role role = new Role
             {
@@ -36,12 +36,7 @@ namespace Api.Controllers
             {
                 return BadRequest();
             }
-            Role role = new Role
-            {
-                Id = updateRole.Id,
-                Name = updateRole.Name
-            };
-            bool check = await _service.Update(role);
+            bool check = await _service.Update(updateRole);
             if (!check)
             {
                 return NotFound();
@@ -60,10 +55,10 @@ namespace Api.Controllers
             return Ok(role);
         }
         [HttpGet]
-        [SwaggerOperation(Summary = "Get all role")]
-        public ActionResult GetAll()
+        [SwaggerOperation(Summary = "Get list role")]
+        public ActionResult GetList()
         {
-            List<Role> listRoles = _service.GetAll();
+            List<Role> listRoles = _service.GetList();
 
             return Ok(listRoles);
         }

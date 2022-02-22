@@ -19,50 +19,51 @@ namespace Api.Controllers
         [Route("Register")]
         [HttpPost]
         [SwaggerOperation(Summary = "Register new user")]
-        public async Task<ActionResult> Register(ResponseUserModal newUser)
+        public async Task<ActionResult> Register(RegisterUserModel newUser)
         {
             User user = new User
             {
                 Name = newUser.Name,
+                Email = newUser.Email,
                 Address = newUser.Address,
                 Image = newUser.Image,
-                Email = newUser.Email,
                 RoleId = newUser.RoleId
             };
             await _service.Create(user);
-            return CreatedAtAction(nameof(GetByUserName), new { userName = newUser.Name }, newUser);
+            return CreatedAtAction(nameof(GetByEmail), new { email = newUser.Email }, newUser);
         }
 
-        [HttpGet("{username}")]
-        [SwaggerOperation(Summary = "Get information user by username")]
-        public ActionResult GetByUserName(string username)
+        [HttpGet]
+        [SwaggerOperation(Summary = "Get information user by email")]
+        public ActionResult GetByEmail(string email)
         {
-            User response = _service.GetByUserName(username);
+            User response = _service.GetByEmail(email);
             if (response == null)
             {
                 return NotFound();
             }
-            ResponseUserModal user = new ResponseUserModal
+            ResponseUserModel user = new ResponseUserModel
             {
+                Id = response.Id,
                 Name = response.Name,
+                Email = response.Email,
                 Address = response.Address,
                 Image = response.Image,
-                Email = response.Email,
                 RoleId = response.RoleId
             };
             return Ok(user);
         }
-        //[Route("Login")]
-        //[HttpPost]
-        //public ActionResult Login(LoginModal loginModal)
-        //{
-        //    var response = _service.Login(loginModal);
-        //    if (!response)
-        //    {
-        //        return BadRequest(new { message = "User name or password not correct" });
-        //    }
-        //    return NoContent();
-        //}
+        [Route("Login")]
+        [HttpPost]
+        public ActionResult Login(LoginModel loginModel)
+        {
+            var response = _service.Login(loginModel);
+            if (response == null)
+            {
+                return BadRequest(new { message = "User name or password not correct" });
+            }
+            return Ok(new { token = response });
+        }
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete user by Id")]
         public async Task<ActionResult> Delete(Guid id)
@@ -76,7 +77,7 @@ namespace Api.Controllers
         }
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update user")]
-        public async Task<ActionResult> Update(Guid id, UpdateUserModal updateUser)
+        public async Task<ActionResult> Update(Guid id, UpdateUserModel updateUser)
         {
             if (id != updateUser.Id)
             {
@@ -87,8 +88,8 @@ namespace Api.Controllers
             {
                 Id = updateUser.Id,
                 Name = updateUser.Name,
-                Address = updateUser.Address,
                 Email = updateUser.Email,
+                Address = updateUser.Address,
                 Image = updateUser.Image,
                 RoleId = updateUser.RoleId
             };

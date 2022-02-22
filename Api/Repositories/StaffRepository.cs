@@ -18,31 +18,31 @@ namespace Api.Repositories
         }
         public async Task<Staff> Create(Staff staff)
         {
-            await _context.Staffs.AddAsync(staff);
+            await _context.Staff.AddAsync(staff);
             await _context.SaveChangesAsync();
             return staff;
         }
 
         public async Task<bool> Delete(Guid id)
         {
-            Staff staff = await _context.Staffs.FirstOrDefaultAsync(x => x.Id == id);
+            Staff staff = await _context.Staff.FirstOrDefaultAsync(x => x.Id == id);
             if (staff == null)
             {
                 return false;
             }
-            _context.Staffs.Remove(staff);
+            _context.Staff.Remove(staff);
             await _context.SaveChangesAsync();
             return true;
         }
 
-        public List<Staff> GetAll()
+        public List<Staff> GetList()
         {
-            return _context.Staffs.Include(x => x.Center).ToList();
+            return _context.Staff.Include(x => x.Center).ToList();
         }
 
         public async Task<Staff> GetById(Guid id)
         {
-            Staff staff = await _context.Staffs.FirstOrDefaultAsync(x => x.Id == id);
+            Staff staff = await _context.Staff.FirstOrDefaultAsync(x => x.Id == id);
             if (staff == null)
             {
                 return null;
@@ -52,12 +52,12 @@ namespace Api.Repositories
 
         public async Task<bool> Update(Staff newStaff)
         {
-            Staff staff = await _context.Staffs.AsNoTracking().FirstOrDefaultAsync(x => x.Id == newStaff.Id);
+            Staff staff = await _context.Staff.AsNoTracking().FirstOrDefaultAsync(x => x.Id == newStaff.Id);
             if (staff == null)
             {
                 return false;
             }
-            _context.Staffs.Update(newStaff);
+            _context.Staff.Update(newStaff);
             await _context.SaveChangesAsync();
             return true;
         }
