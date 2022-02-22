@@ -41,7 +41,8 @@ namespace Api.Repositories
             {
                 return null;
             }
-            return _jwtHelper.generateJwtToken(user);
+            Role role = _context.Role.FirstOrDefault(u => u.Id == user.RoleId);
+            return _jwtHelper.generateJwtToken(user, role);
         }
         public async Task<bool> Delete(Guid id)
         {

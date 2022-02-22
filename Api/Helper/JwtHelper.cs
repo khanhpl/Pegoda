@@ -14,7 +14,7 @@ namespace quiz_app_dotnet_api.Helper
 {
     public interface IJwtHelper
     {
-        string generateJwtToken(User user);
+        string generateJwtToken(User user, Role role);
     }
     public class JwtHelper : IJwtHelper
     {
@@ -25,7 +25,7 @@ namespace quiz_app_dotnet_api.Helper
             _config = config;
         }
 
-        public string generateJwtToken(User user)
+        public string generateJwtToken(User user, Role role)
         {
             // security key
             string securityKey = _config["JWT:Key"];
@@ -39,7 +39,8 @@ namespace quiz_app_dotnet_api.Helper
             var claim = new[]{
                 new Claim("Id", user.Id.ToString()),
                 new Claim("Email", user.Email),
-                // new Claim("Role", user.Role == null ? "" : user.Role)
+                new Claim("FullName", user.Name),
+                new Claim("Role", role.Name)
             };
 
             // create token
