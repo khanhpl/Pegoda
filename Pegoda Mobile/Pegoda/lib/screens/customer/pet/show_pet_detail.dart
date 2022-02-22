@@ -1,25 +1,29 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../MyLib/globals.dart' as globals;
+import '../../../MyLib/globals.dart' as globals;
 import 'package:flutter/services.dart';
 
-class RegisterScreen extends StatefulWidget{
+class ShowPetDetail extends StatefulWidget{
+  Pet pet;
+  ShowPetDetail({required this.pet});
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<ShowPetDetail> createState() => _ShowPetDetailState(pet: this.pet);
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _ShowPetDetailState extends State<ShowPetDetail> {
+  Pet pet;
+  _ShowPetDetailState({required this.pet});
   bool _isGenderMale = false;
   bool _isGenderFemale = false;
   late File imageFile;
   bool _picIsChose = false;
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     var size = MediaQuery.of(context).size;
+    // TODO: implement build
     return Material(
       child: Container(
         color: Colors.white,
@@ -37,6 +41,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Container(
                   child: IconButton(
                     onPressed: () {
+                      // Navigator.pop(context);
+                      Navigator.pop(context);
                     },
                     icon: ImageIcon(
                       AssetImage('assets/cus/account_screen/cancel.png'),
@@ -47,7 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               Text(
-                'Chỉnh sửa tài khoản',
+                'Thú cưng của bạn',
                 style: TextStyle(
                   color: Color(0xff333333),
                   fontWeight: FontWeight.w500,
@@ -87,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: FileImage(globals.avatarFile),
+                        image: FileImage(globals.petAvatarFile),
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -134,7 +140,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             activeColor: Colors.white,
                           ),
                           Text(
-                            'Nam',
+                            'Đực',
                             style: TextStyle(
                               color: Color(0xff333333),
                               fontSize: size.height * 0.02,
@@ -154,7 +160,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             activeColor: Colors.white,
                           ),
                           Text(
-                            'Nữ',
+                            'Cái',
                             style: TextStyle(
                               color: Color(0xff333333),
                               fontSize: size.height * 0.02,
@@ -166,7 +172,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     SizedBox(height: size.height * 0.03),
                     Text(
-                      'Tên hiển thị',
+                      'Tên thú cưng',
                       style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: size.height * 0.02,
@@ -186,7 +192,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         border: Border.all(color: Color(0xffDADADA)),
                       ),
                       child: TextField(
-                        controller: TextEditingController(text: 'khanhpl'),
+                        controller: TextEditingController(text: pet.PetName),
                         decoration: InputDecoration.collapsed(
                           hintText: '',
                           hintStyle: TextStyle(
@@ -198,19 +204,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
 
                     SizedBox(height: size.height * 0.03),
-                    Container(
-                        child: RichText(
-                          text: TextSpan(
-                            text: 'Email ',
-                            style: TextStyle(
-                              color: Color(0xff333333),
-                              fontSize: size.height * 0.02,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            children: [
-                            ],
-                          ),
-                        )),
+                    Text(
+                      'Loại thú cưng',
+                      style: TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: size.height * 0.02,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+
                     SizedBox(height: size.height * 0.02),
                     Container(
                       height: size.height * 0.06,
@@ -223,29 +225,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         border: Border.all(color: Color(0xffDADADA)),
                       ),
                       child: TextField(
+                        controller: TextEditingController(text: pet.PetType),
                         decoration: InputDecoration.collapsed(
-                          hintText: 'khanhpl@gmail.com',
+                          hintText: '',
                           hintStyle: TextStyle(
                             fontSize: size.height * 0.02,
-                            color: Color(0xffDADADA),
+                            color: Color(0xff666666),
                           ),
                         ),
                       ),
                     ),
                     SizedBox(height: size.height * 0.03),
-                    Container(
-                      child: RichText(
-                        text: TextSpan(
-                          text: 'Số điện thoại ',
-                          style: TextStyle(
-                            color: Color(0xff333333),
-                            fontSize: size.height * 0.02,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          children: [],
-                        ),
+                    Text(
+                      'Tình trạng thú cưng',
+                      style: TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: size.height * 0.02,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
+
                     SizedBox(height: size.height * 0.02),
                     Container(
                       height: size.height * 0.06,
@@ -258,137 +257,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         border: Border.all(color: Color(0xffDADADA)),
                       ),
                       child: TextField(
-                        keyboardType: TextInputType.phone,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
+                        controller: TextEditingController(text: pet.PetStatus),
                         decoration: InputDecoration.collapsed(
-                          hintText: '0900 123 456',
+                          hintText: '',
                           hintStyle: TextStyle(
                             fontSize: size.height * 0.02,
-                            color: Color(0xffDADADA),
+                            color: Color(0xff666666),
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(height: size.height * 0.03),
-                    Container(
-                      child: RichText(
-                        text: TextSpan(
-                          text: 'Số điện thoại ',
-                          style: TextStyle(
-                            color: Color(0xff333333),
-                            fontSize: size.height * 0.02,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          children: [],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: size.height * 0.02),
-                    Container(
-                      height: size.height * 0.06,
-                      alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.only(
-                          left: size.width * 0.03, right: size.width * 0.03),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Color(0xffDADADA)),
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              keyboardType: TextInputType.phone,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.digitsOnly,
-                              ],
-                              decoration: InputDecoration.collapsed(
-                                hintText: 'Nhập số điện thoại',
-                                hintStyle: TextStyle(
-                                  fontSize: size.height * 0.02,
-                                  color: Color(0xff666666),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(
-                                size.width * 0.01,
-                                size.height * 0.005,
-                                size.width * 0.01,
-                                size.height * 0.005),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                              border: Border.all(color: Color(0xffDADADA)),
-                            ),
-                            child: FlatButton(
-                              padding: EdgeInsets.all(0),
-                              onPressed: () {},
-                              child: Text(
-                                'Kích hoạt',
-                                style: TextStyle(
-                                  color: Color(0xff666666),
-                                  fontSize: size.height * 0.015,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: size.height * 0.02),
-                    Container(
-                      height: size.height * 0.06,
-                      padding: EdgeInsets.only(
-                          left: size.width * 0.03, right: size.width * 0.03),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Color(0xffDADADA)),
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration.collapsed(
-                                hintText: 'Nhập mã bạn nhận được',
-                                hintStyle: TextStyle(
-                                  fontSize: size.height * 0.02,
-                                  color: Color(0xff666666),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(
-                                size.width * 0.01,
-                                size.height * 0.005,
-                                size.width * 0.01,
-                                size.height * 0.005),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                              border: Border.all(color: Color(0xff5B9610)),
-                            ),
-                            child: FlatButton(
-                              padding: EdgeInsets.all(0),
-                              onPressed: () {
-                              },
-                              child: Text(
-                                'Xác nhận',
-                                style: TextStyle(
-                                  color: Color(0xff666666),
-                                  fontSize: size.height * 0.015,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+
 
                     //end box----------------------------------------------------------
                   ],
@@ -404,16 +283,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 child: FlatButton(
                   child: Text(
-                    'Xác nhận',
+                    'Cập nhật',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: size.height * 0.024,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/cusMain');
-                  },
+                  onPressed: () {},
                 ),
               ),
               SizedBox(height: size.height * 0.4),
@@ -431,8 +308,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       setState(() {
         imageFile = File(pickedFile.path);
         _picIsChose = true;
-        globals.isAvatarChecked = true;
-        globals.avatarFile = imageFile;
+        globals.isPetAvatarChecked = true;
+        globals.petAvatarFile = imageFile;
       });
     }
   }

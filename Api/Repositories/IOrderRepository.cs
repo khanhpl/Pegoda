@@ -10,7 +10,7 @@ namespace Api.Repositories
         Task<Order> Create(Order order);
         Task<bool> Update(Order newOrder);
         Task<Order> GetById(Guid id);
-        List<Order> GetList();
+        List<Order> GetList(int pageNumber, int pageSize);
         Task<bool> Delete(Guid id);
     }
 }

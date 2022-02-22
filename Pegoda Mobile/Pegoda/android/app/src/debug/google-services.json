@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "639727765666",
+    "project_id": "pegoda-6de8a",
+    "storage_bucket": "pegoda-6de8a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639727765666:android:6aa009f40df1840122effb",
+        "android_client_info": {
+          "package_name": "com.example.pegoda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "639727765666-ja8i2278vu39unt9klfpv8kct674sice.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pegoda",
+            "certificate_hash": "f8e5ad0da19a76dea55914e32723542193e825bc"
+          }
+        },
+        {
+          "client_id": "639727765666-10tdo3s6r52bpttb32docbk5p2fjo2cg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZaMRVboFbMffvjxOWAsl2BkNaWITaYL4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "639727765666-10tdo3s6r52bpttb32docbk5p2fjo2cg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

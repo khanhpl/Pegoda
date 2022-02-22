@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Api.Data;
 using Api.Entities;
 using Microsoft.EntityFrameworkCore;
-
+using X.PagedList;
 namespace Api.Repositories
 {
     public class ServiceRepository : IServiceRepository<Service>
@@ -32,6 +32,10 @@ namespace Api.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+        public List<Service> GetList(int pageNumber, int pageSize)
+        {
+            return _context.Service.ToPagedList(pageNumber, pageSize).ToList();
+        }
         public async Task<Service> GetById(Guid id)
         {
             Service service = await _context.Service.Where(x => x.Id == id).FirstOrDefaultAsync();
@@ -40,10 +44,6 @@ namespace Api.Repositories
                 return null;
             }
             return service;
-        }
-        public List<Service> GetList()
-        {
-            return _context.Service.ToList();
         }
         public async Task<bool> Delete(Guid id)
         {
@@ -55,6 +55,15 @@ namespace Api.Repositories
             _context.Service.Remove(service);
             await _context.SaveChangesAsync();
             return true;
+        }
+        public async Task<List<Service>> SearchByName(String name, int pageNumber, int pageSize)
+        {
+            List<Service> service = await _context.Service.Where(x => x.Name.Contains(name)).ToPagedList(pageNumber, pageSize).ToListAsync();
+            if (service == null)
+            {
+                return null;
+            }
+            return service;
         }
     }
 }

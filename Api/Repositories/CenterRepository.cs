@@ -32,6 +32,10 @@ namespace Api.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+        public List<Center> GetAll()
+        {
+            return _context.Center.ToList();
+        }
         public async Task<Center> GetById(Guid id)
         {
             Center center = await _context.Center.Where(x => x.Id == id).FirstOrDefaultAsync();
@@ -55,6 +59,15 @@ namespace Api.Repositories
             _context.Center.Remove(center);
             await _context.SaveChangesAsync();
             return true;
+        }
+        public async Task<List<Center>> SearchByAddressAndName(String name, String address)
+        {
+            List<Center> center = await _context.Center.Where(x => x.Name.Contains(name) || x.Address.Contains(address)).ToListAsync();
+            if (center == null)
+            {
+                return null;
+            }
+            return center;
         }
     }
 }

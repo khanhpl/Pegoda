@@ -17,7 +17,7 @@ namespace Api.Controllers
             _service = service;
         }
         [HttpPost]
-        [SwaggerOperation(Summary = "Create new center")]
+        [SwaggerOperation(Summary = "Create new order")]
         public async Task<ActionResult> Create(ResponseOrderModel newOrder)
         {
             Order order = new Order
@@ -72,11 +72,11 @@ namespace Api.Controllers
         }
         [HttpGet]
         [SwaggerOperation(Summary = "Get list order")]
-        public ActionResult GetList()
+        public List<Order> GetList(int pageNumber = 1, int pageSize = 1)
         {
-            List<Order> listOrders = _service.GetList();
+            List<Order> listOrders = _service.GetList(pageNumber, pageSize);
 
-            return Ok(listOrders);
+            return listOrders;
         }
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete order by Id")]

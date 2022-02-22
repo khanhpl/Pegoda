@@ -31,10 +31,10 @@ class _CusMainSate extends State<CusMain> {
       case 0:
         return CusHomeScreen();
       case 1:
-        isBottomNav = false;
-        return NotificationScreen();
-      case 2:
         return PetScreen();
+      case 2:
+        isBottomNav = true;
+        return NotificationScreen();
       case 3:
         isBottomNav = false;
         return CusAccountScreen();
@@ -67,17 +67,18 @@ class _CusMainSate extends State<CusMain> {
               top: -16,
               curveSize: 80,
               items: [
+
                 TabItem(
                   icon: Icons.home,
                   title: 'Trang chủ',
                 ),
                 TabItem(
-                  icon: Icons.notifications,
-                  title: 'Thông báo',
-                ),
-                TabItem(
                   icon: Icons.pets,
                   title: 'Thú cưng',
+                ),
+                TabItem(
+                  icon: Icons.notifications,
+                  title: 'Thông báo',
                 ),
                 TabItem(
                   icon: Icons.account_box_sharp,

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Api.Data;
 using Api.Entities;
 using Microsoft.EntityFrameworkCore;
-
+using X.PagedList;
 namespace Api.Repositories
 {
     public class OrderRepository : IOrderRepository<Order>
@@ -41,9 +41,9 @@ namespace Api.Repositories
             }
             return order;
         }
-        public List<Order> GetList()
+        public List<Order> GetList(int pageNumber, int pageSize)
         {
-            return _context.Order.ToList();
+            return _context.Order.ToPagedList(pageNumber, pageSize).ToList();
         }
         public async Task<bool> Delete(Guid id)
         {
