@@ -31,7 +31,7 @@ namespace Api.Controllers
                 RoleId = newUser.RoleId
             };
             await _service.Create(user);
-            return CreatedAtAction(nameof(GetByEmail), new { userName = newUser.Email }, newUser);
+            return CreatedAtAction(nameof(GetByEmail), new { email = newUser.Email }, newUser);
         }
 
         [HttpGet("{email}")]
