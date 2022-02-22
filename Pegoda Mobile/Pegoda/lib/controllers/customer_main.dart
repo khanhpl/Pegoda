@@ -57,7 +57,7 @@ class _CusMainSate extends State<CusMain> {
       body: pageCaller(selectedIndex),
       bottomNavigationBar: isBottomNav == true
           ? ConvexAppBar(
-              height: size.height * 0.08,
+              height: size.height * 0.1,
               style: TabStyle.react,
               backgroundColor: Colors.white,
               color: Colors.grey[700],
@@ -66,23 +66,25 @@ class _CusMainSate extends State<CusMain> {
               initialActiveIndex: selectedIndex,
               top: -16,
               curveSize: 80,
+
               items: [
 
                 TabItem(
                   icon: Icons.home,
-                  title: 'Trang chủ',
+                  title: 'Trang chủ\n',
+
                 ),
                 TabItem(
                   icon: Icons.pets,
-                  title: 'Thú cưng',
+                  title: 'Thú cưng\n',
                 ),
                 TabItem(
                   icon: Icons.notifications,
-                  title: 'Thông báo',
+                  title: 'Thông báo\n',
                 ),
                 TabItem(
                   icon: Icons.account_box_sharp,
-                  title: 'Tài khoản',
+                  title: 'Tài khoản\n',
                 ),
               ],
             )

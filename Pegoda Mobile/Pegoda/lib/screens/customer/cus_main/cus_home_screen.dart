@@ -1,8 +1,10 @@
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/coupon.dart';
+import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:pegoda/screens/customer/cus_main/show_coupon_on_home_screen.dart';
 import 'package:pegoda/screens/customer/cus_main/up_nav_bar.dart';
+import 'package:pegoda/screens/customer/pet/show_pet_item.dart';
 import '../../../MyLib/constants.dart' as Constants;
 import 'package:carousel_pro/carousel_pro.dart';
 
@@ -17,6 +19,24 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
     var _pageHeight = MediaQuery.of(context).size.height;
     var _pageWidth = MediaQuery.of(context).size.width;
     var _bgColor = Constants.bgColor;
+    List<Pet> _petList = [
+      Pet(
+          PetID: "Pet1",
+          PetName: "Con gà",
+          PetType: "Chó pug",
+          PetGender: true,
+          PetStatus: "Mập",
+          PetImage:
+              "https://i.pinimg.com/originals/23/59/7e/23597eae81350a4705644c58bdad7f6b.jpg"),
+      Pet(
+          PetID: "Pet2",
+          PetName: "Con vịt",
+          PetType: "Mèo",
+          PetGender: false,
+          PetStatus: "Mập",
+          PetImage:
+              "https://i.pinimg.com/564x/7b/a1/b6/7ba1b6556719b4b358e3b86e6c24b30f.jpg"),
+    ];
     List<Coupon> _couponList = [
       Coupon(
           couponImage: 'assets/cus/main_screen/coupon1.png',
@@ -41,8 +61,8 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
       appBar: UpAppBar(context),
       body: Material(
         child: Container(
-          padding: EdgeInsets.fromLTRB(_pageWidth * 0.03, 0,
-              _pageWidth * 0.03, 0),
+          padding:
+              EdgeInsets.fromLTRB(_pageWidth * 0.03, 0, _pageWidth * 0.03, 0),
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             // physics: ClampingScrollPhysics(),
@@ -50,7 +70,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: _pageHeight*0.03),
+                SizedBox(height: _pageHeight * 0.03),
                 //slide
                 Container(
                   height: _pageHeight * 0.2,
@@ -81,25 +101,18 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-
-                      SizedBox(width: _pageWidth*0.05),
-                      //Trung tâm nổi bật\
+                      // SizedBox(width: _pageWidth * 0.03),
+                      //Trung tâm nổi bật
                       Column(
                         children: [
-                          Container(
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              child: Icon(
-                                Icons.home,
-                                size: _pageWidth * 0.3 * 0.33,
-                                color: Colors.white,
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                shape: CircleBorder(),
-                                padding: EdgeInsets.all(5),
-                                primary: _bgColor,
-                              ),
+                          FlatButton(
+                            onPressed: () {},
+                            child: Image.asset(
+                              'assets/cus/main_screen/center_ic.png',
+                              height: _pageWidth * 0.3 * 0.33,
+                              width: _pageWidth * 0.3 * 0.33,
                             ),
+                            padding: EdgeInsets.all(0),
                           ),
                           SizedBox(height: _pageHeight * 0.03),
                           Container(
@@ -113,24 +126,18 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                         ],
                       ),
 
-                      SizedBox(width: _pageWidth * 0.05),
+                      SizedBox(width: _pageWidth * 0.03),
                       //Dịch vụ nổi bật
                       Column(
                         children: [
-                          Container(
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              child: Icon(
-                                Icons.home_repair_service,
-                                size: _pageWidth * 0.3 * 0.33,
-                                color: Colors.white,
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                shape: CircleBorder(),
-                                padding: EdgeInsets.all(5),
-                                primary: _bgColor,
-                              ),
+                          FlatButton(
+                            onPressed: () {},
+                            child: Image.asset(
+                              'assets/cus/main_screen/service_ic.png',
+                              height: _pageWidth * 0.3 * 0.33,
+                              width: _pageWidth * 0.3 * 0.33,
                             ),
+                            padding: EdgeInsets.all(0),
                           ),
                           SizedBox(height: _pageHeight * 0.03),
                           Container(
@@ -144,24 +151,20 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                         ],
                       ),
 
-                      SizedBox(width: _pageWidth * 0.05),
+                      SizedBox(width: _pageWidth * 0.03),
                       //Câu hỏi thường gặp
                       Column(
                         children: [
-                          Container(
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              child: Icon(
-                                Icons.question_answer,
-                                size: _pageWidth * 0.3 * 0.33,
-                                color: Colors.white,
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                shape: CircleBorder(),
-                                padding: EdgeInsets.all(5),
-                                primary: _bgColor,
-                              ),
+                          FlatButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/questionScreen');
+                            },
+                            child: Image.asset(
+                              'assets/cus/main_screen/question_ic.png',
+                              height: _pageWidth * 0.3 * 0.33,
+                              width: _pageWidth * 0.3 * 0.33,
                             ),
+                            padding: EdgeInsets.all(0),
                           ),
                           SizedBox(height: _pageHeight * 0.03),
                           Container(
@@ -175,24 +178,18 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                         ],
                       ),
 
-                      SizedBox(width: _pageWidth * 0.05),
+                      SizedBox(width: _pageWidth * 0.03),
                       //Tư vấn trực tuyến
                       Column(
                         children: [
-                          Container(
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              child: Icon(
-                                Icons.contact_phone,
-                                size: _pageWidth * 0.3 * 0.33,
-                                color: Colors.white,
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                shape: CircleBorder(),
-                                padding: EdgeInsets.all(5),
-                                primary: _bgColor,
-                              ),
+                          FlatButton(
+                            onPressed: () {},
+                            child: Image.asset(
+                              'assets/cus/main_screen/chat_online_ic.png',
+                              height: _pageWidth * 0.3 * 0.33,
+                              width: _pageWidth * 0.3 * 0.33,
                             ),
+                            padding: EdgeInsets.all(0),
                           ),
                           SizedBox(height: _pageHeight * 0.03),
                           Container(
@@ -205,9 +202,48 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                           ),
                         ],
                       ),
-
                     ],
                   ),
+                ),
+                //Thú cưng của bạn
+                SizedBox(height: _pageHeight * 0.03),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.pets,
+                      color: Color(0xfff573c7),
+                    ),
+                    SizedBox(width: _pageWidth * 0.03),
+                    Container(
+                      child: Text(
+                        'Thú cưng của bạn',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: _pageHeight * 0.03,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: _pageWidth * 0.03),
+                    Icon(
+                      Icons.pets,
+                      color: Color(0xfff573c7),
+                    ),
+                  ],
+                ),
+                SizedBox(height: _pageHeight * 0.02),
+                ListView.separated(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: _petList.length,
+                  separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(height: _pageHeight * 0.02);
+                  },
+                  itemBuilder: (BuildContext context, int index) {
+                    return ShowPetItem(pet: _petList[index]);
+                  },
                 ),
 
                 //khuyến mãi
@@ -224,7 +260,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                 ),
                 SizedBox(height: _pageHeight * 0.02),
                 Container(
-                  height: _pageHeight*0.22,
+                  height: _pageHeight * 0.32,
                   child: ListView.separated(
                     // physics: NeverScrollableScrollPhysics(),
                     // shrinkWrap: true,
@@ -238,26 +274,12 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                     },
                   ),
                 ),
-                //Thú cưng của bạn
-                SizedBox(height: _pageHeight * 0.03),
-                Container(
-                  child: Text(
-                    'Thú cưng của bạn',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: _pageHeight * 0.03,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                SizedBox(height: _pageHeight * 0.02),
+
                 SizedBox(height: _pageHeight * 0.03),
                 //Dịch vụ đề xuất
 
                 SizedBox(height: _pageHeight * 0.03),
                 //Trung tâm đề xuất
-
-
 
                 SizedBox(height: _pageHeight * 0.1),
               ],

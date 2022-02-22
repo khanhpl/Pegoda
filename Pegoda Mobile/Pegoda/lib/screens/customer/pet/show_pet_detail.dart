@@ -75,8 +75,7 @@ class _ShowPetDetailState extends State<ShowPetDetail> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: AssetImage(
-                            'assets/ic_pegoda.png'),
+                        image: NetworkImage(pet.PetImage),
                         fit: BoxFit.fill,
                       ),
                     ),
