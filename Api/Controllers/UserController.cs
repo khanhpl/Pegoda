@@ -31,14 +31,14 @@ namespace Api.Controllers
                 RoleId = newUser.RoleId
             };
             await _service.Create(user);
-            return CreatedAtAction(nameof(GetByUserName), new { userName = newUser.Name }, newUser);
+            return CreatedAtAction(nameof(GetByEmail), new { userName = newUser.Email }, newUser);
         }
 
-        [HttpGet("{username}")]
-        [SwaggerOperation(Summary = "Get information user by username")]
-        public ActionResult GetByUserName(string username)
+        [HttpGet("{email}")]
+        [SwaggerOperation(Summary = "Get information user by email")]
+        public ActionResult GetByEmail(string email)
         {
-            User response = _service.GetByUserName(username);
+            User response = _service.GetByEmail(email);
             if (response == null)
             {
                 return NotFound();

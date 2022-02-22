@@ -9,7 +9,7 @@ namespace Api.Repositories
     {
         Task<User> Create(User user);
         string Login(LoginModel loginModel);
-        User GetByUserName(string username);
+        User GetByEmail(string email);
         Task<bool> Delete(Guid id);
         Task<bool> Update(User newUser);
     }

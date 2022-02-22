@@ -21,9 +21,9 @@ namespace Api.Services
         {
             return _repo.Login(loginModel);
         }
-        public User GetByUserName(string username)
+        public User GetByEmail(string email)
         {
-            return _repo.GetByUserName(username);
+            return _repo.GetByEmail(email);
         }
         public async Task<bool> Delete(Guid id)
         {
