@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 namespace Api.Models
 {
-    public class CreateStaffModel
+    public class RegisterUserModel
     {
         public string Name { get; set; }
-        public string Gender { get; set; }
+        public string Email { get; set; }
         public string Image { get; set; }
-        public Guid CenterId { get; set; }
+        public string Address { get; set; }
+        public Guid RoleId { get; set; }
     }
 }

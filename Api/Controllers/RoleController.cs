@@ -19,7 +19,7 @@ namespace Api.Controllers
 
         [HttpPost]
         [SwaggerOperation(Summary = "Create new role")]
-        public async Task<ActionResult> Create(ResponseRoleModal newRole)
+        public async Task<ActionResult> Create(ResponseRoleModel newRole)
         {
             Role role = new Role
             {

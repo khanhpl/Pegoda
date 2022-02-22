@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Api.Entities;
-using Api.Modals;
 using Api.Models;
 using Api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +19,7 @@ namespace Api.Controllers
         [Route("Register")]
         [HttpPost]
         [SwaggerOperation(Summary = "Register new user")]
-        public async Task<ActionResult> Register(ResponseUserModal newUser)
+        public async Task<ActionResult> Register(RegisterUserModel newUser)
         {
             User user = new User
             {
@@ -34,7 +33,7 @@ namespace Api.Controllers
             return CreatedAtAction(nameof(GetByEmail), new { email = newUser.Email }, newUser);
         }
 
-        [HttpGet("{email}")]
+        [HttpGet]
         [SwaggerOperation(Summary = "Get information user by email")]
         public ActionResult GetByEmail(string email)
         {
@@ -43,8 +42,9 @@ namespace Api.Controllers
             {
                 return NotFound();
             }
-            ResponseUserModal user = new ResponseUserModal
+            ResponseUserModel user = new ResponseUserModel
             {
+                Id = response.Id,
                 Name = response.Name,
                 Email = response.Email,
                 Address = response.Address,
@@ -77,7 +77,7 @@ namespace Api.Controllers
         }
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update user")]
-        public async Task<ActionResult> Update(Guid id, UpdateUserModal updateUser)
+        public async Task<ActionResult> Update(Guid id, UpdateUserModel updateUser)
         {
             if (id != updateUser.Id)
             {

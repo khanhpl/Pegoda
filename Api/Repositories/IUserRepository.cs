@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Api.Entities;
-using Api.Modals;
+using Api.Models;
 
 namespace Api.Repositories
 {

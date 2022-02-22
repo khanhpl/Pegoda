@@ -18,7 +18,7 @@ namespace Api.Controllers
         }
         [HttpPost]
         [SwaggerOperation(Summary = "Create new payment")]
-        public async Task<ActionResult> Create(ResponsePaymentModal newPayment)
+        public async Task<ActionResult> Create(ResponsePaymentModel newPayment)
         {
             Payment payment = new Payment
             {

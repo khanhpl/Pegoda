@@ -19,7 +19,7 @@ namespace Api.Controllers
         }
         [HttpPost]
         [SwaggerOperation(Summary = "Create new animal")]
-        public async Task<ActionResult> Create(CreateAnimalModal newAnimal)
+        public async Task<ActionResult> Create(CreateAnimalModel newAnimal)
         {
             Animal animal = new Animal
             {

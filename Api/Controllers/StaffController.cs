@@ -19,7 +19,7 @@ namespace Api.Controllers
         }
         [HttpPost]
         [SwaggerOperation(Summary = "Create new Staff")]
-        public async Task<ActionResult> Create(CreateStaffModal newStaff)
+        public async Task<ActionResult> Create(CreateStaffModel newStaff)
         {
             Staff staff = new Staff
             {
@@ -33,7 +33,7 @@ namespace Api.Controllers
         }
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update Staff")]
-        public async Task<ActionResult> Update(Guid id, ResponseStaffModal updateStaff)
+        public async Task<ActionResult> Update(Guid id, ResponseStaffModel updateStaff)
         {
             if (id != updateStaff.Id)
             {
@@ -64,7 +64,7 @@ namespace Api.Controllers
             {
                 return NotFound();
             }
-            ResponseStaffModal responseStaffModal = new ResponseStaffModal
+            ResponseStaffModel responseStaffModel = new ResponseStaffModel
             {
                 Id = staff.Id,
                 CenterId = staff.CenterId,
@@ -73,7 +73,7 @@ namespace Api.Controllers
                 Name = staff.Name,
                 Email = staff.Email,
             };
-            return Ok(responseStaffModal);
+            return Ok(responseStaffModel);
         }
         [HttpGet]
         [SwaggerOperation(Summary = "Get list Staff")]

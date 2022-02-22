@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Api.Data;
 using Api.Entities;
-using Api.Modals;
+using Api.Models;
 using Microsoft.EntityFrameworkCore;
 using quiz_app_dotnet_api.Helper;
 
