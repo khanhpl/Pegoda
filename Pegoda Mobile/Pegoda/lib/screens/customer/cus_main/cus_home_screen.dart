@@ -254,6 +254,12 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                   ),
                 ),
                 SizedBox(height: _pageHeight * 0.02),
+                SizedBox(height: _pageHeight * 0.03),
+                //Dịch vụ đề xuất
+
+                SizedBox(height: _pageHeight * 0.03),
+                //Trung tâm đề xuất
+
 
 
                 SizedBox(height: _pageHeight * 0.1),
