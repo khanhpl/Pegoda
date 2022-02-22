@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Api.Models
 {
-    public class ResponsePaymentModal
+    public class ResponsePaymentModel
     {
         public string Name { get; set; }
         public int Amount { get; set; }

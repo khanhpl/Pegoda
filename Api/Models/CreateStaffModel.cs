@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Api.Models
 {
-    public class CreateStaffModal
+    public class CreateStaffModel
     {
         public string Name { get; set; }
         public string Gender { get; set; }

@@ -150,9 +150,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                         children: [
                           Container(
                             child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/questionScreen');
-                              },
+                              onPressed: () {},
                               child: Icon(
                                 Icons.question_answer,
                                 size: _pageWidth * 0.3 * 0.33,
@@ -240,7 +238,6 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                     },
                   ),
                 ),
-
                 //Thú cưng của bạn
                 SizedBox(height: _pageHeight * 0.03),
                 Container(

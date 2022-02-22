@@ -25,7 +25,7 @@ class QuestionBox extends StatelessWidget {
           title: const Text('Trung tâm trợ  giúp'),
           automaticallyImplyLeading: true,
           centerTitle: true,
-          backgroundColor: Color(0xff825ee4),
+          backgroundColor: Colors.purple,
         ),
         body: Container(
           color: Colors.white,

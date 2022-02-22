@@ -239,20 +239,21 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.4+9"
+    version: "0.8.4+8"
   image_picker_for_web:
     dependency: transitive
     description:
       name: image_picker_for_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.6"
+    version: "2.1.5"
   image_picker_platform_interface:
     dependency: transitive
     description:
       name: image_picker_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "2.4.4"
   intl:
     dependency: transitive
@@ -261,6 +262,9 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.17.0"
+=======
+    version: "2.4.3"
+>>>>>>> 8428df37e168433bd122d9b0ef4acfa0bf0a53f8
   js:
     dependency: transitive
     description:
@@ -310,6 +314,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+<<<<<<< HEAD
   petitparser:
     dependency: transitive
     description:
@@ -317,6 +322,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.4.0"
+=======
+  pedantic:
+    dependency: transitive
+    description:
+      name: pedantic
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.11.1"
+>>>>>>> 8428df37e168433bd122d9b0ef4acfa0bf0a53f8
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -392,6 +406,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.0"
+<<<<<<< HEAD
   url_launcher:
     dependency: "direct main"
     description:
@@ -448,6 +463,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
+=======
+>>>>>>> 8428df37e168433bd122d9b0ef4acfa0bf0a53f8
   vector_math:
     dependency: transitive
     description:
@@ -471,4 +488,8 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=2.15.0 <3.0.0"
+<<<<<<< HEAD
   flutter: ">=2.10.0"
+=======
+  flutter: ">=2.5.0"
+>>>>>>> 8428df37e168433bd122d9b0ef4acfa0bf0a53f8

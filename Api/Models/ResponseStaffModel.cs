@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Api.Models
 {
-    public class ResponseStaffModal
+    public class ResponseStaffModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
