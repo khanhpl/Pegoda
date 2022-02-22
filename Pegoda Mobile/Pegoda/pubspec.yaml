@@ -36,10 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   convex_bottom_bar: ^3.0.0
   carousel_pro: ^1.0.0
-<<<<<<< HEAD
   url_launcher: ^6.0.20
-=======
->>>>>>> 8428df37e168433bd122d9b0ef4acfa0bf0a53f8
   flutter_rating_bar: ^4.0.0
   image_picker: ^0.8.4+4
   flutter_launcher_icons: ^0.9.2
