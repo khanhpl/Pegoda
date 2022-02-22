@@ -37,11 +37,11 @@ export default function AuthSocial() {
             signInWithPopup(auth, googleProvider)
               .then(async (result) => {
                 console.log(result)
-                // axios.post('https://pegoda.azurewebsites.net/api/v1.0/user/login', {
-                //   email: result.user.email
-                // }
-                // ).then(result => console.log(result.data))
-                //   .catch(error => console.error(error))
+                axios.post('https://pegoda.azurewebsites.net/api/v1.0/user/login', {
+                  email: result.user.email
+                }
+                ).then(result => console.log(result))
+                  .catch(error => console.error(error))
               })
               .catch(error => console.error(error))
             // setOpen(true)
