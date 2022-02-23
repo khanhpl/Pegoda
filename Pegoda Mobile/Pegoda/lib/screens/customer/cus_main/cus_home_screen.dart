@@ -1,10 +1,12 @@
-
 import 'package:flutter/material.dart';
+import 'package:pegoda/MyLib/class/PetcarePlace.dart';
 import 'package:pegoda/MyLib/class/coupon.dart';
 import 'package:pegoda/screens/customer/cus_main/show_coupon_on_home_screen.dart';
 import 'package:pegoda/screens/customer/cus_main/up_nav_bar.dart';
 import '../../../MyLib/constants.dart' as Constants;
+import 'package:pegoda/screens/customer/cus_main/PetCare.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:pegoda/MyLib/class/PetcarePlace.dart';
 
 class CusHomeScreen extends StatefulWidget {
   @override
@@ -41,8 +43,8 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
       appBar: UpAppBar(context),
       body: Material(
         child: Container(
-          padding: EdgeInsets.fromLTRB(_pageWidth * 0.03, 0,
-              _pageWidth * 0.03, 0),
+          padding:
+              EdgeInsets.fromLTRB(_pageWidth * 0.03, 0, _pageWidth * 0.03, 0),
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             // physics: ClampingScrollPhysics(),
@@ -50,7 +52,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: _pageHeight*0.03),
+                SizedBox(height: _pageHeight * 0.03),
                 //slide
                 Container(
                   height: _pageHeight * 0.2,
@@ -66,16 +68,22 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
 
                 //danh mục
                 SizedBox(height: _pageHeight * 0.03),
-                Container(
-                  child: Text(
-                    'Danh mục',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: _pageHeight * 0.03,
-                      fontWeight: FontWeight.w500,
+                Row(children: [
+                  Container(
+                    child: Text(
+                      'Danh mục',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: _pageHeight * 0.03,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-                ),
+                  Image(
+                    image: AssetImage('assets/cus/main_screen/danhmuc.jpg'),
+                    height: _pageHeight * 0.06,
+                  )
+                ]),
                 SizedBox(height: _pageHeight * 0.02),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -236,26 +244,31 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                           ),
                         ],
                       ),
-
                     ],
                   ),
                 ),
 
                 //khuyến mãi
                 SizedBox(height: _pageHeight * 0.03),
-                Container(
-                  child: Text(
-                    'Khuyến mãi nổi bật',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: _pageHeight * 0.03,
-                      fontWeight: FontWeight.w500,
+                Row(children: [
+                  Container(
+                    child: Text(
+                      'Khuyến mãi nổi bật',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: _pageHeight * 0.03,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-                ),
+                  Image(
+                    image: AssetImage('assets/cus/main_screen/khuyenmai.png'),
+                    height: _pageHeight * 0.06,
+                  )
+                ]),
                 SizedBox(height: _pageHeight * 0.02),
                 Container(
-                  height: _pageHeight*0.22,
+                  height: _pageHeight * 0.22,
                   child: ListView.separated(
                     // physics: NeverScrollableScrollPhysics(),
                     // shrinkWrap: true,
@@ -271,6 +284,50 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                 ),
 
                 SizedBox(height: _pageHeight * 0.02),
+                Row(children: [
+                  Container(
+                    child: Text(
+                      'Trung tâm đề xuất',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: _pageHeight * 0.03,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  Image(
+                    image: AssetImage('assets/cus/main_screen/store.jpg'),
+                    height: _pageHeight * 0.06,
+                  )
+                ]),
+                SizedBox(height: _pageHeight * 0.02),
+                Container(
+                  height: _pageHeight * 0.22,
+                  child: ListView.separated(
+                    // physics: NeverScrollableScrollPhysics(),
+                    // shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: PetcareSystem.samples.length,
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(width: _pageWidth * 0.03);
+                    },
+                    itemBuilder: (BuildContext context, int index) {
+                      return Petcare(
+                          petcareSystem: PetcareSystem.samples[index]);
+                    },
+                  ),
+                ),
+                SizedBox(height: _pageHeight * 0.02),
+                Container(
+                  child: Text(
+                    'Dịch vụ đề xuất',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: _pageHeight * 0.03,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
