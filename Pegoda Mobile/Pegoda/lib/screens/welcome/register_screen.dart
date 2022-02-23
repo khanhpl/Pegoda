@@ -47,7 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               Text(
-                'Chỉnh sửa tài khoản',
+                'Thông tin tài khoản',
                 style: TextStyle(
                   color: Color(0xff333333),
                   fontWeight: FontWeight.w500,

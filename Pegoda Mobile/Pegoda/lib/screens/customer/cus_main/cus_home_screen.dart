@@ -68,7 +68,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
     List<Coupon> _couponList = [
       Coupon(
           couponImage: 'assets/cus/main_screen/coupon1.png',
-          couponContent: 'Bí kíp chăm sóc thú cưng mùa dịch cùng pet box.'),
+          couponContent: 'Trọn gói chăm sóc chỉ 199k.'),
       Coupon(
           couponImage: 'assets/cus/main_screen/coupon2.jpg',
           couponContent: 'Grooming spa ưu đãi lên đến 45%'),
