@@ -59,7 +59,7 @@ class _ShowPCCItemState extends State<ShowPCCItem> {
                   ],
                 ),
                 Text(
-                  pcc.PCCService,
+                  ' '+pcc.PCCService,
                   style: TextStyle(
                     fontSize: size.height * 0.022,
                     fontWeight: FontWeight.w400,

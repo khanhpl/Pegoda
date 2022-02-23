@@ -132,7 +132,9 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                       Column(
                         children: [
                           FlatButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/neareastPCCScreen');
+                            },
                             child: Image.asset(
                               'assets/cus/main_screen/center_ic.png',
                               height: _pageWidth * 0.3 * 0.33,

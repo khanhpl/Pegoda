@@ -6,6 +6,7 @@ import 'package:pegoda/screens/customer/cus_account/cus_app_setting_screen.dart'
 import 'package:pegoda/screens/customer/cus_account/cus_personal_setting_screen.dart';
 import 'package:pegoda/screens/customer/cus_account/order_history_screen.dart';
 import 'package:pegoda/screens/customer/cus_main/chat_screen.dart';
+import 'package:pegoda/screens/customer/cus_main/neareast_pcc_screen.dart';
 import 'package:pegoda/screens/customer/cus_main/questions_screen.dart';
 import 'package:pegoda/screens/customer/pet/add_pet_screen.dart';
 import 'package:pegoda/screens/customer/notification/notification_screen.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
             '/appSettingScreen': (context) => AppSettingScreen(),
             '/questionScreen': (context) => QuestionsScreen(),
             '/addPetScreen': (context) => AddPetScreen(),
+            '/neareastPCCScreen': (context) => NearestPCCScreen(),
 
           },
           // home: WelcomeScreen(),
