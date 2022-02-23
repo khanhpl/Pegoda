@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../MyLib/constants.dart' as Constants;
 
-
-
-class QuestionsScreen extends StatelessWidget {
+class QuestionsScreen extends StatefulWidget {
   const QuestionsScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: "Questions about app",
-      home: QuestionBox(),
-    );
-  }
+  State<QuestionsScreen> createState() => _QuestionsScreenState();
 }
 
-class QuestionBox extends StatelessWidget {
-  const QuestionBox({Key? key}) : super(key: key);
-
+class _QuestionsScreenState extends State<QuestionsScreen> {
   @override
   Widget build(BuildContext context) {
+    var _bgColor = Constants.bgColor;
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Trung tâm trợ  giúp'),
-          automaticallyImplyLeading: true,
+          title: Text('Trung tâm trợ  giúp'),
           centerTitle: true,
-          backgroundColor: Colors.purple,
+          backgroundColor: _bgColor,
+          leading: IconButton(
+            onPressed: () {
+              // Navigator.pushNamed(context, '/cusMain');
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back,
+            ),
+          ),
         ),
         body: Container(
           color: Colors.white,
@@ -49,7 +50,6 @@ class QuestionBox extends StatelessWidget {
                 const Divider(
                   thickness: 2,
                   height: 50,
-
                 ),
                 _buildQuestionBox(" Pety Smart NFC là gì?"),
                 const Divider(
@@ -102,13 +102,11 @@ class QuestionBox extends StatelessWidget {
           ]),
         ));
   }
-
   Widget _buildQuestionBox(String name) {
     return Row(
       children: [
         Expanded(
           child: GestureDetector(
-
             child: Text(
               name,
               style: const TextStyle(
@@ -127,3 +125,4 @@ class QuestionBox extends StatelessWidget {
     );
   }
 }
+

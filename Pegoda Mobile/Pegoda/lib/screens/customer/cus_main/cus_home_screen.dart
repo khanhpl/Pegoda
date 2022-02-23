@@ -323,7 +323,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                 Row(children: [
                   Container(
                     child: Text(
-                      'Trung tâm đề xuất',
+                      'Trung tâm nổi bật',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: _pageHeight * 0.03,
@@ -353,10 +353,6 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                     },
                   ),
                 ),
-                SizedBox(height: _pageHeight * 0.02),
-                Container(
-                  child: Text(
-                    'Dịch vụ đề xuất',
 
                 SizedBox(height: _pageHeight * 0.03),
                 //Dịch vụ nổi bật
@@ -373,16 +369,6 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
 
                 SizedBox(height: _pageHeight * 0.03),
                 //Trung tâm nổi bật
-                Container(
-                  child: Text(
-                    'Trung tâm nổi bật',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: _pageHeight * 0.03,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
 
                 SizedBox(height: _pageHeight * 0.03),
                 //Trung tâm nổi bật
