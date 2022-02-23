@@ -31,10 +31,10 @@ class _CusMainSate extends State<CusMain> {
       case 0:
         return CusHomeScreen();
       case 1:
-        isBottomNav = false;
-        return NotificationScreen();
-      case 2:
         return PetScreen();
+      case 2:
+        isBottomNav = true;
+        return NotificationScreen();
       case 3:
         isBottomNav = false;
         return CusAccountScreen();
@@ -57,7 +57,7 @@ class _CusMainSate extends State<CusMain> {
       body: pageCaller(selectedIndex),
       bottomNavigationBar: isBottomNav == true
           ? ConvexAppBar(
-              height: size.height * 0.08,
+              height: size.height * 0.1,
               style: TabStyle.react,
               backgroundColor: Colors.white,
               color: Colors.grey[700],
@@ -66,22 +66,25 @@ class _CusMainSate extends State<CusMain> {
               initialActiveIndex: selectedIndex,
               top: -16,
               curveSize: 80,
+
               items: [
+
                 TabItem(
                   icon: Icons.home,
-                  title: 'Trang chủ',
-                ),
-                TabItem(
-                  icon: Icons.notifications,
-                  title: 'Thông báo',
+                  title: 'Trang chủ\n',
+
                 ),
                 TabItem(
                   icon: Icons.pets,
-                  title: 'Thú cưng',
+                  title: 'Thú cưng\n',
+                ),
+                TabItem(
+                  icon: Icons.notifications,
+                  title: 'Thông báo\n',
                 ),
                 TabItem(
                   icon: Icons.account_box_sharp,
-                  title: 'Tài khoản',
+                  title: 'Tài khoản\n',
                 ),
               ],
             )

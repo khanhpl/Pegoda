@@ -1,72 +1,48 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pegoda/MyLib/repository/login_api.dart';
+import 'package:pegoda/controllers/customer_main.dart';
+import 'package:pegoda/screens/welcome/register_screen.dart';
+import 'package:pegoda/screens/welcome/sign_up_widget.dart';
 import '../../MyLib/constants.dart' as Constants;
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    var _pageHeight = MediaQuery.of(context).size.height;
-    var _pageWidth = MediaQuery.of(context).size.width;
-    var _bgColor = Constants.bgColor;
-    return Material(
-      child: Container(
-        width: _pageWidth,
-        height: _pageHeight,
-        color: _bgColor,
-        alignment: Alignment.center,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                child: Image.asset(
-                  'assets/Pegoda.png',
-                  width: _pageWidth * 0.7,
-                  height: _pageHeight * 0.3,
-                ),
-              ),
-              Container(
-                child: Text('Mang những dịch vụ tốt nhất\n Đến với thú cưng của bạn.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: _pageHeight * 0.025,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              SizedBox(height: _pageHeight*0.05),
-              Container(
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Color(0xFF7289DA),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/loginScreen');
-                  },
-                  child: Container(
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
 
-                    child: Text(
-                      'Tiếp Theo',
-                      style: TextStyle(
-                        fontSize: _pageHeight * 0.025,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  )
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  bool checkCurUser = false;
 
-                ),
-              ),
-            ],
-          ),
+  @override
+  Widget build(BuildContext context) => Material(
+        child: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasData) {
+              final user = FirebaseAuth.instance.currentUser!;
+              String email = user.email!;
+              checkCurExistedUser(email);
+              if(checkCurUser){// true = old, false = new
+                return CusMain(selectedIndex: 0, isBottomNav: true);
+              }else{
+                return RegisterScreen();
+              }
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Something went wrong!'));
+            } else {
+              return SignUpWidget();
+            }
+          },
         ),
-      ),
-    );
+      );
+
+  void checkCurExistedUser(String email) async {
+    checkCurUser = false;
+    checkCurUser = await LoginApi().checkCurUser(email);
+
   }
 }
