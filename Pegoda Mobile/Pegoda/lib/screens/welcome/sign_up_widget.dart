@@ -41,7 +41,7 @@ class SignUpWidget extends StatelessWidget {
               ),
               SizedBox(height: _pageHeight*0.05),
               Container(
-                width: _pageWidth * 0.7,
+                width: _pageWidth * 0.8,
                 height: _pageHeight * 0.06,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -54,7 +54,7 @@ class SignUpWidget extends StatelessWidget {
                       Image.asset('assets/welcome/ggicon2.png',
                           width: _pageHeight * 0.04),
                       Text(
-                        '    Google',
+                        '    Tiếp tục với Google',
                         style: TextStyle(
                           color: Colors.black87,
                           fontSize: _pageHeight * 0.02,
@@ -66,6 +66,36 @@ class SignUpWidget extends StatelessWidget {
                   onPressed: () {
                     final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
                     provider.googleLogin();
+                  },
+                ),
+              ),
+              SizedBox(height: _pageHeight*0.03),
+              Container(
+                width: _pageWidth * 0.8,
+                height: _pageHeight * 0.06,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: TextButton(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/welcome/fbicon.png',
+                          width: _pageHeight * 0.04,
+                        color: Colors.indigoAccent,
+                      ),
+                      Text(
+                        '    Tiếp tục với Facebook',
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: _pageHeight * 0.02,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                  onPressed: () {
                   },
                 ),
               ),
