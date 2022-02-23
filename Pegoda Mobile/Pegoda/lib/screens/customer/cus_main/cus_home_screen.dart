@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/coupon.dart';
+import 'package:pegoda/MyLib/class/pcc.dart';
 import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:pegoda/screens/customer/cus_main/show_coupon_on_home_screen.dart';
+import 'package:pegoda/screens/customer/cus_main/show_pcc_item.dart';
 import 'package:pegoda/screens/customer/cus_main/up_nav_bar.dart';
 import 'package:pegoda/screens/customer/pet/show_pet_item.dart';
 import '../../../MyLib/constants.dart' as Constants;
@@ -19,6 +21,29 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
     var _pageHeight = MediaQuery.of(context).size.height;
     var _pageWidth = MediaQuery.of(context).size.width;
     var _bgColor = Constants.bgColor;
+    List<PCC> _pccList = [
+      PCC(
+          PCCName: 'Dog Paradise',
+          PCCImage:
+              'https://petee.vn/wp-content/uploads/2020/11/dogparadise-logo.png',
+          PCCService: 'Chăm lo cho boss',
+          PCCRating: '4.9',
+          PCCDistance: '5km'),
+      PCC(
+          PCCName: 'Petcare VN',
+          PCCImage:
+              'https://petcare.vn/wp-content/uploads/2016/05/petcare_logo-1.png',
+          PCCService: "Y tế thú cưng",
+          PCCRating: '4.6',
+          PCCDistance: '10.4km'),
+      PCC(
+          PCCName: 'Thú y pet pro',
+          PCCImage:
+              'https://static.topcv.vn/company_logos/pbEIzKqznn7PKiNaVmDPyCZwgpF552sK_1639462508____b229f382460f151f1fb777962db4773a.png',
+          PCCService: 'Bệnh viện thú',
+          PCCRating: '4.4',
+          PCCDistance: '1.6km'),
+    ];
     List<Pet> _petList = [
       Pet(
           PetID: "Pet1",
@@ -61,6 +86,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
       appBar: UpAppBar(context),
       body: Material(
         child: Container(
+          color: Colors.white,
           padding:
               EdgeInsets.fromLTRB(_pageWidth * 0.03, 0, _pageWidth * 0.03, 0),
           child: SingleChildScrollView(
@@ -106,7 +132,9 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                       Column(
                         children: [
                           FlatButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/neareastPCCScreen');
+                            },
                             child: Image.asset(
                               'assets/cus/main_screen/center_ic.png',
                               height: _pageWidth * 0.3 * 0.33,
@@ -276,10 +304,65 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                 ),
 
                 SizedBox(height: _pageHeight * 0.03),
-                //Dịch vụ đề xuất
+                //Dịch vụ nổi bật
+                Container(
+                  child: Text(
+                    'Dịch vụ nổi bật',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: _pageHeight * 0.03,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
 
                 SizedBox(height: _pageHeight * 0.03),
-                //Trung tâm đề xuất
+                //Trung tâm nổi bật
+                Container(
+                  child: Text(
+                    'Trung tâm nổi bật',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: _pageHeight * 0.03,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: _pageHeight * 0.03),
+                //Trung tâm nổi bật
+                Container(
+                  child: Text(
+                    'Đề xuất dành cho bạn',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: _pageHeight * 0.03,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                SizedBox(height: _pageHeight * 0.03),
+                ListView.separated(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: _pccList.length,
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Container(
+                      width: _pageWidth,
+                      child: Column(
+                        children: [
+                          SizedBox(height: _pageHeight * 0.02),
+                          Divider(thickness: 2),
+                          SizedBox(height: _pageHeight * 0.02),
+                        ],
+                      ),
+                    );
+                  },
+                  itemBuilder: (BuildContext context, int index) {
+                    return ShowPCCItem(pcc: _pccList[index]);
+                  },
+                ),
 
                 SizedBox(height: _pageHeight * 0.1),
               ],

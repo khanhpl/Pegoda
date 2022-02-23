@@ -60,21 +60,33 @@ class _ShowPetItemState extends State<ShowPetItem> {
                   Text(
                     pet.PetName,
                     style: TextStyle(
-                      fontSize: size.height*0.03,
+                      fontSize: size.height * 0.03,
                       color: Color(0xff825ee4),
-
                     ),
                   ),
                   SizedBox(height: size.height * 0.015),
-                  pet.PetGender && true
-                      ? Icon(
-                          Icons.male,
-                          color: Colors.lightBlue,
-                        )
-                      : Icon(
-                          Icons.female,
-                          color: Colors.pinkAccent,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      pet.PetGender && true
+                          ? Icon(
+                              Icons.male,
+                              color: Colors.lightBlue,
+                            )
+                          : Icon(
+                              Icons.female,
+                              color: Colors.pinkAccent,
+                            ),
+                      Text(
+                        pet.PetType,
+                        style: TextStyle(
+                          fontSize: size.height * 0.022,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black87,
                         ),
+                      ),
+                    ],
+                  )
                 ],
               ),
               Spacer(),
