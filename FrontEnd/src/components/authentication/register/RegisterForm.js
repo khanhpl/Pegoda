@@ -51,6 +51,18 @@ export default function RegisterForm({ setOpen, email }) {
       }).then(response => {
         console.log(response.data)
         setOpen(false)
+        axios.post('https://pegoda.azurewebsites.net/api/v1.0/user/login', {
+          email
+        }
+        ).then(response => {
+          console.log(response.data)
+          localStorage.setItem('token', response.data.token)
+          navigate('/dashboard')
+        })
+          .catch(error => {
+            console.log(error.response)
+          })
+
         // navigate('/dashboard')
       })
         .catch(error => console.log(error))
