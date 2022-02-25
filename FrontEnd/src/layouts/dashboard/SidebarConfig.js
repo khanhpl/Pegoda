@@ -18,9 +18,9 @@ const sidebarConfig = [
     icon: getIcon(pieChart2Fill)
   },
   {
-    title: 'Dịch Vụ',
-    path: '/dashboard/user',
-    icon: getIcon(peopleFill)
+    title: 'Đơn Hàng',
+    path: '/dashboard/order',
+    icon: getIcon(fileTextFill)
   },
   {
     title: 'Nhân Viên',
@@ -28,9 +28,9 @@ const sidebarConfig = [
     icon: getIcon(shoppingBagFill)
   },
   {
-    title: 'Đơn Hàng',
-    path: '/dashboard/blog',
-    icon: getIcon(fileTextFill)
+    title: 'Dịch Vụ',
+    path: '/dashboard/user',
+    icon: getIcon(peopleFill)
   },
   {
     title: 'login',

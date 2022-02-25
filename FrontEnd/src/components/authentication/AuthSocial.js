@@ -6,6 +6,7 @@ import { Box, Button, Container, Link, Modal, Stack, Typography } from '@mui/mat
 import axios from 'axios'
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { auth } from '../../config/firebaseConfig'
 import { RegisterForm } from './register'
 
@@ -27,7 +28,10 @@ const style = {
 
 export default function AuthSocial() {
   const [open, setOpen] = useState(false)
+  const [email, setEmail] = useState('')
   const googleProvider = new GoogleAuthProvider()
+
+  const navigate = useNavigate()
 
   return (
     <>
@@ -37,14 +41,24 @@ export default function AuthSocial() {
             signInWithPopup(auth, googleProvider)
               .then(async (result) => {
                 console.log(result)
-                // axios.post('https://pegoda.azurewebsites.net/api/v1.0/user/login', {
-                //   email: result.user.email
-                // }
-                // ).then(result => console.log(result.data))
-                //   .catch(error => console.error(error))
+                axios.post('https://pegoda.azurewebsites.net/api/v1.0/user/login', {
+                  email: result.user.email
+                }
+                ).then(response => {
+                  console.log(response.data)
+                  localStorage.setItem('token', response.data.token)
+                  navigate('/dashboard')
+                })
+                  .catch(error => {
+                    console.log(error.response)
+                    if (error.response.status === 400) {
+                      console.log(result.user.email)
+                      setEmail(result.user.email)
+                      setOpen(true)
+                    }
+                  })
               })
-              .catch(error => console.error(error))
-            // setOpen(true)
+              .catch(error => console.log(error))
           }}>
           <Icon icon={googleFill} color="#DF3E30" height={24} />
         </Button>
@@ -69,7 +83,7 @@ export default function AuthSocial() {
             {/* <ContentStyle> */}
             <Box sx={{ mb: 5 }}>
               <Typography variant="h4" gutterBottom>
-                Get started absolutely free.
+                Bắt đầu.
             </Typography>
               {/* <Typography sx={{ color: 'text.secondary' }}>
               Free forever. No credit card needed.
@@ -78,7 +92,7 @@ export default function AuthSocial() {
 
             {/* <AuthSocial /> */}
 
-            <RegisterForm />
+            <RegisterForm setOpen={setOpen} email={email} />
 
             <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
               By registering, I agree to Minimal&nbsp;

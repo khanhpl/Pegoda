@@ -8,12 +8,14 @@ import { useNavigate } from 'react-router-dom'
 // material
 import { Stack, TextField, IconButton, InputAdornment } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
+import axios from 'axios'
 
 // ----------------------------------------------------------------------
 
-export default function RegisterForm() {
+export default function RegisterForm({ setOpen, email }) {
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const RegisterSchema = Yup.object().shape({
     // firstName: Yup.string()
@@ -21,7 +23,7 @@ export default function RegisterForm() {
     //   .max(50, 'Too Long!')
     //   .required('First name required'),
     // lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Last name required'),
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    // email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     // password: Yup.string().required('Password is required'),
     fullName: Yup.string().min(2, 'Too Short!').max(30, 'Too Long!').required('Full Name is required'),
     address: Yup.string().min(5, 'Too Short!').max(40, 'Too Long!').required('Address is required')
@@ -31,7 +33,7 @@ export default function RegisterForm() {
     initialValues: {
       // firstName: '',
       // lastName: '',
-      email: '',
+      // email: '',
       // password: '',
       fullName: '',
       address: ''
@@ -39,10 +41,36 @@ export default function RegisterForm() {
     validationSchema: RegisterSchema,
     onSubmit: (value) => {
       console.log(value)
+      setIsSubmitting(true)
+      axios.post('https://pegoda.azurewebsites.net/api/v1.0/user/register', {
+        'name': value.fullName,
+        'email': email,
+        'image': null,
+        'address': value.address,
+        'roleId': '4aed7714-efbe-421c-5f5a-08d9f62291f6'
+      }).then(response => {
+        console.log(response.data)
+        setOpen(false)
+        axios.post('https://pegoda.azurewebsites.net/api/v1.0/user/login', {
+          email
+        }
+        ).then(response => {
+          console.log(response.data)
+          localStorage.setItem('token', response.data.token)
+          navigate('/dashboard')
+        })
+          .catch(error => {
+            console.log(error.response)
+          })
+
+        // navigate('/dashboard')
+      })
+        .catch(error => console.log(error))
     }
   })
 
-  const { errors, touched, isSubmitting, getFieldProps, handleSubmit } = formik
+  // const { errors, touched, isSubmitting, getFieldProps, handleSubmit } = formik
+  const { errors, touched, getFieldProps, handleSubmit } = formik
 
 
   return (
@@ -69,13 +97,13 @@ export default function RegisterForm() {
 
           <TextField
             fullWidth
-            label="Full name"
+            label="Tên"
             {...getFieldProps('fullName')}
             error={Boolean(touched.fullName && errors.fullName)}
             helperText={touched.fullName && errors.fullName}
           />
 
-          <TextField
+          {/* <TextField
             fullWidth
             autoComplete="username"
             type="email"
@@ -83,11 +111,11 @@ export default function RegisterForm() {
             {...getFieldProps('email')}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
-          />
+          /> */}
 
           <TextField
             fullWidth
-            label="Address"
+            label="Địa Chỉ"
             {...getFieldProps('address')}
             error={Boolean(touched.address && errors.address)}
             helperText={touched.address && errors.address}
@@ -118,7 +146,6 @@ export default function RegisterForm() {
             type="submit"
             variant="contained"
             loading={isSubmitting}
-          // onClick={handleSubmit}
           >
             Register
           </LoadingButton>
