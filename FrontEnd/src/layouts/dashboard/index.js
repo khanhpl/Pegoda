@@ -49,7 +49,7 @@ export default function DashboardLayout() {
     } else {
       const decode = jwtDecode(token)
       setEmail(decode.Email)
-      axios.get(`https://pegoda.azurewebsites.net/api/v1.0/user?email=${decode.Email}`)
+      axios.get(`https://pegoda.azurewebsites.net/api/v1.0/users?email=${decode.Email}`)
         .then(response => {
           console.log(response.data)
           setName(response.data.name)
