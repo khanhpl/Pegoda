@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 // material
 import { styled } from '@mui/material/styles'
 //
@@ -40,18 +40,24 @@ export default function DashboardLayout() {
   const [image, setImage] = useState('')
   const [email, setEmail] = useState('')
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     const token = localStorage.getItem('token')
-    const decode = jwtDecode(token)
-    setEmail(decode.Email)
-    axios.get(`https://pegoda.azurewebsites.net/api/v1.0/user?email=${decode.Email}`)
-      .then(response => {
-        console.log(response.data)
-        setName(response.data.name)
-        setImage(response.data.image)
-      })
-      .catch(error => console.log(error))
-  }, [])
+    if (token == null) {
+      navigate('/login')
+    } else {
+      const decode = jwtDecode(token)
+      setEmail(decode.Email)
+      axios.get(`https://pegoda.azurewebsites.net/api/v1.0/user?email=${decode.Email}`)
+        .then(response => {
+          console.log(response.data)
+          setName(response.data.name)
+          setImage(response.data.image)
+        })
+        .catch(error => console.log(error))
+    }
+  }, [navigate])
 
   return (
     <RootStyle>
