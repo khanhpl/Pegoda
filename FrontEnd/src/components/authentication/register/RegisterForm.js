@@ -42,7 +42,7 @@ export default function RegisterForm({ setOpen, email }) {
     onSubmit: (value) => {
       console.log(value)
       setIsSubmitting(true)
-      axios.post('https://pegoda.azurewebsites.net/api/v1.0/user/register', {
+      axios.post('https://pegoda.azurewebsites.net/api/v1.0/users/register', {
         'name': value.fullName,
         'email': email,
         'image': null,
@@ -51,7 +51,7 @@ export default function RegisterForm({ setOpen, email }) {
       }).then(response => {
         console.log(response.data)
         setOpen(false)
-        axios.post('https://pegoda.azurewebsites.net/api/v1.0/user/login', {
+        axios.post('https://pegoda.azurewebsites.net/api/v1.0/users/login', {
           email
         }
         ).then(response => {
