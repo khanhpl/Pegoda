@@ -8,7 +8,6 @@ namespace Api.Models
 {
     public class CreateAnimalModel
     {
-        [Required(ErrorMessage = "Please enter name"), MaxLength(100)]
         public string Type { get; set; }
     }
 }
