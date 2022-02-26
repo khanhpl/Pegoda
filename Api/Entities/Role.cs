@@ -8,9 +8,7 @@ namespace Api.Entities
 {
     public class Role
     {
-        [Required]
         public Guid Id { get; set; }
-        [Required(ErrorMessage = "Please enter name"), MaxLength(30)]
         public string Name { get; set; }
     }
 }

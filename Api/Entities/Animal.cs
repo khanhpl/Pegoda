@@ -8,9 +8,7 @@ namespace Api.Entities
 {
     public class Animal
     {
-        [Required]
         public Guid Id { get; set; }
-        [Required(ErrorMessage = "Please enter name"), MaxLength(100)]
         public string Type { get; set; }
     }
 }
