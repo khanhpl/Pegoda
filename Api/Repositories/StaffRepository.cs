@@ -6,6 +6,7 @@ using Api.Data;
 using Api.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 
 namespace Api.Repositories
 {
@@ -35,9 +36,9 @@ namespace Api.Repositories
             return true;
         }
 
-        public List<Staff> GetList()
+        public List<Staff> GetList(int pageNumber, int pageSize)
         {
-            return _context.Staff.Include(x => x.Center).ToList();
+            return _context.Staff.ToPagedList(pageNumber, pageSize).ToList();
         }
 
         public async Task<Staff> GetById(Guid id)

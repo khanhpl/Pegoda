@@ -11,7 +11,7 @@ namespace Api.Repositories
         Task<Staff> Create(Staff staff);
         Task<bool> Update(Staff staff);
         Task<Staff> GetById(Guid id);
-        List<Staff> GetList();
+        List<Staff> GetList(int pageNumber, int pageSize);
         Task<bool> Delete(Guid id);
     }
 }

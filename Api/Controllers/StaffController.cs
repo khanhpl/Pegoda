@@ -26,7 +26,8 @@ namespace Api.Controllers
                 CenterId = newStaff.CenterId,
                 Gender = newStaff.Gender,
                 Image = newStaff.Image,
-                Name = newStaff.Name
+                Name = newStaff.Name,
+                Email = newStaff.Email
             };
             await _service.Create(staff);
             return CreatedAtAction(nameof(GetById), new { id = staff.Id }, staff);
@@ -77,9 +78,9 @@ namespace Api.Controllers
         }
         [HttpGet]
         [SwaggerOperation(Summary = "Get list Staff")]
-        public ActionResult GetList()
+        public ActionResult GetList(int pageNumber = 1, int pageSize = 1)
         {
-            List<Staff> listStaffs = _service.GetList();
+            List<Staff> listStaffs = _service.GetList(pageNumber,pageSize);
 
             return Ok(listStaffs);
         }

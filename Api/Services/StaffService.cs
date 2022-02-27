@@ -26,9 +26,9 @@ namespace Api.Services
         {
             return await _repo.GetById(id);
         }
-        public List<Staff> GetList()
+        public List<Staff> GetList(int pageNumber, int pageSize)
         {
-            return _repo.GetList();
+            return _repo.GetList(pageNumber, pageSize);
         }
         public async Task<bool> Delete(Guid id)
         {
