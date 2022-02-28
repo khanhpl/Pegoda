@@ -18,7 +18,7 @@ export default function ListStaff() {
     const token = localStorage.getItem('token')
 
     useEffect(() => {
-        axios.get('https://pegoda.azurewebsites.net/api/v1.0/staffs', {
+        axios.get('https://pegoda.azurewebsites.net/api/v1.0/staffs?pageNumber=1&pageSize=10', {
             'Authorization': `Bearer ${token}`
         }).then(response => {
             console.log(response.data)
