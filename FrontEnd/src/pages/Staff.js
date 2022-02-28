@@ -1,7 +1,7 @@
 import { useFormik } from 'formik'
 import { useState } from 'react'
 // material
-import { Container, Stack, Typography } from '@mui/material'
+import { Container, Stack, Typography, Pagination } from '@mui/material'
 // components
 import Page from '../components/Page'
 import {
@@ -49,7 +49,7 @@ export default function Staff() {
   return (
     <Page title="Dashboard: Products | Minimal-UI">
       <Container>
-        <Typography variant="h4" sx={{ mb: 5 }}>
+        <Typography variant="h4" sx={{ mb: 2 }}>
           Nhân Viên
         </Typography>
 
@@ -72,7 +72,7 @@ export default function Staff() {
           </Stack>
         </Stack> */}
 
-        <ListStaff products={PRODUCTS} />
+        <ListStaff />
         {/* <ProductCartWidget /> */}
       </Container>
     </Page>
