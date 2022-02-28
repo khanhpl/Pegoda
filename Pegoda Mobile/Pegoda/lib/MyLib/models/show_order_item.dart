@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/order_review.dart';
-import 'package:pegoda/screens/customer/cus_account/show_order_detail.dart';
+import 'package:pegoda/MyLib/models/show_order_detail.dart';
 
 class ShowOrderItem extends StatefulWidget {
   OrderReview orderReview;

@@ -24,7 +24,7 @@ class _CusMainSate extends State<CusMain> {
 
   _CusMainSate({required this.selectedIndex, required this.isBottomNav});
 
-  var _bgColor = Constants.bgColor;
+  var _primaryColor = Constants.primaryColor;
 
   Widget pageCaller(index) {
     switch (selectedIndex) {
@@ -61,7 +61,7 @@ class _CusMainSate extends State<CusMain> {
               style: TabStyle.react,
               backgroundColor: Colors.white,
               color: Colors.grey[700],
-              activeColor: _bgColor,
+              activeColor: _primaryColor,
               onTap: _onItemTapped,
               initialActiveIndex: selectedIndex,
               top: -16,

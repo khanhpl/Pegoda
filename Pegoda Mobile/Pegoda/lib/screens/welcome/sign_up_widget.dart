@@ -9,12 +9,12 @@ class SignUpWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
     var _pageWidth = MediaQuery.of(context).size.width;
-    var _bgColor = Constants.bgColor;
+    var _primaryColor = Constants.primaryColor;
     return Material(
       child: Container(
         width: _pageWidth,
         height: _pageHeight,
-        color: _bgColor,
+        color: _primaryColor,
         alignment: Alignment.center,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,

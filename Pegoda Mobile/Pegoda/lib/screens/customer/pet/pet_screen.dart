@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/pet.dart';
-import 'package:pegoda/screens/customer/pet/show_pet_item.dart';
+import 'package:pegoda/MyLib/models/show_pet_item.dart';
 import '../../../MyLib/constants.dart' as Constants;
 
 class PetScreen extends StatelessWidget {
@@ -13,11 +13,11 @@ class PetScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
     var _pageWidth = MediaQuery.of(context).size.width;
-    var _bgColor = Constants.bgColor;
+    var _primaryColor = Constants.primaryColor;
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: _bgColor,
+        backgroundColor: _primaryColor,
         automaticallyImplyLeading: false,
         toolbarHeight: _pageHeight * 0.1,
         title: Row(
@@ -42,7 +42,7 @@ class PetScreen extends StatelessWidget {
         },
         child: Icon(Icons.add),
         elevation: 0.0,
-        backgroundColor: _bgColor,
+        backgroundColor: _primaryColor,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Material(

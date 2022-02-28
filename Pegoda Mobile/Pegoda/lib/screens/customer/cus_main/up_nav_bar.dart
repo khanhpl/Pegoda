@@ -5,10 +5,10 @@ import '../../../MyLib/constants.dart' as Constants;
 AppBar UpAppBar(context) {
   var _pageWidth = MediaQuery.of(context).size.width;
   var _pageHeight = MediaQuery.of(context).size.height;
-  var _bgColor = Constants.bgColor;
+  var _primaryColor = Constants.primaryColor;
 
   return AppBar(
-    backgroundColor: _bgColor,
+    backgroundColor: _primaryColor,
     // automaticallyImplyLeading: false,
     toolbarHeight: _pageHeight * 0.08,
     leading: Container(

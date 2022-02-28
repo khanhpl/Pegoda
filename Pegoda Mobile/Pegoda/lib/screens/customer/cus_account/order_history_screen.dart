@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/order_review.dart';
 import '../../../MyLib/globals.dart' as globals;
-import 'show_order_item.dart';
+import '../../../MyLib/models/show_order_item.dart';
 
 class OrderHistoryScreen extends StatefulWidget {
   @override

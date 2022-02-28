@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/pet.dart';
-import 'package:pegoda/screens/customer/pet/show_pet_detail.dart';
+import 'package:pegoda/MyLib/models/show_pet_detail.dart';
 
 class ShowPetItem extends StatefulWidget {
   Pet pet;

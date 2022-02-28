@@ -12,12 +12,12 @@ class QuestionsScreen extends StatefulWidget {
 class _QuestionsScreenState extends State<QuestionsScreen> {
   @override
   Widget build(BuildContext context) {
-    var _bgColor = Constants.bgColor;
+    var _primaryColor = Constants.primaryColor;
     return Scaffold(
         appBar: AppBar(
           title: Text('Trung tâm trợ  giúp'),
           centerTitle: true,
-          backgroundColor: _bgColor,
+          backgroundColor: _primaryColor,
           leading: IconButton(
             onPressed: () {
               // Navigator.pushNamed(context, '/cusMain');

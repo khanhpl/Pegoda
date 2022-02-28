@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pegoda/MyLib/models/chatUsersModel.dart';
 import 'package:pegoda/screens/customer/cus_main/chatDetail_sceen.dart';
 
-import '../../../models/chatUsersModel.dart';
 
 class ConversationList extends StatefulWidget {
   final String name;
