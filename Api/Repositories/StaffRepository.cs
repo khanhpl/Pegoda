@@ -38,6 +38,10 @@ namespace Api.Repositories
 
         public List<Staff> GetList(int pageNumber, int pageSize)
         {
+            if (pageNumber == 0 && pageSize == 0)
+            {
+                return _context.Staff.ToList();
+            }
             return _context.Staff.ToPagedList(pageNumber, pageSize).ToList();
         }
 

@@ -78,9 +78,9 @@ namespace Api.Controllers
         }
         [HttpGet]
         [SwaggerOperation(Summary = "Get list Staff")]
-        public ActionResult GetList(int pageNumber = 1, int pageSize = 1)
+        public ActionResult GetList(int pageNumber, int pageSize)
         {
-            List<Staff> listStaffs = _service.GetList(pageNumber,pageSize);
+            List<Staff> listStaffs = _service.GetList(pageNumber, pageSize);
 
             return Ok(listStaffs);
         }
