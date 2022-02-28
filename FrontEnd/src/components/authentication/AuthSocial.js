@@ -2,7 +2,7 @@ import facebookFill from '@iconify/icons-eva/facebook-fill'
 import googleFill from '@iconify/icons-eva/google-fill'
 import { Icon } from '@iconify/react'
 // material
-import { Box, Button, Container, Link, Modal, Stack, Typography } from '@mui/material'
+import { Box, Button, Container, Link, Modal, Stack, Typography, CircularProgress, Backdrop } from '@mui/material'
 import axios from 'axios'
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { useState } from 'react'
@@ -27,8 +27,9 @@ const style = {
 
 
 export default function AuthSocial() {
-  const [open, setOpen] = useState(false)
+  const [openModal, setOpenModal] = useState(false)
   const [email, setEmail] = useState('')
+  const [openBackdrop, setOpenBackdrop] = useState(false)
   const googleProvider = new GoogleAuthProvider()
 
   const navigate = useNavigate()
@@ -41,20 +42,22 @@ export default function AuthSocial() {
             signInWithPopup(auth, googleProvider)
               .then(async (result) => {
                 console.log(result)
+                setOpenBackdrop(true)
                 axios.post('https://pegoda.azurewebsites.net/api/v1.0/users/login', {
                   email: result.user.email
                 }
                 ).then(response => {
                   console.log(response.data)
                   localStorage.setItem('token', response.data.token)
+                  setOpenBackdrop(false)
                   navigate('/dashboard')
                 })
                   .catch(error => {
                     console.log(error.response)
                     if (error.response.status === 400) {
-                      console.log(result.user.email)
                       setEmail(result.user.email)
-                      setOpen(true)
+                      setOpenBackdrop(false)
+                      setOpenModal(true)
                     }
                   })
               })
@@ -77,7 +80,7 @@ export default function AuthSocial() {
           OR
         </Typography>
       </Divider> */}
-      <Modal open={open} onClose={() => setOpen(false)}>
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
         <Box sx={style}>
           <Container>
             {/* <ContentStyle> */}
@@ -92,7 +95,7 @@ export default function AuthSocial() {
 
             {/* <AuthSocial /> */}
 
-            <RegisterForm setOpen={setOpen} email={email} />
+            <RegisterForm setOpenModal={setOpenModal} email={email} />
 
             <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
               By registering, I agree to Minimal&nbsp;
@@ -118,6 +121,14 @@ export default function AuthSocial() {
           </Container>
         </Box>
       </Modal>
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackdrop}
+      // onClick={handleClose}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   )
 }

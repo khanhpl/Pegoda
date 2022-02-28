@@ -8,7 +8,7 @@ import Page from '../components/Page'
 import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../components/_dashboard/blog'
 //
 import POSTS from '../_mocks_/blog'
-import TableComponent from '../components/TableComponent'
+import TableOrder from '../components/TableOrder'
 
 // ----------------------------------------------------------------------
 
@@ -48,7 +48,7 @@ export default function Order() {
             <BlogPostCard key={post.id} post={post} index={index} />
           ))}
         </Grid> */}
-        <TableComponent />
+        <TableOrder />
       </Container>
     </Page>
   )
