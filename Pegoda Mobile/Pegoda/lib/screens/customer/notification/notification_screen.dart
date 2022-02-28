@@ -6,13 +6,13 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
     var _pageWidth = MediaQuery.of(context).size.width;
-    var _bgColor = Constants.bgColor;
+    var _primaryColor = Constants.primaryColor;
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: _bgColor,
+        backgroundColor: _primaryColor,
         automaticallyImplyLeading: false,
-        toolbarHeight: _pageHeight * 0.1,
+        toolbarHeight: _pageHeight * 0.08,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

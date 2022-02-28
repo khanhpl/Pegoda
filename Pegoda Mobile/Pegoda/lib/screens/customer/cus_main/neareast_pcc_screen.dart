@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/pcc.dart';
-import 'package:pegoda/screens/customer/cus_main/show_pcc_item.dart';
+import 'package:pegoda/MyLib/models/show_pcc_item.dart';
 import '../../../MyLib/constants.dart' as Constants;
 
 class NearestPCCScreen extends StatefulWidget{
@@ -9,6 +9,7 @@ class NearestPCCScreen extends StatefulWidget{
 }
 
 class _NearestPCCScreenState extends State<NearestPCCScreen> {
+  var _primaryColor = Constants.primaryColor;
   var _bgColor = Constants.bgColor;
   List<PCC> _pccList = [
     PCC(
@@ -41,7 +42,7 @@ class _NearestPCCScreenState extends State<NearestPCCScreen> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: _bgColor,
+        backgroundColor: _primaryColor,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
