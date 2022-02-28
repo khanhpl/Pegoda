@@ -16,6 +16,7 @@ export default function ListStaff() {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
+    const [length, setLength] = useState()
 
     const token = localStorage.getItem('token')
 
@@ -29,6 +30,13 @@ export default function ListStaff() {
         }).catch(error => console.log(error))
     }, [token, page])
 
+    useEffect(() => {
+        axios.get('https://pegoda.azurewebsites.net/api/v1.0/staffs', {
+            'Authorization': `Bearer ${token}`
+        }).then(response => {
+            setLength(Math.ceil(response.data.length / 10))
+        }).catch(error => console.log(error))
+    }, [token])
 
     return (
         <>
@@ -41,12 +49,12 @@ export default function ListStaff() {
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>No</TableCell>
-                                    <TableCell>Name</TableCell>
+                                    <TableCell>STT</TableCell>
+                                    <TableCell align='right'>Tên</TableCell>
                                     <TableCell align="right">Email</TableCell>
-                                    <TableCell align="right">Gender</TableCell>
-                                    <TableCell align="right">Image</TableCell>
-                                    <TableCell align="right">Action</TableCell>
+                                    <TableCell align="right">Giới Tính</TableCell>
+                                    <TableCell align="right">Hình Ảnh</TableCell>
+                                    <TableCell align="right">Hành Động</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -58,12 +66,12 @@ export default function ListStaff() {
                                         <TableCell component="th" scope="row">
                                             {index + 1}
                                         </TableCell>
-                                        <TableCell component="th" scope="row">
-                                            {row.name}
-                                        </TableCell>
+                                        <TableCell align="right">{row.name}</TableCell>
                                         <TableCell align="right">{row.email}</TableCell>
                                         <TableCell align="right">{row.gender}</TableCell>
-                                        <TableCell align="right">{row.image}</TableCell>
+                                        <TableCell style={{ display: 'flex', justifyContent: 'right' }}>
+                                            {row.image && <img src={row.image} alt='hinhanh' width={70} />}
+                                        </TableCell>
                                         <TableCell align='right'>
                                             <InfoOutlined color='primary' style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => console.log('info')} />
                                             <Edit color="info" style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => { console.log('edit') }} />
@@ -75,7 +83,7 @@ export default function ListStaff() {
                         </Table>
                     </TableContainer>
                     <Stack spacing={2}>
-                        <Pagination count={10} style={{ display: 'flex', justifyContent: 'center' }} getItemAriaLabel={(_, page, selected) => {
+                        <Pagination count={length} style={{ display: 'flex', justifyContent: 'center' }} getItemAriaLabel={(_, page, selected) => {
                             selected && setPage(page)
                         }} />
                     </Stack>
