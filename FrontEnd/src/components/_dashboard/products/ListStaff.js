@@ -83,7 +83,7 @@ export default function ListStaff() {
                         </Table>
                     </TableContainer>
                     <Stack spacing={2}>
-                        <Pagination count={length} style={{ display: 'flex', justifyContent: 'center' }} getItemAriaLabel={(_, page, selected) => {
+                        <Pagination count={length} style={{ display: 'flex', justifyContent: 'center', paddingBottom: 10, paddingTop: 10 }} getItemAriaLabel={(_, page, selected) => {
                             selected && setPage(page)
                         }} />
                     </Stack>

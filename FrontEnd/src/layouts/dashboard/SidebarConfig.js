@@ -24,12 +24,12 @@ const sidebarConfig = [
   },
   {
     title: 'Nhân Viên',
-    path: '/dashboard/products',
+    path: '/dashboard/staff',
     icon: getIcon(shoppingBagFill)
   },
   {
     title: 'Dịch Vụ',
-    path: '/dashboard/user',
+    path: '/dashboard/service',
     icon: getIcon(peopleFill)
   },
   // {
