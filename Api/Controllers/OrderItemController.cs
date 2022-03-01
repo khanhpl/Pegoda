@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Api.Entities;
 using Api.Models;
 using Api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -16,6 +17,7 @@ namespace Api.Controllers
         {
             _service = service;
         }
+        [Authorize(Roles = "CENTER")]
         [HttpPost]
         [SwaggerOperation(Summary = "Create new order item")]
         public async Task<ActionResult> Create(ResponseOrderItemModel newOrderItem)
@@ -36,6 +38,7 @@ namespace Api.Controllers
             await _service.Create(orderItem);
             return CreatedAtAction(nameof(GetById), new { id = orderItem.Id }, orderItem);
         }
+        [Authorize(Roles = "CENTER")]
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update order item")]
         public async Task<ActionResult> Update(Guid id, UpdateOrderItemModel updateOrderItem)
@@ -83,6 +86,7 @@ namespace Api.Controllers
 
             return Ok(listOrderItems);
         }
+        [Authorize(Roles = "CENTER")]
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete order item by Id")]
         public async Task<ActionResult> Delete(Guid id)
