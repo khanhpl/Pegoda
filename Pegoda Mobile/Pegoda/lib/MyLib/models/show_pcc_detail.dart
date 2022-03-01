@@ -120,7 +120,9 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
                           (states) => _primaryColor),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.popAndPushNamed(context, '/orderScreen');
+                    },
                     child: Text('Đặt lịch ngay'),
                   ),
                 ],

@@ -65,7 +65,7 @@ class _ShowServiceItemState extends State<ShowServiceItem> {
                 ),
                 SizedBox(height: _pageHeight * 0.015),
                 Container(
-                  width: _pageWidth * 0.7,
+                  width: _pageWidth * 0.5,
                   child: Text(
                     serviceDescribe,
                     maxLines: 1,

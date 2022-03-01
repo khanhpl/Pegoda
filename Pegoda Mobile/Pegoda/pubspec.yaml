@@ -47,6 +47,8 @@ dependencies:
   provider: ^6.0.2
   firebase_core: ^1.12.0
   http: ^0.13.3
+  google_maps_flutter: ^2.1.1
+  flutter_datetime_picker: ^1.5.1
 
 dev_dependencies:
   flutter_test:
@@ -85,6 +87,7 @@ flutter:
     - assets/welcome/
     - assets/cus/main_screen/
     - assets/cus/account_screen/
+    - assets/cus/search_screen/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

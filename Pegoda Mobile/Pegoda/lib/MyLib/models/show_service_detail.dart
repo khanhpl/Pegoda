@@ -40,7 +40,10 @@ class _ShowServiceDetailState extends State<ShowServiceDetail> {
         ),
       ),
       floatingActionButton: ElevatedButton(
-        onPressed: (){},
+        onPressed: (){
+          Navigator.popAndPushNamed(context, '/orderScreen');
+
+        },
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
                   (states) => _primaryColor),

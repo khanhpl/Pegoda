@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/models/chatMessageModel.dart';
 
-
 class ChatDetailPage extends StatefulWidget {
   const ChatDetailPage({Key? key}) : super(key: key);
 

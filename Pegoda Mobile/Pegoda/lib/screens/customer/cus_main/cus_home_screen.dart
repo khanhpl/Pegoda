@@ -22,7 +22,6 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
     var _pageWidth = MediaQuery.of(context).size.width;
-
     List<PCC> _pccList = [
       PCC(
           PCCName: 'Dog Paradise',
@@ -145,7 +144,6 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                       //Trung tâm nổi bật
                       Column(
                         children: [
-
                           FlatButton(
                             onPressed: () {
                               Navigator.pushNamed(
@@ -177,7 +175,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                           FlatButton(
                             onPressed: () {},
                             child: Image.asset(
-                              'assets/cus/main_screen/orderhistory.png',
+                              'assets/cus/main_screen/service_ic.png',
                               height: _pageWidth * 0.3 * 0.33,
                               width: _pageWidth * 0.3 * 0.33,
                             ),
@@ -187,7 +185,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                           Container(
                             alignment: Alignment.center,
                             child: Text(
-                              'Đơn đặt hàng',
+                              'Dịch vụ \ngần nhất',
                               textAlign: TextAlign.center,
                               style: TextStyle(fontWeight: FontWeight.w400),
                             ),
@@ -227,9 +225,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                       Column(
                         children: [
                           FlatButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/chatScreen');
-                            },
+                            onPressed: () {},
                             child: Image.asset(
                               'assets/cus/main_screen/chat_online_ic.png',
                               height: _pageWidth * 0.3 * 0.33,
@@ -253,11 +249,51 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                 ),
                 //Thú cưng của bạn
                 SizedBox(height: _pageHeight * 0.03),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.pets,
+                      color: Color(0xfff573c7),
+                    ),
+                    SizedBox(width: _pageWidth * 0.03),
+                    Container(
+                      child: Text(
+                        'Thú cưng của bạn',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: _pageHeight * 0.03,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: _pageWidth * 0.03),
+                    Icon(
+                      Icons.pets,
+                      color: Color(0xfff573c7),
+                    ),
+                  ],
+                ),
+                SizedBox(height: _pageHeight * 0.02),
+                ListView.separated(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: _petList.length,
+                  separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(height: _pageHeight * 0.02);
+                  },
+                  itemBuilder: (BuildContext context, int index) {
+                    return ShowPetItem(pet: _petList[index]);
+                  },
+                ),
 
+                //khuyến mãi
+                SizedBox(height: _pageHeight * 0.03),
                 Row(children: [
                   Container(
                     child: Text(
-                      'Dịch vụ ',
+                      'Khuyến mãi nổi bật',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: _pageHeight * 0.03,
@@ -265,113 +301,90 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(width:_pageWidth * 0.03 ,),
                   Image(
-                    image: AssetImage('assets/cus/main_screen/service_ic.png'),
+                    image: AssetImage('assets/cus/main_screen/khuyenmai.png'),
                     height: _pageHeight * 0.06,
                   )
                 ]),
-
-                SizedBox(height: _pageHeight * 0.03),
-                Row(children: [
-
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //spa grooming
-                        FlatButton(
-                          onPressed: () {},
-                          child: Image.asset(
-                            'assets/cus/main_screen/groomingPet.png',
-                            height: _pageWidth * 0.3 * 0.33,
-                            width: _pageWidth * 0.3 * 0.33,
-                          ),
-                          padding: EdgeInsets.all(0),
-                        ),
-                        SizedBox(height: _pageHeight * 0.03),
-                        Container(
-                          child: Text(
-                            'Spa & grooming',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                      ]),
-                  SizedBox(width: _pageWidth * 0.03),
-                  // kham benh
-                  Column(children: [
-                    FlatButton(
-                      onPressed: () {},
-                      child: Image.asset(
-                        'assets/cus/main_screen/khambenh.png',
-                        height: _pageWidth * 0.3 * 0.33,
-                        width: _pageWidth * 0.3 * 0.33,
-                      ),
-                      padding: EdgeInsets.all(0),
-                    ),
-                    SizedBox(height: _pageHeight * 0.03),
-                    Container(
-                      child: Text(
-                        'Khám bệnh',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                  ]),
-                  //dat cho di dao
-                  Column(children: [
-                    FlatButton(
-                      onPressed: () {},
-                      child: Image.asset(
-                        'assets/cus/main_screen/capcuu.png',
-                        height: _pageWidth * 0.3 * 0.33,
-                        width: _pageWidth * 0.3 * 0.33,
-                      ),
-                      padding: EdgeInsets.all(0),
-                    ),
-                    SizedBox(height: _pageHeight * 0.03),
-                    Container(
-                      child: Text(
-                        'Cấp cứu ',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                  ]),
-                  //cap cuu 24/7
-                  Expanded(
-                    child: Column(children: [
-                      FlatButton(
-                        onPressed: () {},
-                        child: Image.asset(
-                          'assets/cus/main_screen/xemthem.jpg',
-                          height: _pageWidth * 0.3 * 0.33,
-                          width: _pageWidth * 0.3 * 0.33,
-                        ),
-                        padding: EdgeInsets.all(0),
-                      ),
-                      SizedBox(height: _pageHeight * 0.03),
-                      Container(
-                        child: Text(
-                          'Dịch vụ khác',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                    ]),
-                  ),
-
-                ]),
-                SizedBox(height: _pageHeight * 0.03),
+                SizedBox(height: _pageHeight * 0.02),
                 Container(
-                  constraints: BoxConstraints.expand(
-                    width: double.infinity,
-                    height: 250,
+                  height: _pageHeight * 0.35,
+                  child: ListView.separated(
+                    // physics: NeverScrollableScrollPhysics(),
+                    // shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _couponList.length,
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(width: _pageWidth * 0.03);
+                    },
+                    itemBuilder: (BuildContext context, int index) {
+                      return ShowCouponOnHomeScreen(coupon: _couponList[index]);
+                    },
                   ),
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('assets/cus/main_screen/shop.jpg'),
-                          fit: BoxFit.cover)),
+                ),
+
+                SizedBox(height: _pageHeight * 0.02),
+                Row(children: [
+                  Container(
+                    child: Text(
+                      'Trung tâm nổi bật',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: _pageHeight * 0.03,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  Image(
+                    image: AssetImage('assets/cus/main_screen/store.jpg'),
+                    height: _pageHeight * 0.06,
+                  )
+                ]),
+                SizedBox(height: _pageHeight * 0.02),
+                Container(
+                  height: _pageHeight * 0.22,
+                  child: ListView.separated(
+                    // physics: NeverScrollableScrollPhysics(),
+                    // shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: PetcareSystem.samples.length,
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(width: _pageWidth * 0.03);
+                    },
+                    itemBuilder: (BuildContext context, int index) {
+                      return Petcare(
+                          petcareSystem: PetcareSystem.samples[index]);
+                    },
+                  ),
+                ),
+
+                SizedBox(height: _pageHeight * 0.03),
+                //Dịch vụ nổi bật
+                Container(
+                  child: Text(
+                    'Dịch vụ nổi bật',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: _pageHeight * 0.03,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: _pageHeight * 0.03),
+                //Trung tâm nổi bật
+
+                SizedBox(height: _pageHeight * 0.03),
+                //Trung tâm nổi bật
+                Container(
+                  child: Text(
+                    'Đề xuất dành cho bạn',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: _pageHeight * 0.03,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
                 SizedBox(height: _pageHeight * 0.03),
                 ListView.separated(
@@ -396,24 +409,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                   },
                 ),
 
-                //khuyến mãi
-                SizedBox(height: _pageHeight * 0.03),
-
-                Container(
-                  height: _pageHeight * 0.35,
-                  child: ListView.separated(
-                    // physics: NeverScrollableScrollPhysics(),
-                    // shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: _couponList.length,
-                    separatorBuilder: (BuildContext context, int index) {
-                      return SizedBox(width: _pageWidth * 0.03);
-                    },
-                    itemBuilder: (BuildContext context, int index) {
-                      return ShowCouponOnHomeScreen(coupon: _couponList[index]);
-                    },
-                  ),
-                ),
+                SizedBox(height: _pageHeight * 0.1),
               ],
             ),
           ),

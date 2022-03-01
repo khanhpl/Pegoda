@@ -4,6 +4,9 @@
         android:label="pegoda"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+           android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyCworQ4wyVcFOIifjURgs4Z2a_EKLamVp4" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
