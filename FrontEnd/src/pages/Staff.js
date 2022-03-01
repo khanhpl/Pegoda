@@ -1,7 +1,7 @@
 import { useFormik } from 'formik'
 import { useState } from 'react'
 // material
-import { Container, Stack, Typography, Pagination } from '@mui/material'
+import { Container, Stack, Typography, Pagination, Card } from '@mui/material'
 // components
 import Page from '../components/Page'
 import {
@@ -72,7 +72,9 @@ export default function Staff() {
           </Stack>
         </Stack> */}
 
-        <ListStaff />
+        <Card>
+          <ListStaff />
+        </Card>
         {/* <ProductCartWidget /> */}
       </Container>
     </Page>

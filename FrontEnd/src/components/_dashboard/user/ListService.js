@@ -30,13 +30,13 @@ export default function ListService() {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>No</TableCell>
-                            <TableCell>Name</TableCell>
-                            <TableCell align="right">Price</TableCell>
-                            <TableCell align="right">Description</TableCell>
-                            <TableCell align="right">Image</TableCell>
+                            <TableCell>STT</TableCell>
+                            <TableCell align='right'>Tên</TableCell>
+                            <TableCell align="right">Hình Ảnh</TableCell>
+                            <TableCell align="right">Mô Tả</TableCell>
+                            <TableCell align="right">Giá</TableCell>
                             {/* <TableCell align="right">Feedback</TableCell> */}
-                            <TableCell align="right">Action</TableCell>
+                            <TableCell align="right">Hành Động</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -48,12 +48,12 @@ export default function ListService() {
                                 <TableCell component="th" scope="row">
                                     {index + 1}
                                 </TableCell>
-                                <TableCell component="th" scope="row">
-                                    {row.name}
+                                <TableCell align='right'>{row.name}</TableCell>
+                                <TableCell style={{ display: 'flex', justifyContent: 'right' }}>
+                                    {row.image && <img src={row.image} alt='hinhanh' width={70} />}
                                 </TableCell>
-                                <TableCell align="right">{row.price}</TableCell>
                                 <TableCell align="right">{row.description}</TableCell>
-                                <TableCell align="right">{row.image}</TableCell>
+                                <TableCell align="right">{row.price}</TableCell>
                                 {/* <TableCell align="right">{row.protein}</TableCell> */}
                                 <TableCell align='right'>
                                     <InfoOutlined color='primary' style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => console.log('info')} />
