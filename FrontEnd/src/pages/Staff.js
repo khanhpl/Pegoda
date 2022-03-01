@@ -49,7 +49,7 @@ export default function Staff() {
   return (
     <Page title="Dashboard: Products | Minimal-UI">
       <Container>
-        <Typography variant="h4" sx={{ mb: 2 }}>
+        <Typography variant="h4" sx={{ mb: 5 }}>
           Nhân Viên
         </Typography>
 

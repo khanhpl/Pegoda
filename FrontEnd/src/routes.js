@@ -21,8 +21,8 @@ export default function Router() {
       children: [
         { element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <DashboardApp /> },
-        { path: 'user', element: <Service /> },
-        { path: 'products', element: <Staff /> },
+        { path: 'service', element: <Service /> },
+        { path: 'staff', element: <Staff /> },
         { path: 'order', element: <Order /> }
       ]
     },
