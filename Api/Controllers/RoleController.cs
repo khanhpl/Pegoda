@@ -6,6 +6,7 @@ using Api.Models;
 using Api.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
@@ -16,7 +17,7 @@ namespace Api.Controllers
         {
             _service = service;
         }
-
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [SwaggerOperation(Summary = "Create new role")]
         public async Task<ActionResult> Create(ResponseRoleModel newRole)
@@ -28,6 +29,7 @@ namespace Api.Controllers
             await _service.Create(role);
             return CreatedAtAction(nameof(GetById), new { id = role.Id }, role);
         }
+        [Authorize(Roles = "ADMIN")]
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update role")]
         public async Task<ActionResult> Update(Guid id, Role updateRole)
@@ -62,6 +64,7 @@ namespace Api.Controllers
 
             return Ok(listRoles);
         }
+        [Authorize(Roles = "ADMIN")]
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete role by Id")]
         public async Task<ActionResult> Delete(Guid id)
