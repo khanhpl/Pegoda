@@ -1,14 +1,22 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:pegoda/MyLib/class/pcc.dart';
+import 'package:pegoda/MyLib/class/service.dart';
 import 'package:pegoda/MyLib/models/show_service_item.dart';
 import '../constants.dart' as Constants;
+import '../globals.dart' as Globals;
 
 class ShowPCCDetail extends StatefulWidget {
+  PCC pcc;
+  ShowPCCDetail({required this.pcc});
   @override
-  State<ShowPCCDetail> createState() => _ShowPCCDetailState();
+  State<ShowPCCDetail> createState() => _ShowPCCDetailState(pcc: this.pcc);
 }
 
 class _ShowPCCDetailState extends State<ShowPCCDetail> {
+  PCC pcc;
+  _ShowPCCDetailState({required this.pcc});
+
   @override
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
@@ -17,10 +25,19 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
     var _bgColor = Constants.bgColor;
     var _boxColor = Constants.boxColor;
     var _starColor = Constants.starColor;
-    var pccContent =
-        "Pet Hour / Day care & Month care - Home care service Pet Playground & Pet Bathing - Hotel";
-    var pccAddress =
-        "31 Lê Hữu kiều, Phường Bình Trưng Tây, Quận 2, Thành phố Hồ Chí Mình, Việt Nam";
+    List<Service> _serviceList = pcc.PCCService;
+    Widget CaroselImage = Center(
+      child: Carousel(
+        images: pcc.PCCListSlideImage,
+        autoplay: true,
+        dotSize: 5,
+        dotSpacing: 30,
+        indicatorBgPadding: 0,
+        autoplayDuration: Duration(seconds: 5),
+        borderRadius: true,
+        dotBgColor: Colors.black.withOpacity(0),
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: _primaryColor,
@@ -31,7 +48,7 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
           children: [
             Container(
               child: Text(
-                'Pet Homies',
+                pcc.PCCName,
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -93,7 +110,7 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
                           size: _pageHeight * 0.025,
                         ),
                         Text(
-                          ' 5',
+                          ' '+pcc.PCCRating,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: _pageHeight * 0.022,
@@ -108,7 +125,7 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
               Row(
                 children: [
                   Text(
-                    'Pet Homies',
+                    pcc.PCCName,
                     style: TextStyle(
                       fontSize: _pageHeight * 0.03,
                       fontWeight: FontWeight.w500,
@@ -131,7 +148,7 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
               Container(
                 width: _pageWidth,
                 child: Text(
-                  pccContent,
+                  pcc.PCCContent,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -175,7 +192,7 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
                     Container(
                       width: _pageWidth,
                       child: Text(
-                        pccAddress,
+                        pcc.PCCAddress,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -196,7 +213,7 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
                   children: [
                     Container(
                       child: Text(
-                        'Spa & Grooming',
+                        'Dịch vụ',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: _pageHeight * 0.025,
@@ -204,40 +221,30 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
                       ),
                       alignment: Alignment.topLeft,
                     ),
-                    SizedBox(height: _pageHeight * 0.02),
-                    ShowServiceItem(),
-                    SizedBox(height: _pageHeight * 0.02),
-                    ShowServiceItem(),
-                    SizedBox(height: _pageHeight * 0.02),
-                    ShowServiceItem(),
-                  ],
-                ),
-              ),
-              SizedBox(height: _pageHeight * 0.02),
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      child: Text(
-                        'Dịch vụ khác',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: _pageHeight * 0.025,
-                        ),
-                      ),
-                      alignment: Alignment.topLeft,
+                    SizedBox(height: _pageHeight*0.02),
+                    ListView.separated(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: _serviceList.length,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Container(
+                          width: _pageWidth,
+                          child: Column(
+                            children: [
+                              SizedBox(height: _pageHeight * 0.02),
+                            ],
+                          ),
+                        );
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        return ShowServiceItem(service: _serviceList[index]);
+                      },
                     ),
-                    SizedBox(height: _pageHeight * 0.02),
-                    ShowServiceItem(),
-                    SizedBox(height: _pageHeight * 0.02),
-                    ShowServiceItem(),
-                    SizedBox(height: _pageHeight * 0.02),
-                    ShowServiceItem(),
                   ],
                 ),
               ),
+
               SizedBox(height: _pageHeight * 0.05),
             ],
           ),
@@ -247,22 +254,4 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
   }
 }
 
-Widget CaroselImage = Center(
-  child: Carousel(
-    images: [
-      NetworkImage(
-          'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/274119701_308840067892600_1959247234266252491_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=e3f864&_nc_ohc=kea3kUaaJSwAX9tHgLv&_nc_ht=scontent.fsgn2-4.fna&oh=00_AT9SGyqtGONPrRC6NR9qXpYGGVHyjZrw9rM7EhwtMDfrDw&oe=621CBE88'),
-      NetworkImage(
-          'https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/274076245_307845111325429_3352218041814740606_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=e3f864&_nc_ohc=HfDrchxrDBIAX9eXXXE&_nc_ht=scontent.fsgn2-6.fna&oh=00_AT9yvGrEl5lM7kcd-5EVUvVdHqknOiRUjVGTpOL4ilbRXg&oe=621E0F6B'),
-      NetworkImage(
-          'https://scontent.fsgn2-1.fna.fbcdn.net/v/t39.30808-6/269682390_276628677780406_999436242810556345_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=e3f864&_nc_ohc=akEKJnzQ0eEAX8s8rE5&_nc_ht=scontent.fsgn2-1.fna&oh=00_AT_fIdjU0ilJSyAF5sF1_bJPWYdw-ODIpwpDjYSMit5-Uw&oe=621DA3E1'),
-    ],
-    autoplay: true,
-    dotSize: 5,
-    dotSpacing: 30,
-    indicatorBgPadding: 0,
-    autoplayDuration: Duration(seconds: 5),
-    borderRadius: true,
-    dotBgColor: Colors.black.withOpacity(0),
-  ),
-);
+

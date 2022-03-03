@@ -1,6 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:pegoda/MyLib/models/show_pet_detail.dart';
+import '../constants.dart' as Constants;
 
 class ShowPetItemOnOrder extends StatefulWidget {
   Pet pet;
@@ -19,6 +21,8 @@ class _ShowPetItemOnOrderState extends State<ShowPetItemOnOrder> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
+    var _primaryColor = Constants.primaryColor;
     // TODO: implement build
     return Material(
       child: Container(
@@ -42,9 +46,11 @@ class _ShowPetItemOnOrderState extends State<ShowPetItemOnOrder> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
+
                 height: size.height * 0.08,
                 width: size.height * 0.08,
                 decoration: BoxDecoration(
+                  border: Border.all(color: _primaryColor),
                   shape: BoxShape.circle,
                   image: DecorationImage(
                     image: NetworkImage(pet.PetImage),

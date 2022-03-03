@@ -36,7 +36,7 @@ class _CusMainSate extends State<CusMain> {
         isBottomNav = true;
         return NotificationScreen();
       case 3:
-        isBottomNav = false;
+        isBottomNav = true;
         return CusAccountScreen();
 
       default:

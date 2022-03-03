@@ -4,8 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pegoda/MyLib/class/pcc.dart';
 import 'package:pegoda/MyLib/models/show_pcc_detail.dart';
+import 'package:pegoda/MyLib/models/show_pcc_item.dart';
 import '../../../MyLib/constants.dart' as Constants;
+import '../../../MyLib/globals.dart' as Globals;
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -27,17 +30,9 @@ class _SearchScreenState extends State<SearchScreen> {
   var pccContent =
       "Pet Hour / Day care & Month care - Home care service Pet Playground & Pet Bathing - Hotel";
   bool isHaveResult = false;
-  List _listPettype = [
-    'Chó',
-    'Mèo',
-    'Gà',
-  ];
-
-  List _listServiceType = [
-    'Spa&Grooming',
-    'Khám bệnh',
-    'Tiêm ngừa',
-  ];
+  List _listPettype = Globals.listPettype;
+  List _listServiceType = Globals.listServiceType;
+  List<PCC> _pccList = Globals.pccList;
 
   @override
   Widget build(BuildContext context) {
@@ -261,98 +256,28 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
 
               //show result
-              SizedBox(height: _pageHeight * 0.02),
+              SizedBox(height: _pageHeight*0.02),
               isHaveResult == false
                   ? Container()
-                  : FlatButton(
-                      padding: EdgeInsets.all(0),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ShowPCCDetail(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        color: _boxColor,
-                        padding: EdgeInsets.only(
-                            top: _pageHeight * 0.03,
-                            bottom: _pageHeight * 0.03),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(width: _pageWidth * 0.03),
-                            Container(
-                              height: _pageWidth * 0.25,
-                              width: _pageWidth * 0.25,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/cus/search_screen/pet_homies_ic.jpg'),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: _pageWidth * 0.03),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Pet Homies',
-                                  style: TextStyle(
-                                    fontSize: _pageHeight * 0.022,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                SizedBox(height: _pageHeight * 0.02),
-                                Container(
-                                  width: _pageWidth * 0.6,
-                                  child: Text(
-                                    pccContent,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: _pageHeight * 0.022,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.grey[400],
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: _pageHeight * 0.02),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.yellowAccent,
-                                      size: _pageHeight * 0.02,
-                                    ),
-                                    Text(
-                                      ' 5 ',
-                                      style: TextStyle(
-                                        fontSize: _pageHeight * 0.022,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    Text(
-                                      '(999+)',
-                                      style: TextStyle(
-                                          fontSize: _pageHeight * 0.022,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.grey[400]),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+                  : ListView.separated(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: _pccList.length,
+                separatorBuilder: (BuildContext context, int index) {
+                  return Container(
+                    width: _pageWidth,
+                    child: Column(
+                      children: [
+                        SizedBox(height: _pageHeight * 0.02),
+                      ],
                     ),
+                  );
+                },
+                itemBuilder: (BuildContext context, int index) {
+                  return ShowPCCItem(pcc: _pccList[index]);
+                },
+              ),
             ],
           ),
         ),

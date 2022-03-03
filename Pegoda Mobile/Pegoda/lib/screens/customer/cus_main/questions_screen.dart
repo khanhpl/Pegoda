@@ -102,6 +102,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           ]),
         ));
   }
+
   Widget _buildQuestionBox(String name) {
     return Row(
       children: [
@@ -125,4 +126,3 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     );
   }
 }
-

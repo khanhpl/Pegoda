@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -14,6 +15,9 @@ class OrderScreen extends StatefulWidget {
 
 class _OrderScreenState extends State<OrderScreen> {
   List<Pet> _petList = Globals.petList;
+  var paymentValue;
+  List _listPayment = Globals.listPayment;
+  List _serviceList = Globals.listService;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +43,56 @@ class _OrderScreenState extends State<OrderScreen> {
                   fontWeight: FontWeight.bold,
                   fontSize: _pageHeight * 0.03,
                 ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Container(
+        padding:
+            EdgeInsets.fromLTRB(_pageWidth * 0.03, 0, _pageWidth * 0.03, 0),
+        height: _pageHeight * 0.15,
+        decoration: BoxDecoration(
+          color: _boxColor,
+          border: Border(
+            top: BorderSide(
+              color: _bgColor,
+              width: 3.0,
+            ),
+          ),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(
+                  'Tổng tiền:',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: _pageHeight * 0.025,
+                  ),
+                ),
+                Spacer(),
+                Text(
+                  '590.000đ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: _pageHeight * 0.03,
+                  ),
+                ),
+              ],
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                    (states) => _primaryColor),
+              ),
+              onPressed: () {},
+              child: Container(
+                width: _pageWidth,
+                alignment: Alignment.center,
+                child: Text('Đặt Lịch'),
               ),
             ),
           ],
@@ -132,11 +186,14 @@ class _OrderScreenState extends State<OrderScreen> {
                           DatePicker.showDateTimePicker(context,
                               showTitleActions: true,
                               minTime: DateTime.now(),
-                              maxTime: DateTime(2023, 12, 31), onChanged: (date) {
-                                print('change $date');
-                              }, onConfirm: (date) {
-                                print('confirm $date');
-                              }, currentTime: DateTime.now(), locale: LocaleType.vi);
+                              maxTime: DateTime(2023, 12, 31),
+                              onChanged: (date) {
+                            print('change $date');
+                          }, onConfirm: (date) {
+                            print('confirm $date');
+                          },
+                              currentTime: DateTime.now(),
+                              locale: LocaleType.vi);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -178,7 +235,7 @@ class _OrderScreenState extends State<OrderScreen> {
               ),
               SizedBox(height: _pageHeight * 0.04),
               Text(
-                'Thú cưng',
+                'THÚ CƯNG',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: _pageHeight * 0.028,
@@ -204,7 +261,7 @@ class _OrderScreenState extends State<OrderScreen> {
               Row(
                 children: [
                   Text(
-                    'Dịch vụ',
+                    'DỊCH VỤ',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: _pageHeight * 0.028,
@@ -258,7 +315,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 child: Row(
                   children: [
                     Text(
-                      'Massage chó - Dog Massage',
+                      'Tiêm phòng 4 bệnh Felocell - Pfizer',
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: _pageHeight * 0.024,
@@ -267,7 +324,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     ),
                     Spacer(),
                     Text(
-                      '300.000đ',
+                      '290.000đ',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: _pageHeight * 0.026,
@@ -280,25 +337,68 @@ class _OrderScreenState extends State<OrderScreen> {
               Row(
                 children: [
                   Text(
-                    'Tổng tiền:',
+                    'Phương thức thanh toán:',
+                  ),
+                  Spacer(),
+                  DropdownButton<String>(
+                    value: paymentValue,
+                    icon: Icon(Icons.keyboard_arrow_up),
+                    items: _listPayment
+                        .map<DropdownMenuItem<String>>(buildMenuPaymentItem)
+                        .toList(),
+                    onChanged: (paymentValue) =>
+                        setState(() => this.paymentValue = paymentValue),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    'Áp dụng ưu đãi:',
+                  ),
+                  Spacer(),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                          (states) => _primaryColor),
+                    ),
+                    onPressed: () {},
+                    child: Text('+Thêm mã'),
+                  ),
+                ],
+              ),
+              SizedBox(height: _pageHeight * 0.04),
+              Text(
+                'HÓA ĐƠN',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: _pageHeight * 0.028,
+                ),
+              ),
+              SizedBox(height: _pageHeight * 0.03),
+              Row(
+                children: [
+                  Text(
+                    'Tạm tính:',
                     style: TextStyle(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w400,
                       fontSize: _pageHeight * 0.026,
+                      color: Colors.grey[800],
                     ),
                   ),
                   Spacer(),
                   Text(
-                    '600.000đ',
+                    '590.000đ',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: _pageHeight * 0.03,
+                      fontSize: _pageHeight * 0.028,
                     ),
                   ),
                 ],
               ),
               SizedBox(height: _pageHeight * 0.04),
               Container(
-                padding: EdgeInsets.only(left: _pageWidth*0.03),
+                padding: EdgeInsets.only(left: _pageWidth * 0.03),
                 alignment: Alignment.center,
                 width: _pageWidth,
                 height: _pageHeight * 0.1,
@@ -316,15 +416,15 @@ class _OrderScreenState extends State<OrderScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: _pageHeight*0.1),
+              SizedBox(height: _pageHeight * 0.2),
             ],
           ),
         ),
       ),
     );
   }
-  void _ChooseService(BuildContext context) {
 
+  void _ChooseService(BuildContext context) {
     var size = MediaQuery.of(context).size;
     showDialog(
       context: context,
@@ -334,24 +434,39 @@ class _OrderScreenState extends State<OrderScreen> {
           backgroundColor: Color.fromRGBO(0, 0, 0, 0),
           scrollable: true,
           content: Container(
-            padding: EdgeInsets.all(size.width*0.03),
+            padding: EdgeInsets.all(size.width * 0.03),
             width: size.width,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Column(
-              children: [
-                ShowServiceItem(),
-                SizedBox(height: size.height*0.03),
-                ShowServiceItem(),
-                SizedBox(height: size.height*0.03),
-                ShowServiceItem(),
-              ],
+            child: Container(
+              width: size.width,
+
+              height: size.height * 0.7,
+              child: ListView.separated(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: _serviceList.length,
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(height: size.height*0.02);
+                },
+                itemBuilder: (BuildContext context, int index) {
+                  return ShowServiceItem(service: _serviceList[index]);
+                },
+              ),
             ),
           ),
         );
       },
+    );
+  }
+
+  DropdownMenuItem<String> buildMenuPaymentItem(var item) {
+    return DropdownMenuItem(
+      value: item,
+      child: Text(item),
     );
   }
 }

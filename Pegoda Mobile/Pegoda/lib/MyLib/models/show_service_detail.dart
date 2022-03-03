@@ -1,14 +1,19 @@
 
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:pegoda/MyLib/class/service.dart';
 import '../constants.dart' as Constants;
 
 class ShowServiceDetail extends StatefulWidget {
+  Service service;
+  ShowServiceDetail({required this.service});
   @override
-  State<ShowServiceDetail> createState() => _ShowServiceDetailState();
+  State<ShowServiceDetail> createState() => _ShowServiceDetailState(service: this.service);
 }
 
 class _ShowServiceDetailState extends State<ShowServiceDetail> {
+  Service service;
+  _ShowServiceDetailState({required this.service});
   @override
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
@@ -17,6 +22,18 @@ class _ShowServiceDetailState extends State<ShowServiceDetail> {
     var _bgColor = Constants.bgColor;
     var _boxColor = Constants.boxColor;
     var _starColor = Constants.starColor;
+    Widget CaroselImage = Center(
+      child: Carousel(
+        images: service.ServiceSlideImage,
+        autoplay: true,
+        dotSize: 5,
+        dotSpacing: 30,
+        indicatorBgPadding: 0,
+        autoplayDuration: Duration(seconds: 5),
+        borderRadius: true,
+        dotBgColor: Colors.black.withOpacity(0),
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: _primaryColor,
@@ -28,7 +45,7 @@ class _ShowServiceDetailState extends State<ShowServiceDetail> {
           children: [
             Container(
               child: Text(
-                'Tắm chó - Dog Bathing',
+                'Mô tả dịch vụ',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -77,7 +94,7 @@ class _ShowServiceDetailState extends State<ShowServiceDetail> {
               ),
               SizedBox(height: _pageHeight * 0.04),
               Text(
-                'SPA & GROOMING',
+                service.ServiceType..toString().toUpperCase(),
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: _pageHeight * 0.022,
@@ -86,7 +103,7 @@ class _ShowServiceDetailState extends State<ShowServiceDetail> {
               ),
               SizedBox(height: _pageHeight * 0.03),
               Text(
-                'Tắm chó- Dog Bathing',
+                service.ServiceName,
                 style: TextStyle(
                   fontSize: _pageHeight * 0.03,
                   fontWeight: FontWeight.w500,
@@ -94,7 +111,7 @@ class _ShowServiceDetailState extends State<ShowServiceDetail> {
               ),
               SizedBox(height: _pageHeight * 0.03),
               Text(
-                'Giá dịch vụ: 300.000đ',
+                'Giá dịch vụ: '+service.ServicePrice+'đ',
                 style: TextStyle(
                   fontSize: _pageHeight * 0.026,
                   fontWeight: FontWeight.w500,
@@ -110,7 +127,7 @@ class _ShowServiceDetailState extends State<ShowServiceDetail> {
               ),
               SizedBox(height: _pageHeight * 0.02),
               Text(
-                "Gói dịch vụ bao gồm: Tắm, cất móng, mài móng, vệ sinh tai. Lưu ý: Shop chỉ nhận giữ bé sau khi hoàn tất dịch vụ tối đa 2h. Quá 2h phụ thu 100k/ tiếng",
+                service.ServiceDescription,
                 style: TextStyle(
                   fontSize: _pageHeight * 0.022,
                   fontWeight: FontWeight.w400,
@@ -125,23 +142,4 @@ class _ShowServiceDetailState extends State<ShowServiceDetail> {
   }
 }
 
-Widget CaroselImage = Center(
-  child: Carousel(
-    images: [
-      NetworkImage(
-          'https://www.petcity.vn/media/news/2406_Nhung-luu-y-can-nho-khi-tam-cho-cho-1.jpg'),
-      NetworkImage(
-          'https://kenh14cdn.com/2018/27826dog-bathp-1514881300874-1514881322426.png'),
-      NetworkImage(
-          'https://www.petcity.vn/media/news/2406_Nhung-luu-y-can-nho-khi-tam-cho-cho-1.jpg'),
-      NetworkImage('https://anhbana.vn/ban-chai-tam-cho.png'),
-    ],
-    autoplay: true,
-    dotSize: 5,
-    dotSpacing: 30,
-    indicatorBgPadding: 0,
-    autoplayDuration: Duration(seconds: 5),
-    borderRadius: true,
-    dotBgColor: Colors.black.withOpacity(0),
-  ),
-);
+

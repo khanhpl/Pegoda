@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "639727765666-gls7ervh1inbdl9cd1pan2dkllnqc8uj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pegoda",
+            "certificate_hash": "75ae3084a884073ef1650df446559f0ecf84ead2"
+          }
+        },
+        {
           "client_id": "639727765666-ja8i2278vu39unt9klfpv8kct674sice.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

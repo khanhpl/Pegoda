@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/account_choice.dart';
+import 'package:pegoda/MyLib/provider/google_sign_in_provider.dart';
+import 'package:provider/provider.dart';
 import '../../../MyLib/constants.dart' as Constants;
 import '../../../MyLib/globals.dart' as globals;
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -16,164 +18,207 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
     var _pageWidth = MediaQuery.of(context).size.width;
     var _primaryColor = Constants.primaryColor;
     // TODO: implement build
-    return Material(
-      child: Container(
-        padding:
-            EdgeInsets.only(left: _pageWidth * 0.03, right: _pageHeight * 0.03),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Cá nhân',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: _pageHeight * 0.03,
+          ),
+        ),
+        backgroundColor: Constants.primaryColor,
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+      ),
+      body: Container(
+        color: Constants.bgColor,
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: _pageHeight * 0.05),
-              Container(
-                width: double.infinity,
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      child: IconButton(
-                        onPressed: () {
-                          // Navigator.pop(context);
-                          Navigator.pushNamed(context, '/cusMain');
-                        },
-                        icon: ImageIcon(
-                          AssetImage('assets/cus/account_screen/cancel.png'),
-                          size: _pageHeight * 0.04,
-                          color: Color(0xFFBDBDBD),
+              Center(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: SizedBox(
+                        width: 90,
+                        height: 90,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          fit: StackFit.expand,
+                          children: [
+                            globals.isAvatarChecked == false
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            'https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg'),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                    width: _pageHeight * 0.07,
+                                    height: _pageHeight * 0.07,
+                                  )
+                                : Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        image: FileImage(globals.avatarFile),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                    width: _pageHeight * 0.07,
+                                    height: _pageHeight * 0.07,
+                                  ),
+                            Positioned(
+                              right: -10,
+                              bottom: 0,
+                              child: SizedBox(
+                                width: 36,
+                                height: 36,
+                                child: TextButton(
+                                    style: flatButtonStyle,
+                                    onPressed: () {},
+                                    child: Image.asset(
+                                        "assets/cus/account_screen/iconGooglePlus.png")),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),
-                    Spacer(),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Text(
-                      'Chào, Khánh Phan',
-                      textAlign: TextAlign.center,
+                      "Hieu",
+                      style: TextStyle(
+                        fontSize: 25,
+                      ),
                     ),
-                    Spacer(),
-                    globals.isAvatarChecked == false
-                        ? Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: AssetImage('assets/ic_pegoda.png'),
-                                fit: BoxFit.fill,
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Constants.boxColor,
+                          primary: Colors.black87,
+                          padding: EdgeInsets.all(15),
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, '/personalSettingScreen');
+                        },
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: Text(
+                              "Thông tin cá nhân",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: _pageHeight * 0.023,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            )),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              color: Colors.black26,
+                              size: 20,
+                            )
+                          ],
+                        )),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    TextButton(
+                        style: TextButton.styleFrom(
+                            backgroundColor: Constants.boxColor,
+                            primary: Colors.black87,
+                            padding: EdgeInsets.all(15)),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/orderHistoryScreen');
+                        },
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: Text(
+                              'Lịch sử đặt lịch',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: _pageHeight * 0.023,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            )),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              color: Colors.black26,
+                              size: 20,
+                            )
+                          ],
+                        )),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Constants.boxColor,
+                          primary: Colors.black87,
+                          padding: EdgeInsets.all(15),
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/petScreen');
+                        },
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: Text(
+                              "Quản lý thú cưng",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: _pageHeight * 0.023,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            )),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              color: Colors.black26,
+                              size: 20,
+                            )
+                          ],
+                        )),
+                    SizedBox(
+                      height: 55,
+                    ),
+                    TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Constants.boxColor,
+                          primary: _primaryColor,
+                          padding: EdgeInsets.all(15),
+                        ),
+                        onPressed: () {
+                          final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
+                          provider.logout();
+                          Navigator.pushNamed(context, '/');
+                        },
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                "Đăng xuất",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: _pageHeight * 0.023,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
-                            width: _pageHeight * 0.07,
-                            height: _pageHeight * 0.07,
-                          )
-                        : Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: FileImage(globals.avatarFile),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            width: _pageHeight * 0.07,
-                            height: _pageHeight * 0.07,
-                          ),
-                  ],
-                ),
-              ),
-              SizedBox(height: _pageHeight * 0.03),
-              Text(
-                'Tài khoản',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: _pageHeight * 0.028,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(height: _pageHeight * 0.02),
-              AccountChoice(
-                  icon: Icons.account_box_rounded,
-                  choiceTitle: 'Cài đặt tài khoản',
-                  choiceLink: '/personalSettingScreen'),
-              SizedBox(height: _pageHeight * 0.03),
-              AccountChoice(
-                  icon: Icons.pets,
-                  choiceTitle: 'Thú cưng',
-                  choiceLink: '/petScreen'),
-              SizedBox(height: _pageHeight * 0.03),
-              AccountChoice(
-                  icon: Icons.history,
-                  choiceTitle: 'Lịch sử đặt lịch',
-                  choiceLink: '/orderHistoryScreen'),
-              SizedBox(height: _pageHeight * 0.03),
-              AccountChoice(
-                  icon: Icons.settings_outlined,
-                  choiceTitle: 'Cài đặt chung',
-                  choiceLink: '/appSettingScreen'),
-              SizedBox(height: _pageHeight * 0.05),
-              Container(
-                height: _pageHeight * 0.15,
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  // color: Color.fromRGBO(91, 150, 16, 1.0),
-                  color: _primaryColor,
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      height: _pageHeight * 0.1,
-                      width: _pageWidth * 0.2,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/Pegoda.png'),
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'Đánh giá app Pegoda',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 5.0),
-                        RatingBar.builder(
-                          itemSize: 20.0,
-                          initialRating: 0,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-                          itemBuilder: (context, _) => Icon(
-                            Icons.star,
-                            color: Color(0xFFBDBDBD),
-                            // size: 10.0,
-                          ),
-                          onRatingUpdate: (rating) {},
-                        )
-                      ],
-                    ),
-                    Spacer(),
-                    Container(
-                      height: _pageHeight * 0.05,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(25.0),
-                      ),
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Đánh giá ngay',
-                          style:
-                              TextStyle(color: Colors.black45, fontSize: 10.0),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
+                          ],
+                        )),
+                    SizedBox(
+                      height: 100,
                     ),
                   ],
                 ),
@@ -184,4 +229,11 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
       ),
     );
   }
+
+  final ButtonStyle flatButtonStyle = TextButton.styleFrom(
+    padding: EdgeInsets.zero,
+    shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(50)),
+        side: BorderSide(color: Colors.white)),
+  );
 }
