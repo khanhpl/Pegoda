@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/pcc.dart';
+import 'package:pegoda/MyLib/models/show_pcc_detail.dart';
+import '../constants.dart' as Constants;
 
 class ShowPCCItem extends StatefulWidget {
   PCC pcc;
@@ -17,99 +19,100 @@ class _ShowPCCItemState extends State<ShowPCCItem> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    var _pageHeight = MediaQuery.of(context).size.height;
+    var _pageWidth = MediaQuery.of(context).size.width;
+    var _primaryColor = Constants.primaryColor;
+    var _boxColor = Constants.boxColor;
+    var _bgColor = Constants.bgColor;
     // TODO: implement build
     return Material(
-      child: Container(
-        height: size.height*0.15,
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              width: size.height * 0.15,
-              height: size.height * 0.15,
-              // margin: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                image: DecorationImage(
-                  image: NetworkImage(pcc.PCCImage),
-                  fit: BoxFit.fill,
-                ),
-              ),
+      child: FlatButton(
+        padding: EdgeInsets.all(0),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ShowPCCDetail(pcc: this.pcc),
             ),
-            SizedBox(width: size.width*0.02),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.pets,
-                      color: Color(0xff825ee4),
-                    ),
-                    Text(
-                      pcc.PCCName,
-                      style: TextStyle(
-                        fontSize: size.height * 0.028 ,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  ' '+pcc.PCCService,
-                  style: TextStyle(
-                    fontSize: size.height * 0.022,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black45,
+          );
+        },
+        child: Container(
+          color: _boxColor,
+          padding: EdgeInsets.only(
+              top: _pageHeight * 0.03,
+              bottom: _pageHeight * 0.03),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(width: _pageWidth * 0.03),
+              Container(
+                height: _pageWidth * 0.25,
+                width: _pageWidth * 0.25,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    image: AssetImage(
+                        pcc.PCCImage),
+                    fit: BoxFit.fill,
                   ),
                 ),
-                Spacer(),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.star,
-                      color: Colors.amber,
+              ),
+              SizedBox(width: _pageWidth * 0.03),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    pcc.PCCName,
+                    style: TextStyle(
+                      fontSize: _pageHeight * 0.022,
+                      fontWeight: FontWeight.w500,
                     ),
-                    Text(
-                      pcc.PCCRating,
+                  ),
+                  SizedBox(height: _pageHeight * 0.02),
+                  Container(
+                    width: _pageWidth * 0.6,
+                    child: Text(
+                      pcc.PCCContent,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontSize: size.height * 0.025,
+                        fontSize: _pageHeight * 0.022,
                         fontWeight: FontWeight.w400,
-                        color: Colors.black87,
+                        color: Colors.grey[400],
                       ),
                     ),
-                    Text(
-                      (' (999+) '),
-                      style: TextStyle(
-                        fontSize: size.height * 0.022,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black45,
+                  ),
+                  SizedBox(height: _pageHeight * 0.02),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.star,
+                        color: Constants.starColor,
+                        size: _pageHeight * 0.02,
                       ),
-                    ),
-                    Text(
-                      (' . '),
-                      style: TextStyle(
-                        fontSize: size.height * 0.022,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black87,
+                      Text(
+                        ' '+ pcc.PCCRating + ' ',
+                        style: TextStyle(
+                          fontSize: _pageHeight * 0.022,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    Text(
-                      pcc.PCCDistance,
-                      style: TextStyle(
-                        fontSize: size.height * 0.022,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black45,
+                      Text(
+                        '(999+)',
+                        style: TextStyle(
+                            fontSize: _pageHeight * 0.022,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey[400]),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+                    ],
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

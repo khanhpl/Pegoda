@@ -71,8 +71,7 @@ class _PersonalSettingScreenState extends State<PersonalSettingScreen> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/cus/account_screen/cancel.png'),
+                              image: NetworkImage('https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg'),
                               fit: BoxFit.fill,
                             ),
                           ),

@@ -9,39 +9,7 @@ class OrderHistoryScreen extends StatefulWidget {
 }
 
 class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
-  List<OrderReview> _orderReviewList = [
-    OrderReview(
-      OrderID: '#123456',
-      Date: '16/2/2022',
-      PetName: 'Con cá',
-      PCCName: 'Trung tâm chăm sóc một mình tui',
-      Service: 'Khám tổng quát, massage',
-      TotalPrice: '220.000đ',
-      Note: 'Nhẹ tay',
-      Status: 'Đang xử lý',
-    ),
-    OrderReview(
-      OrderID: '#123456',
-      Date: '16/2/2022',
-      PetName: 'Con cá',
-      PCCName: 'Trung tâm chăm sóc một mình tui',
-      Service: 'Khám tổng quát, massage',
-      TotalPrice: '220.000đ',
-      Note: 'Nhẹ tay',
-      Status: 'Đang xử lý',
-    ),
-    OrderReview(
-      OrderID: '#123456',
-      Date: '16/2/2022',
-      PetName: 'Con cá',
-      PCCName: 'Trung tâm chăm sóc một mình tui',
-      Service: 'Khám tổng quát, massage',
-      TotalPrice: '220.000đ',
-      Note: 'Nhẹ tay',
-      Status: 'Đang xử lý',
-    ),
-  ];
-
+  List<OrderReview> _orderReviewList = globals.orderReviewList;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -72,12 +40,11 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                   ),
                 ),
               ),
-              Text(
-                'Lịch sử đặt lịch',
-                style: TextStyle(
-                  color: Color(0xff333333),
-                  fontWeight: FontWeight.w500,
-                  fontSize: size.height * 0.032,
+              SizedBox(
+                width: size.width * 0.2,
+                child: Image(
+                  image: AssetImage("assets/cus/account_screen/orders.png"),
+
                 ),
               ),
               ListView.separated(
