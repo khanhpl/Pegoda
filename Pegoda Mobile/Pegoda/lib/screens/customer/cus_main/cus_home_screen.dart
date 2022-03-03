@@ -4,6 +4,7 @@ import 'package:pegoda/MyLib/class/pcc.dart';
 import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:pegoda/MyLib/models/show_coupon_on_home_screen.dart';
 import 'package:pegoda/MyLib/models/show_pcc_item.dart';
+import 'package:pegoda/MyLib/models/show_pet_item.dart';
 import 'package:pegoda/screens/customer/cus_main/up_nav_bar.dart';
 import '../../../MyLib/constants.dart' as Constants;
 import '../../../MyLib/globals.dart' as Globals;
@@ -19,7 +20,9 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
     var _pageWidth = MediaQuery.of(context).size.width;
-
+    var _primaryColor = Constants.primaryColor;
+    var _boxColor = Constants.boxColor;
+    var _bgColor = Constants.bgColor;
     List<PCC> _pccList = Globals.pccList;
     List<Pet> _petList = Globals.petList;
     List<Coupon> _couponList = Globals.couponList;
@@ -79,7 +82,6 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                       //Trung tâm nổi bật
                       Column(
                         children: [
-
                           FlatButton(
                             onPressed: () {
                               Navigator.pushNamed(
@@ -110,7 +112,8 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                         children: [
                           FlatButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/orderHistoryScreen');
+                              Navigator.pushNamed(
+                                  context, '/orderHistoryScreen');
                             },
                             child: Image.asset(
                               'assets/cus/main_screen/orderhistory.png',
@@ -201,7 +204,9 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(width:_pageWidth * 0.03 ,),
+                  SizedBox(
+                    width: _pageWidth * 0.03,
+                  ),
                   Image(
                     image: AssetImage('assets/cus/main_screen/service_ic.png'),
                     height: _pageHeight * 0.06,
@@ -210,7 +215,6 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
 
                 SizedBox(height: _pageHeight * 0.03),
                 Row(children: [
-
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -296,8 +300,36 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                       ),
                     ]),
                   ),
-
                 ]),
+                SizedBox(height: _pageHeight * 0.03),
+                Row(
+                  children: [
+                    Text(
+                      'Thú cưng của bạn   ',
+                      style: TextStyle(
+                        fontSize: _pageHeight * 0.028,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    Icon(
+                      Icons.pets,
+                      color: _primaryColor,
+                    ),
+                  ],
+                ),
+                SizedBox(height: _pageHeight * 0.02),
+                ListView.separated(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: _petList.length,
+                  separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(height: _pageHeight * 0.02);
+                  },
+                  itemBuilder: (BuildContext context, int index) {
+                    return ShowPetItem(pet: _petList[index]);
+                  },
+                ),
                 SizedBox(height: _pageHeight * 0.03),
                 Row(children: [
                   Container(
@@ -310,7 +342,9 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(width:_pageWidth * 0.03 ,),
+                  SizedBox(
+                    width: _pageWidth * 0.03,
+                  ),
                   Image(
                     image: AssetImage('assets/cus/main_screen/store.jpg'),
                     height: _pageHeight * 0.06,
@@ -350,7 +384,9 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(width:_pageWidth * 0.03 ,),
+                  SizedBox(
+                    width: _pageWidth * 0.03,
+                  ),
                   Image(
                     image: AssetImage('assets/cus/main_screen/khuyenmai.png'),
                     height: _pageHeight * 0.06,
