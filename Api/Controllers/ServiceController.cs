@@ -28,7 +28,8 @@ namespace Api.Controllers
                 Image = newService.Image,
                 Duration = newService.Duration,
                 CenterId = newService.CenterId,
-                AnimalId = newService.AnimalId
+                AnimalId = newService.AnimalId,
+                ServiceTypeId = newService.ServiceTypeId
             };
             await _service.Create(service);
             return CreatedAtAction(nameof(GetById), new { Id = service.Id }, service);
@@ -50,7 +51,8 @@ namespace Api.Controllers
                 Image = updateService.Image,
                 Duration = updateService.Duration,
                 CenterId = updateService.CenterId,
-                AnimalId = updateService.AnimalId
+                AnimalId = updateService.AnimalId,
+                ServiceTypeId = updateService.ServiceTypeId
             };
             bool check = await _service.Update(service);
             if (!check)

@@ -12,6 +12,6 @@ namespace Api.Models
         public int Duration { get; set; }
         public Guid CenterId { get; set; }
         public Guid AnimalId { get; set; }
-
+        public Guid ServiceTypeId { get; set; }
     }
 }
