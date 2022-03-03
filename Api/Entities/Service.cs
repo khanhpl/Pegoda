@@ -18,5 +18,7 @@ namespace Api.Entities
         public virtual Center Center { get; set; }
         public Guid AnimalId { get; set; }
         public virtual Animal Animal { get; set; }
+        public Guid ServiceTypeId { get; set; }
+        public virtual ServiceType ServiceType { get; set; }
     }
 }

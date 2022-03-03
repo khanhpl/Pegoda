@@ -65,33 +65,15 @@ namespace Api.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Service",
+                name: "ServiceType",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<float>(type: "real", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Duration = table.Column<int>(type: "int", nullable: false),
-                    CenterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AnimalId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Service", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Services_Animals_AnimalId",
-                        column: x => x.AnimalId,
-                        principalTable: "Animal",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Services_Centers_CenterId",
-                        column: x => x.CenterId,
-                        principalTable: "Center",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_ServiceType", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -100,8 +82,8 @@ namespace Api.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CenterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -109,7 +91,7 @@ namespace Api.Data.Migrations
                 {
                     table.PrimaryKey("PK_Staff", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Staffs_Centers_CenterId",
+                        name: "FK_Staff_Center_CenterId",
                         column: x => x.CenterId,
                         principalTable: "Center",
                         principalColumn: "Id",
@@ -132,13 +114,13 @@ namespace Api.Data.Migrations
                 {
                     table.PrimaryKey("PK_Pet", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Pets_Animals_AnimalId",
+                        name: "FK_Pet_Animal_AnimalId",
                         column: x => x.AnimalId,
                         principalTable: "Animal",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Pets_Customers_CustomerId",
+                        name: "FK_Pet_Customer_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customer",
                         principalColumn: "Id",
@@ -160,9 +142,46 @@ namespace Api.Data.Migrations
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Roles_RoleId",
+                        name: "FK_User_Role_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Role",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Service",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<float>(type: "real", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Duration = table.Column<int>(type: "int", nullable: false),
+                    CenterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AnimalId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ServiceTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Service", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Service_Animal_AnimalId",
+                        column: x => x.AnimalId,
+                        principalTable: "Animal",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Service_Center_CenterId",
+                        column: x => x.CenterId,
+                        principalTable: "Center",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Service_ServiceType_ServiceTypeId",
+                        column: x => x.ServiceTypeId,
+                        principalTable: "ServiceType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -184,13 +203,13 @@ namespace Api.Data.Migrations
                 {
                     table.PrimaryKey("PK_Order", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Centers_CenterId",
+                        name: "FK_Order_Center_CenterId",
                         column: x => x.CenterId,
                         principalTable: "Center",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Orders_Pets_PetId",
+                        name: "FK_Order_Pet_PetId",
                         column: x => x.PetId,
                         principalTable: "Pet",
                         principalColumn: "Id",
@@ -216,19 +235,19 @@ namespace Api.Data.Migrations
                 {
                     table.PrimaryKey("PK_OrderItem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderItems_Orders_OrderId",
+                        name: "FK_OrderItem_Order_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Order",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderItems_Services_ServiceId",
+                        name: "FK_OrderItem_Service_ServiceId",
                         column: x => x.ServiceId,
                         principalTable: "Service",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_OrderItems_Staffs_StaffId",
+                        name: "FK_OrderItem_Staff_StaffId",
                         column: x => x.StaffId,
                         principalTable: "Staff",
                         principalColumn: "Id",
@@ -250,7 +269,7 @@ namespace Api.Data.Migrations
                 {
                     table.PrimaryKey("PK_Payment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Payments_Orders_OrderId",
+                        name: "FK_Payment_Order_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Order",
                         principalColumn: "Id",
@@ -258,69 +277,74 @@ namespace Api.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_OrderId",
-                table: "OrderItem",
-                column: "OrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_ServiceId",
-                table: "OrderItem",
-                column: "ServiceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_StaffId",
-                table: "OrderItem",
-                column: "StaffId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_CenterId",
+                name: "IX_Order_CenterId",
                 table: "Order",
                 column: "CenterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_PetId",
+                name: "IX_Order_PetId",
                 table: "Order",
                 column: "PetId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_OrderId",
+                name: "IX_OrderItem_OrderId",
+                table: "OrderItem",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItem_ServiceId",
+                table: "OrderItem",
+                column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItem_StaffId",
+                table: "OrderItem",
+                column: "StaffId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payment_OrderId",
                 table: "Payment",
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pets_AnimalId",
+                name: "IX_Pet_AnimalId",
                 table: "Pet",
                 column: "AnimalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pets_CustomerId",
+                name: "IX_Pet_CustomerId",
                 table: "Pet",
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Services_AnimalId",
+                name: "IX_Service_AnimalId",
                 table: "Service",
                 column: "AnimalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Services_CenterId",
+                name: "IX_Service_CenterId",
                 table: "Service",
                 column: "CenterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Staffs_CenterId",
+                name: "IX_Service_ServiceTypeId",
+                table: "Service",
+                column: "ServiceTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Staff_CenterId",
                 table: "Staff",
                 column: "CenterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_Email",
+                name: "IX_User_Email",
                 table: "User",
                 column: "Email",
                 unique: true,
                 filter: "[Email] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_RoleId",
+                name: "IX_User_RoleId",
                 table: "User",
                 column: "RoleId");
         }
@@ -347,6 +371,9 @@ namespace Api.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Role");
+
+            migrationBuilder.DropTable(
+                name: "ServiceType");
 
             migrationBuilder.DropTable(
                 name: "Center");

@@ -22,6 +22,7 @@ namespace Api.Data
         public DbSet<Service> Service { get; set; }
         public DbSet<Staff> Staff { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<ServiceType> ServiceType { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.EnableSensitiveDataLogging();
