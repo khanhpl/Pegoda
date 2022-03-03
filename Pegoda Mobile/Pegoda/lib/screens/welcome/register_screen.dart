@@ -47,7 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               Text(
-                'Thông tin tài khoản',
+                'Thông tin đăng ký',
                 style: TextStyle(
                   color: Color(0xff333333),
                   fontWeight: FontWeight.w500,
@@ -70,7 +70,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       shape: BoxShape.circle,
                       image: DecorationImage(
                         image: AssetImage(
-                            'assets/ic_pegoda.png'),
+                            'assets/app_ic.png'),
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -111,6 +111,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+
+                    Text(
+                      'Tên hiển thị',
+                      style: TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: size.height * 0.02,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+
+                    SizedBox(height: size.height * 0.02),
+                    Container(
+                      height: size.height * 0.06,
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.only(
+                          left: size.width * 0.03, right: size.width * 0.03),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Color(0xffDADADA)),
+                      ),
+                      child: TextField(
+                        controller: TextEditingController(text: 'khanhpl'),
+                        decoration: InputDecoration.collapsed(
+                          hintText: '',
+                          hintStyle: TextStyle(
+                            fontSize: size.height * 0.02,
+                            color: Color(0xff666666),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: size.height * 0.03),
+
                     Text(
                       'Giới tính',
                       style: TextStyle(
@@ -165,15 +200,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     SizedBox(height: size.height * 0.03),
-                    Text(
-                      'Tên hiển thị',
-                      style: TextStyle(
-                        color: Color(0xff333333),
-                        fontSize: size.height * 0.02,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-
+                    Container(
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'Địa chỉ ',
+                            style: TextStyle(
+                              color: Color(0xff333333),
+                              fontSize: size.height * 0.02,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            children: [
+                            ],
+                          ),
+                        ),),
                     SizedBox(height: size.height * 0.02),
                     Container(
                       height: size.height * 0.06,
@@ -186,17 +225,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         border: Border.all(color: Color(0xffDADADA)),
                       ),
                       child: TextField(
-                        controller: TextEditingController(text: 'khanhpl'),
                         decoration: InputDecoration.collapsed(
-                          hintText: '',
+                          hintText: 'Lô E2a-7, Đường D1, Khu Công Nghệ Cao, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh 700000, Vietnam',
                           hintStyle: TextStyle(
                             fontSize: size.height * 0.02,
-                            color: Color(0xff666666),
+                            color: Color(0xffDADADA),
                           ),
                         ),
                       ),
                     ),
-
                     SizedBox(height: size.height * 0.03),
                     Container(
                         child: RichText(
@@ -232,45 +269,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: size.height * 0.03),
-                    Container(
-                      child: RichText(
-                        text: TextSpan(
-                          text: 'Số điện thoại ',
-                          style: TextStyle(
-                            color: Color(0xff333333),
-                            fontSize: size.height * 0.02,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          children: [],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: size.height * 0.02),
-                    Container(
-                      height: size.height * 0.06,
-                      alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.only(
-                          left: size.width * 0.03, right: size.width * 0.03),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Color(0xffDADADA)),
-                      ),
-                      child: TextField(
-                        keyboardType: TextInputType.phone,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        decoration: InputDecoration.collapsed(
-                          hintText: '0900 123 456',
-                          hintStyle: TextStyle(
-                            fontSize: size.height * 0.02,
-                            color: Color(0xffDADADA),
-                          ),
-                        ),
-                      ),
-                    ),
+
                     SizedBox(height: size.height * 0.03),
                     Container(
                       child: RichText(
