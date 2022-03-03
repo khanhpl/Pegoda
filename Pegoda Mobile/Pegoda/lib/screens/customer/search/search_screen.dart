@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pegoda/MyLib/class/pcc.dart';
 import 'package:pegoda/MyLib/models/show_pcc_detail.dart';
 import 'package:pegoda/MyLib/models/show_pcc_item.dart';
+import 'package:pegoda/MyLib/models/show_result.dart';
 import '../../../MyLib/constants.dart' as Constants;
 import '../../../MyLib/globals.dart' as Globals;
 
@@ -275,7 +276,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   );
                 },
                 itemBuilder: (BuildContext context, int index) {
-                  return ShowPCCItem(pcc: _pccList[index]);
+                  return ShowResult(pcc: _pccList[index]);
                 },
               ),
             ],

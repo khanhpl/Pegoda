@@ -4,6 +4,7 @@ import 'package:pegoda/MyLib/class/pcc.dart';
 import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:pegoda/MyLib/models/show_coupon_on_home_screen.dart';
 import 'package:pegoda/MyLib/models/show_pcc_item.dart';
+import 'package:pegoda/MyLib/models/show_service_type_screen.dart';
 import 'package:pegoda/screens/customer/cus_main/up_nav_bar.dart';
 import '../../../MyLib/constants.dart' as Constants;
 import '../../../MyLib/globals.dart' as Globals;
@@ -216,7 +217,14 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                       children: [
                         //spa grooming
                         FlatButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ShowServiceTypeScreen(serviceName: 'Spa & Grooming'),
+                              ),
+                            );
+                          },
                           child: Image.asset(
                             'assets/cus/main_screen/groomingPet.png',
                             height: _pageWidth * 0.3 * 0.33,
@@ -339,7 +347,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
 
                 //khuyến mãi
                 SizedBox(height: _pageHeight * 0.03),
-                
+
                 Row(children: [
                   Container(
                     child: Text(
