@@ -13,7 +13,7 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  bool checkCurUser = false;
+  bool checkExistedEmail = false;
 
   @override
   Widget build(BuildContext context) => Material(
@@ -25,8 +25,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             } else if (snapshot.hasData) {
               final user = FirebaseAuth.instance.currentUser!;
               String email = user.email!;
-              checkCurExistedUser(email);
-              if(checkCurUser){// true = old, false = new
+              checkCurExistedUser(email) ;
+              if(checkExistedEmail){// true = old, false = new
                 return CusMain(selectedIndex: 0, isBottomNav: true);
               }else{
                 return RegisterScreen();
@@ -40,9 +40,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         ),
       );
 
-  void checkCurExistedUser(String email) async {
-    checkCurUser = false;
+    void checkCurExistedUser(String email) async {
+    bool checkCurUser = false;
     checkCurUser = await LoginApi().checkCurUser(email);
-
+    if(checkCurUser){
+      checkExistedEmail = true;
+    }else{
+      checkExistedEmail = false;
+    }
   }
 }
