@@ -36,10 +36,12 @@ const AccountStyle = styled('div')(({ theme }) => ({
 
 DashboardSidebar.propTypes = {
   isOpenSidebar: PropTypes.bool,
-  onCloseSidebar: PropTypes.func
+  onCloseSidebar: PropTypes.func,
+  name: PropTypes.string,
+  image: PropTypes.string,
 }
 
-export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
+export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar, name, image }) {
   const { pathname } = useLocation()
 
   useEffect(() => {
@@ -65,14 +67,14 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none" component={RouterLink} to="#">
           <AccountStyle>
-            <Avatar src={account.photoURL} alt="photoURL" />
+            <Avatar src={image} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {name}
               </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+              {/* <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 {account.role}
-              </Typography>
+              </Typography> */}
             </Box>
           </AccountStyle>
         </Link>

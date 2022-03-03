@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220211081437_initDb")]
+    [Migration("20220303044221_initDb")]
     partial class initDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,7 +32,7 @@ namespace Api.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Animals");
+                    b.ToTable("Animal");
                 });
 
             modelBuilder.Entity("Api.Entities.Center", b =>
@@ -58,7 +58,7 @@ namespace Api.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Centers");
+                    b.ToTable("Center");
                 });
 
             modelBuilder.Entity("Api.Entities.Customer", b =>
@@ -87,7 +87,7 @@ namespace Api.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customer");
                 });
 
             modelBuilder.Entity("Api.Entities.Order", b =>
@@ -123,7 +123,7 @@ namespace Api.Data.Migrations
 
                     b.HasIndex("PetId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("Api.Entities.OrderItem", b =>
@@ -167,7 +167,7 @@ namespace Api.Data.Migrations
 
                     b.HasIndex("StaffId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItem");
                 });
 
             modelBuilder.Entity("Api.Entities.Payment", b =>
@@ -195,7 +195,7 @@ namespace Api.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("Api.Entities.Pet", b =>
@@ -228,7 +228,7 @@ namespace Api.Data.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Pets");
+                    b.ToTable("Pet");
                 });
 
             modelBuilder.Entity("Api.Entities.Role", b =>
@@ -242,7 +242,7 @@ namespace Api.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("Api.Entities.Service", b =>
@@ -272,13 +272,32 @@ namespace Api.Data.Migrations
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
+                    b.Property<Guid>("ServiceTypeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AnimalId");
 
                     b.HasIndex("CenterId");
 
-                    b.ToTable("Services");
+                    b.HasIndex("ServiceTypeId");
+
+                    b.ToTable("Service");
+                });
+
+            modelBuilder.Entity("Api.Entities.ServiceType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ServiceType");
                 });
 
             modelBuilder.Entity("Api.Entities.Staff", b =>
@@ -306,7 +325,7 @@ namespace Api.Data.Migrations
 
                     b.HasIndex("CenterId");
 
-                    b.ToTable("Staffs");
+                    b.ToTable("Staff");
                 });
 
             modelBuilder.Entity("Api.Entities.User", b =>
@@ -338,7 +357,7 @@ namespace Api.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Api.Entities.Order", b =>
@@ -431,9 +450,17 @@ namespace Api.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Api.Entities.ServiceType", "ServiceType")
+                        .WithMany()
+                        .HasForeignKey("ServiceTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Animal");
 
                     b.Navigation("Center");
+
+                    b.Navigation("ServiceType");
                 });
 
             modelBuilder.Entity("Api.Entities.Staff", b =>

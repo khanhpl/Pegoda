@@ -34,6 +34,10 @@ namespace Api.Repositories
         }
         public List<Service> GetList(int pageNumber, int pageSize)
         {
+            if (pageNumber == 0 && pageSize == 0)
+            {
+                return _context.Service.ToList();
+            }
             return _context.Service.ToPagedList(pageNumber, pageSize).ToList();
         }
         public async Task<Service> GetById(Guid id)
@@ -58,6 +62,10 @@ namespace Api.Repositories
         }
         public async Task<List<Service>> SearchByName(String name, int pageNumber, int pageSize)
         {
+            if (pageNumber == 0 && pageSize == 0)
+            {
+                return await _context.Service.Where(x => x.Name.Contains(name)).ToListAsync();
+            }
             List<Service> service = await _context.Service.Where(x => x.Name.Contains(name)).ToPagedList(pageNumber, pageSize).ToListAsync();
             if (service == null)
             {

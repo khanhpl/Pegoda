@@ -1,16 +1,17 @@
-import { Icon } from '@iconify/react';
-import { useRef, useState } from 'react';
-import homeFill from '@iconify/icons-eva/home-fill';
-import personFill from '@iconify/icons-eva/person-fill';
-import settings2Fill from '@iconify/icons-eva/settings-2-fill';
-import { Link as RouterLink } from 'react-router-dom';
+import PropTypes from 'prop-types'
+import { Icon } from '@iconify/react'
+import { useRef, useState } from 'react'
+import homeFill from '@iconify/icons-eva/home-fill'
+import personFill from '@iconify/icons-eva/person-fill'
+import settings2Fill from '@iconify/icons-eva/settings-2-fill'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 // material
-import { alpha } from '@mui/material/styles';
-import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material';
+import { alpha } from '@mui/material/styles'
+import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material'
 // components
-import MenuPopover from '../../components/MenuPopover';
+import MenuPopover from '../../components/MenuPopover'
 //
-import account from '../../_mocks_/account';
+import account from '../../_mocks_/account'
 
 // ----------------------------------------------------------------------
 
@@ -30,20 +31,28 @@ const MENU_OPTIONS = [
     icon: settings2Fill,
     linkTo: '#'
   }
-];
+]
 
 // ----------------------------------------------------------------------
 
-export default function AccountPopover() {
-  const anchorRef = useRef(null);
-  const [open, setOpen] = useState(false);
+AccountPopover.propTypes = {
+  name: PropTypes.string,
+  image: PropTypes.string,
+  email: PropTypes.string
+}
+
+export default function AccountPopover({ name, image, email }) {
+  const anchorRef = useRef(null)
+  const [open, setOpen] = useState(false)
+
+  const navigate = useNavigate()
 
   const handleOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   return (
     <>
@@ -67,7 +76,7 @@ export default function AccountPopover() {
           })
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={image} alt="photoURL" />
       </IconButton>
 
       <MenuPopover
@@ -78,10 +87,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {account.displayName}
+            {name}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {email}
           </Typography>
         </Box>
 
@@ -110,11 +119,14 @@ export default function AccountPopover() {
         ))}
 
         <Box sx={{ p: 2, pt: 1.5 }}>
-          <Button fullWidth color="inherit" variant="outlined">
+          <Button fullWidth color="inherit" variant="outlined" onClick={() => {
+            localStorage.removeItem('token')
+            navigate('/login')
+          }}>
             Logout
           </Button>
         </Box>
       </MenuPopover>
     </>
-  );
+  )
 }

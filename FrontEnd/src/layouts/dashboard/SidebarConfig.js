@@ -18,35 +18,35 @@ const sidebarConfig = [
     icon: getIcon(pieChart2Fill)
   },
   {
-    title: 'Dịch Vụ',
-    path: '/dashboard/user',
-    icon: getIcon(peopleFill)
-  },
-  {
-    title: 'Nhân Viên',
-    path: '/dashboard/products',
-    icon: getIcon(shoppingBagFill)
-  },
-  {
     title: 'Đơn Hàng',
-    path: '/dashboard/blog',
+    path: '/dashboard/order',
     icon: getIcon(fileTextFill)
   },
   {
-    title: 'login',
-    path: '/login',
-    icon: getIcon(lockFill)
+    title: 'Nhân Viên',
+    path: '/dashboard/staff',
+    icon: getIcon(shoppingBagFill)
   },
   {
-    title: 'register',
-    path: '/register',
-    icon: getIcon(personAddFill)
+    title: 'Dịch Vụ',
+    path: '/dashboard/service',
+    icon: getIcon(peopleFill)
   },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: getIcon(alertTriangleFill)
-  }
+  // {
+  //   title: 'login',
+  //   path: '/login',
+  //   icon: getIcon(lockFill)
+  // },
+  // {
+  //   title: 'register',
+  //   path: '/register',
+  //   icon: getIcon(personAddFill)
+  // },
+  // {
+  //   title: 'Not found',
+  //   path: '/404',
+  //   icon: getIcon(alertTriangleFill)
+  // }
 ]
 
 export default sidebarConfig

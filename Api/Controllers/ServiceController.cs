@@ -81,9 +81,9 @@ namespace Api.Controllers
             }
             return NoContent();
         }
-        [HttpGet("search")]
-        [SwaggerOperation(Summary = "Search by name")]
-        public async Task<List<Service>> SearchByName(String name, int pageNumber = 1, int pageSize = 1)
+        [HttpGet]
+        [SwaggerOperation(Summary = "Search by name and paging")]
+        public async Task<List<Service>> SearchByName(String name, int pageNumber, int pageSize)
         {
             if (name == null)
             {

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace Api.Models
 {
     public class ResponseCenterModel
     {
-
         public string Name { get; set; }
         public string Service { get; set; }
         public string Address { get; set; }
