@@ -96,6 +96,8 @@ namespace Api
             services.AddTransient<IPaymentRepository<Payment>, PaymentRepository>();
             services.AddTransient<PaymentService, PaymentService>();
             services.AddTransient<IJwtHelper, JwtHelper>();
+            services.AddTransient<IServiceTypeRepository<ServiceType>, ServiceTypeRepository>();
+            services.AddTransient<ServiceTypeService, ServiceTypeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
