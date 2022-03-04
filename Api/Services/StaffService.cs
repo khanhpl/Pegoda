@@ -26,6 +26,10 @@ namespace Api.Services
         {
             return await _repo.GetById(id);
         }
+        public async Task<List<Staff>> GetByCenterId(Guid CenterId, int pageNumber, int pageSize)
+        {
+            return await _repo.GetByCenterId(CenterId,pageSize,pageNumber);
+        }
         public List<Staff> GetList(int pageNumber, int pageSize)
         {
             return _repo.GetList(pageNumber, pageSize);
