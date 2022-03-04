@@ -76,6 +76,18 @@ namespace Api.Controllers
             };
             return Ok(responseStaffModel);
         }
+        [HttpGet("CenterId")]
+        [SwaggerOperation(Summary = "Get Staff by Center Id")]
+        public async Task<List<Staff>> GetByCenterId(Guid CenterId, int pageNumber, int pageSize)
+        {
+            if (CenterId == Guid.Empty)
+            {
+                return  _service.GetList( pageNumber, pageSize);
+            }
+            List<Staff> listStaffs = await _service.GetByCenterId(CenterId,pageNumber,pageSize);
+            
+            return listStaffs;
+        }
         [HttpGet]
         [SwaggerOperation(Summary = "Get list Staff")]
         public ActionResult GetList(int pageNumber, int pageSize)

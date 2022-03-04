@@ -55,6 +55,20 @@ namespace Api.Repositories
             return staff;
         }
 
+        public async Task<List<Staff>> GetByCenterId(Guid CenterId, int pageNumber, int pageSize)
+        {
+            if (pageNumber == 0 && pageSize == 0)
+            {
+                return await _context.Staff.Where(x => x.CenterId.Equals(CenterId)).ToListAsync();
+            }
+            List<Staff> listStaff = await _context.Staff.Where(x => x.CenterId.Equals(CenterId)).ToPagedList(pageNumber, pageSize).ToListAsync();
+            if (listStaff == null)
+            {
+                return null;
+            }
+            return listStaff;
+        }
+
         public async Task<bool> Update(Staff newStaff)
         {
             Staff staff = await _context.Staff.AsNoTracking().FirstOrDefaultAsync(x => x.Id == newStaff.Id);
