@@ -68,7 +68,7 @@ namespace Api.Controllers
             }
             return NoContent();
         }
-        [HttpGet("search")]
+        [HttpGet]
         [SwaggerOperation(Summary = "Search by name and address and pagination")]
         public async Task<List<Center>> SearchByAddressAndName(String name, String address, int pageNumber, int pageSize)
         {
