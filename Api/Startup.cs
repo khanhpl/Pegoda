@@ -60,7 +60,7 @@ namespace Api
             {
                 options.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins("http://localhost:3000", "http://localhost:3001", "https://www.pegoda.xyz")
+                    builder.WithOrigins("http://localhost:3000", "http://localhost:3001", "https://www.pegoda.xyz", "https://pegoda-admin.vercel.app")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
