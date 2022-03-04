@@ -36,13 +36,15 @@ namespace Api.Repositories
 
         public string Login(LoginModel loginModel)
         {
-            User user = _context.User.FirstOrDefault(u => u.Email == loginModel.Email);
-            if (user == null)
-            {
-                return null;
-            }
-            Role role = _context.Role.FirstOrDefault(u => u.Id == user.RoleId);
-            return _jwtHelper.generateJwtToken(user, role);
+            // User user = _context.User.FirstOrDefault(u => u.Email == loginModel.Email);
+            // if (user == null)
+            // {
+            //     return null;
+            // }
+            // Role role = _context.Role.FirstOrDefault(u => u.Id == user.RoleId);
+            // return _jwtHelper.generateJwtToken(user, role);
+
+            return "";
         }
         public async Task<bool> Delete(Guid id)
         {
