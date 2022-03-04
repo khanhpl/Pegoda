@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Api.Data;
 using Api.Entities;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 
 namespace Api.Repositories
 {
@@ -45,9 +46,13 @@ namespace Api.Repositories
             }
             return center;
         }
-        public List<Center> GetList()
+        public List<Center> GetList(int pageNumber, int pageSize)
         {
-            return _context.Center.ToList();
+            if (pageNumber == 0 && pageSize == 0)
+            {
+                return _context.Center.ToList();
+            }
+            return _context.Center.ToPagedList(pageNumber, pageSize).ToList();
         }
         public async Task<bool> Delete(Guid id)
         {
@@ -60,9 +65,13 @@ namespace Api.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
-        public async Task<List<Center>> SearchByAddressAndName(String name, String address)
+        public async Task<List<Center>> SearchByAddressAndName(String name, String address, int pageNumber, int pageSize)
         {
-            List<Center> center = await _context.Center.Where(x => x.Name.Contains(name) || x.Address.Contains(address)).ToListAsync();
+            if (pageNumber == 0 && pageSize == 0)
+            {
+                return await _context.Center.Where(x => x.Name.Contains(name) || x.Address.Contains(address)).ToListAsync();
+            }
+            List<Center> center = await _context.Center.Where((x => x.Name.Contains(name) || x.Address.Contains(address))).ToPagedList(pageNumber,pageSize).ToListAsync();
             if (center == null)
             {
                 return null;

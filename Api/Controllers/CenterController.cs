@@ -70,21 +70,21 @@ namespace Api.Controllers
         }
         [HttpGet("search")]
         [SwaggerOperation(Summary = "Search by name and address")]
-        public async Task<List<Center>> SearchByAddressAndName(String name, String address)
+        public async Task<List<Center>> SearchByAddressAndName(String name, String address, int pageNumber, int pageSize)
         {
             if (name == null || address == null)
             {
-                List<Center> listCenters = _service.GetList();
+                List<Center> listCenters = _service.GetList(pageNumber, pageSize);
                 return listCenters;
             }
             else
             {
-                List<Center> service = await _service.SearchByAddressAndName(name, address);
-                if (service == null)
+                List<Center> centers = await _service.SearchByAddressAndName(name, address, pageNumber, pageSize);
+                if (centers == null)
                 {
                     return null;
                 }
-                return service;
+                return centers;
             }
 
         }
