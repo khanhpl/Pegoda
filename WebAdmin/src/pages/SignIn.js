@@ -9,8 +9,8 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from "react"
+import { Link } from "react-router-dom"
 import {
   Layout,
   Menu,
@@ -21,19 +21,19 @@ import {
   Form,
   Input,
   Switch,
-} from "antd";
-import signinbg from "../assets/images/img-signin.jpg";
+} from "antd"
+import signinbg from "../assets/images/img-signin.jpg"
 import {
   DribbbleOutlined,
   TwitterOutlined,
   InstagramOutlined,
   GithubOutlined,
-} from "@ant-design/icons";
+} from "@ant-design/icons"
 function onChange(checked) {
-  console.log(`switch to ${checked}`);
+  console.log(`switch to ${checked}`)
 }
-const { Title } = Typography;
-const { Header, Footer, Content } = Layout;
+const { Title } = Typography
+const { Header, Footer, Content } = Layout
 const template = [
   <svg
     data-v-4ebdc598=""
@@ -62,7 +62,7 @@ const template = [
       className="fill-muted"
     ></path>
   </svg>,
-];
+]
 const profile = [
   <svg
     data-v-4ebdc598=""
@@ -81,7 +81,7 @@ const profile = [
       className="fill-muted"
     ></path>
   </svg>,
-];
+]
 const signup = [
   <svg
     data-v-4ebdc598=""
@@ -100,7 +100,7 @@ const signup = [
       className="fill-muted"
     ></path>
   </svg>,
-];
+]
 const signin = [
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -113,16 +113,16 @@ const signin = [
       d="M12.25,14H1.75A1.752,1.752,0,0,1,0,12.25V3.5A1.752,1.752,0,0,1,1.75,1.75h.876V.875a.875.875,0,0,1,1.75,0V1.75h5.25V.875a.875.875,0,0,1,1.75,0V1.75h.875A1.752,1.752,0,0,1,14,3.5v8.75A1.752,1.752,0,0,1,12.25,14ZM3.5,4.375a.875.875,0,0,0,0,1.75h7a.875.875,0,0,0,0-1.75Z"
     />
   </svg>,
-];
+]
 export default class SignIn extends Component {
   render() {
     const onFinish = (values) => {
-      console.log("Success:", values);
-    };
+      console.log("Success:", values)
+    }
 
     const onFinishFailed = (errorInfo) => {
-      console.log("Failed:", errorInfo);
-    };
+      console.log("Failed:", errorInfo)
+    }
     return (
       <>
         <Layout className="layout-default layout-signin">
@@ -286,6 +286,6 @@ export default class SignIn extends Component {
           </Footer>
         </Layout>
       </>
-    );
+    )
   }
 }

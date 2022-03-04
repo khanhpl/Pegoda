@@ -20,9 +20,9 @@ import {
   Input,
   Checkbox,
 } from "antd"
-import logo1 from "../assets/images/logos-facebook.svg"
-import logo2 from "../assets/images/logo-apple.svg"
-import logo3 from "../assets/images/Google__G__Logo.svg.png"
+// import logo1 from "../assets/images/logos-facebook.svg"
+// import logo2 from "../assets/images/logo-apple.svg"
+// import logo3 from "../assets/images/Google__G__Logo.svg.png"
 
 import { Link } from "react-router-dom"
 import {
@@ -181,10 +181,10 @@ export default class SignUp extends Component {
             >
               <div className="sign-up-gateways">
                 <Button type="false">
-                  <img src={logo3} alt="logo 3" />
+                  <img src='https://firebasestorage.googleapis.com/v0/b/pegoda-6de8a.appspot.com/o/Google__G__Logo.svg.png?alt=media' alt="logo 3" />
                 </Button>
                 <Button type="false">
-                  <img src={logo1} alt="logo 1" />
+                  <img src='https://firebasestorage.googleapis.com/v0/b/pegoda-6de8a.appspot.com/o/logos-facebook.svg?alt=media' alt="logo 1" />
                 </Button>
                 {/* <Button type="false">
                   <img src={logo2} alt="logo 2" />
