@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Api.Data.Migrations
 {
-    public partial class initDb : Migration
+    public partial class initDbv2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -25,7 +25,7 @@ namespace Api.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Service = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Longitude = table.Column<float>(type: "real", nullable: false),
                     Latitude = table.Column<float>(type: "real", nullable: false)
@@ -187,6 +187,32 @@ namespace Api.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AlbumImage",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UrlImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CenterId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PetId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AlbumImage", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AlbumImage_Center_CenterId",
+                        column: x => x.CenterId,
+                        principalTable: "Center",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AlbumImage_Pet_PetId",
+                        column: x => x.PetId,
+                        principalTable: "Pet",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Order",
                 columns: table => new
                 {
@@ -277,6 +303,16 @@ namespace Api.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AlbumImage_CenterId",
+                table: "AlbumImage",
+                column: "CenterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AlbumImage_PetId",
+                table: "AlbumImage",
+                column: "PetId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Order_CenterId",
                 table: "Order",
                 column: "CenterId");
@@ -351,6 +387,9 @@ namespace Api.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AlbumImage");
+
             migrationBuilder.DropTable(
                 name: "OrderItem");
 

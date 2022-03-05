@@ -23,7 +23,7 @@ namespace Api.Controllers
             Center center = new Center
             {
                 Name = newCenter.Name,
-                Service = newCenter.Service,
+                Description = newCenter.Description,
                 Address = newCenter.Address,
                 Longitude = newCenter.Longitude,
                 Latitude = newCenter.Latitude
