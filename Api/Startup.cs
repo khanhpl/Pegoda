@@ -98,6 +98,8 @@ namespace Api
             services.AddTransient<IJwtHelper, JwtHelper>();
             services.AddTransient<IServiceTypeRepository<ServiceType>, ServiceTypeRepository>();
             services.AddTransient<ServiceTypeService, ServiceTypeService>();
+            services.AddTransient<IAlbumImageRepository<AlbumImage>, AlbumImageRepository>();
+            services.AddTransient<AlbumImageService, AlbumImageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
