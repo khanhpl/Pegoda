@@ -44,7 +44,7 @@ export default function AuthSocial() {
                 console.log(result)
                 setOpenBackdrop(true)
                 axios.post('https://pegoda.azurewebsites.net/api/v1.0/users/login', {
-                  email: result.user.email
+                  token: result.user.accessToken
                 }
                 ).then(response => {
                   console.log(response.data)
