@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Api.Entities;
 using Api.Models;
 using Api.Services;
+using FirebaseAdmin.Auth;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -14,6 +15,8 @@ namespace Api.Controllers
         public UserController(UserService service)
         {
             _service = service;
+            // _firebaseApp = firebaseApp;
+            // _firebaseAuth = FirebaseAuth.GetAuth(_firebaseApp);
         }
 
         [Route("Register")]
@@ -55,12 +58,16 @@ namespace Api.Controllers
         }
         [Route("Login")]
         [HttpPost]
-        public ActionResult Login(LoginModel loginModel)
+        public async Task<ActionResult> Login(LoginModel loginModel)
         {
-            var response = _service.Login(loginModel);
+            FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(loginModel.Token);
+            string uid = decodedToken.Uid;
+            UserRecord user = await FirebaseAuth.DefaultInstance.GetUserAsync(uid);
+
+            var response = _service.Login(user.Email);
             if (response == null)
             {
-                return BadRequest(new { message = "User name or password not correct" });
+                return BadRequest(new { message = "Token is invalid" });
             }
             return Ok(new { token = response });
         }

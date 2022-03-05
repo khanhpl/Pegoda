@@ -34,9 +34,9 @@ namespace Api.Repositories
             return user;
         }
 
-        public string Login(LoginModel loginModel)
+        public string Login(string email)
         {
-            User user = _context.User.FirstOrDefault(u => u.Email == loginModel.Email);
+            User user = _context.User.FirstOrDefault(u => u.Email == email);
             if (user == null)
             {
                 return null;

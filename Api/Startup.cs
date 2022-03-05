@@ -20,6 +20,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using quiz_app_dotnet_api.Helper;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 
 namespace Api
 {
@@ -65,6 +67,11 @@ namespace Api
                         .AllowAnyMethod()
                         .AllowCredentials();
                 });
+            });
+
+            FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile("Config/Firebase/pegoda-firebase-adminsdk.json")
             });
 
             services.AddControllers();
