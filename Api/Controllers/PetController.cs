@@ -25,7 +25,6 @@ namespace Api.Controllers
                 Name = newPet.Name,
                 Status = newPet.Status,
                 Gender = newPet.Gender,
-                Image = newPet.Image,
                 AnimalId = newPet.AnimalId,
                 CustomerId = newPet.CustomerId
             };
@@ -46,7 +45,6 @@ namespace Api.Controllers
                 Name = updatePet.Name,
                 Status = updatePet.Status,
                 Gender = updatePet.Gender,
-                Image = updatePet.Image,
                 AnimalId = updatePet.AnimalId,
                 CustomerId = updatePet.CustomerId
             };
