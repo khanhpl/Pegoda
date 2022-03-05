@@ -34,17 +34,15 @@ namespace Api.Repositories
             return user;
         }
 
-        public string Login(LoginModel loginModel)
+        public string Login(string email)
         {
-            // User user = _context.User.FirstOrDefault(u => u.Email == loginModel.Email);
-            // if (user == null)
-            // {
-            //     return null;
-            // }
-            // Role role = _context.Role.FirstOrDefault(u => u.Id == user.RoleId);
-            // return _jwtHelper.generateJwtToken(user, role);
-
-            return "";
+            User user = _context.User.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                return null;
+            }
+            Role role = _context.Role.FirstOrDefault(u => u.Id == user.RoleId);
+            return _jwtHelper.generateJwtToken(user, role);
         }
         public async Task<bool> Delete(Guid id)
         {

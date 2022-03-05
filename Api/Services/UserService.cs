@@ -17,9 +17,9 @@ namespace Api.Services
         {
             return await _repo.Create(user);
         }
-        public string Login(LoginModel loginModel)
+        public string Login(string email)
         {
-            return _repo.Login(loginModel);
+            return _repo.Login(email);
         }
         public User GetByEmail(string email)
         {

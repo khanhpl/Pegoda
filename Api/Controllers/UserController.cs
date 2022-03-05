@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Api.Entities;
 using Api.Models;
 using Api.Services;
-using FirebaseAdmin;
 using FirebaseAdmin.Auth;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -13,9 +12,7 @@ namespace Api.Controllers
     public class UserController : BaseApiController
     {
         private readonly UserService _service;
-        // private readonly FirebaseApp _firebaseApp;
-        // private readonly FirebaseAuth _firebaseAuth;
-        public UserController(UserService service, FirebaseApp firebaseApp)
+        public UserController(UserService service)
         {
             _service = service;
             // _firebaseApp = firebaseApp;
@@ -64,14 +61,15 @@ namespace Api.Controllers
         public async Task<ActionResult> Login(LoginModel loginModel)
         {
             FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(loginModel.Token);
-            Console.WriteLine(decodedToken);
-            // var response = _service.Login(loginModel);
-            // if (response == null)
-            // {
-            //     return BadRequest(new { message = "Token is invalid" });
-            // }
-            // return Ok(new { token = response });
-            return Ok();
+            string uid = decodedToken.Uid;
+            UserRecord user = await FirebaseAuth.DefaultInstance.GetUserAsync(uid);
+
+            var response = _service.Login(user.Email);
+            if (response == null)
+            {
+                return BadRequest(new { message = "Token is invalid" });
+            }
+            return Ok(new { token = response });
         }
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete user by Id")]
