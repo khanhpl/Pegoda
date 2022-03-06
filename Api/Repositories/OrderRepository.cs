@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Data;
 using Api.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using X.PagedList;
 namespace Api.Repositories
 {
@@ -41,9 +43,42 @@ namespace Api.Repositories
             }
             return order;
         }
-        public List<Order> GetList(int pageNumber, int pageSize)
+        public dynamic GetList(int pageNumber, int pageSize, Guid centerId)
         {
-            return _context.Order.ToPagedList(pageNumber, pageSize).ToList();
+            if (pageNumber == 0 && pageSize == 0 && centerId == Guid.Empty)
+            {
+                return _context.Order.ToList();
+            }
+            else if (pageNumber == 0 && pageSize == 0)
+            {
+                var orders = from order in _context.Order
+                             join center in _context.Center on order.CenterId equals center.Id
+                             join orderitem in _context.OrderItem on order.Id equals orderitem.OrderId
+                             join pet in _context.Pet on order.PetId equals pet.Id
+                             join customer in _context.Customer on pet.CustomerId equals customer.Id
+                             join service in _context.Service on orderitem.ServiceId equals service.Id
+                             where order.CenterId == centerId
+                             select new { CustomerName = customer.Name, PetName = pet.Name, PetGender = pet.Gender, BookingTime = orderitem.BookingTime, ServiceName = service.Name };
+
+                return orders.ToList();
+            }
+            else if (centerId == Guid.Empty)
+            {
+                return _context.Order.ToPagedList(pageNumber, pageSize).ToList();
+            }
+            else
+            {
+                var orders = from order in _context.Order
+                             join center in _context.Center on order.CenterId equals center.Id
+                             join orderitem in _context.OrderItem on order.Id equals orderitem.OrderId
+                             join pet in _context.Pet on order.PetId equals pet.Id
+                             join customer in _context.Customer on pet.CustomerId equals customer.Id
+                             join service in _context.Service on orderitem.ServiceId equals service.Id
+                             where order.CenterId == centerId
+                             select new { CustomerName = customer.Name, PetName = pet.Name, PetGender = pet.Gender, BookingTime = orderitem.BookingTime, ServiceName = service.Name };
+
+                return orders.ToPagedList(pageNumber, pageSize).ToList();
+            }
         }
         public async Task<bool> Delete(Guid id)
         {
