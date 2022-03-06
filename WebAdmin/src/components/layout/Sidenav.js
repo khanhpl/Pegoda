@@ -213,7 +213,13 @@ function Sidenav({ color }) {
                 background: page === "staff" ? color : "",
               }}
             >
-              <span class="material-icons-outlined" style={{ opacity: 0.4 }}>groups</span>
+              <span
+                style={{
+                  opacity: page !== "staff" ? '0.4' : "",
+                  color: page === "staff" ? "white" : ""
+                }} class="material-icons-outlined" >
+                groups
+              </span>
             </span>
             <span className="label">Nhân Viên</span>
           </NavLink>
