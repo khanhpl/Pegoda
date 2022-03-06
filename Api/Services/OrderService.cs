@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Api.Entities;
@@ -25,9 +26,9 @@ namespace Api.Services
         {
             return await _repo.GetById(id);
         }
-        public List<Order> GetList(int pageNumber,int pageSize)
+        public dynamic GetList(int pageNumber, int pageSize, Guid centerId)
         {
-            return _repo.GetList(pageNumber, pageSize);
+            return _repo.GetList(pageNumber, pageSize, centerId);
         }
         public async Task<bool> Delete(Guid id)
         {

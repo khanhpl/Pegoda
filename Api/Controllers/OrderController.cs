@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Api.Entities;
@@ -71,12 +72,12 @@ namespace Api.Controllers
             return Ok(order);
         }
         [HttpGet]
-        [SwaggerOperation(Summary = "Get list order")]
-        public List<Order> GetList(int pageNumber = 1, int pageSize = 1)
+        [SwaggerOperation(Summary = "Get list order and list order by centerId and pagination")]
+        public ActionResult GetList(int pageNumber, int pageSize, Guid centerId)
         {
-            List<Order> listOrders = _service.GetList(pageNumber, pageSize);
+            var listOrders = _service.GetList(pageNumber, pageSize, centerId);
 
-            return listOrders;
+            return Ok(listOrders);
         }
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete order by Id")]
