@@ -101,7 +101,7 @@ function Center() {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    axios.get('https://pegoda.azurewebsites.net/api/v1.0/centers/search', {
+    axios.get('https://pegoda.azurewebsites.net/api/v1.0/centers', {
       //'Authorization': `Bearer ${token}`
     }).then((response) => {
       console.log(response.data)
