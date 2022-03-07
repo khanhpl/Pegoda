@@ -40,9 +40,9 @@ namespace Api.Repositories
         {
             if (pageNumber == 0 && pageSize == 0)
             {
-                return _context.Staff.ToList();
+                return _context.Staff.Include(x => x.Center).ToList();
             }
-            return _context.Staff.ToPagedList(pageNumber, pageSize).ToList();
+            return _context.Staff.Include(x => x.Center).ToPagedList(pageNumber, pageSize).ToList();
         }
 
         public async Task<Staff> GetById(Guid id)
