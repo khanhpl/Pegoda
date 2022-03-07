@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /*!
 =========================================================
 * Muse Ant Design Dashboard - v1.0.0
@@ -48,7 +49,8 @@ const columns = [
   {
     title: "Tên Trung Tâm",
     key: "center",
-    dataIndex: "center",
+    dataIndex: ['center', 'name'],
+    render: (text, record, index) => `${text}`
   },
 ]
 
@@ -113,7 +115,6 @@ function Staff() {
                   className="ant-border-space"
                 />
               </div>
-              {/* <Pagination style={{ paddingTop: 20, paddingRight: 10, paddingBottom: 10, float: 'right' }} defaultCurrent={1} total={20} /> */}
             </Card>
           </Col>
         </Row>
