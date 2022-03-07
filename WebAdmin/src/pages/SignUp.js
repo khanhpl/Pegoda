@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /*!
 =========================================================
 * Muse Ant Design Dashboard - v1.0.0
@@ -9,7 +10,7 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React, { Component } from "react"
+import React, { Component, useState } from "react"
 import {
   Layout,
   Menu,
@@ -19,10 +20,15 @@ import {
   Form,
   Input,
   Checkbox,
+  Spin,
 } from "antd"
 // import logo1 from "../assets/images/logos-facebook.svg"
 // import logo2 from "../assets/images/logo-apple.svg"
 // import logo3 from "../assets/images/Google__G__Logo.svg.png"
+
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { auth } from '../config/firebaseConfig'
+import { useHistory } from 'react-router-dom'
 
 import { Link } from "react-router-dom"
 import {
@@ -31,6 +37,7 @@ import {
   InstagramOutlined,
   GithubOutlined,
 } from "@ant-design/icons"
+import axios from "axios"
 
 const { Title } = Typography
 const { Header, Footer, Content } = Layout
@@ -114,17 +121,22 @@ const signin = [
     />
   </svg>,
 ]
-export default class SignUp extends Component {
-  render() {
-    const onFinish = (values) => {
-      console.log("Success:", values)
-    }
+export default function SignUp() {
+  const googleProvider = new GoogleAuthProvider()
 
-    const onFinishFailed = (errorInfo) => {
-      console.log("Failed:", errorInfo)
-    }
-    return (
-      <>
+  const [loading, setLoading] = useState(false)
+
+  const history = useHistory()
+  const onFinish = (values) => {
+    console.log("Success:", values)
+  }
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo)
+  }
+  return (
+    <>
+      <Spin spinning={loading} size='large'>
         <div className="layout-default ant-layout layout-sign-up">
           {/* <Header>
             <div className="header-col header-brand">
@@ -180,7 +192,24 @@ export default class SignUp extends Component {
               bordered="false"
             >
               <div className="sign-up-gateways">
-                <Button type="false">
+                <Button type="false" onClick={() => {
+                  signInWithPopup(auth, googleProvider)
+                    .then((response) => {
+                      console.log(response)
+                      setLoading(true)
+                      axios.post('https://pegoda.azurewebsites.net/api/v1.0/users/login', {
+                        token: response.user.accessToken
+                      }).then(response => {
+                        console.log(response.data)
+                        localStorage.setItem('token', response.data.token)
+                        setLoading(false)
+                        history.push('/dashboard')
+                      }).catch(error => {
+                        console.log(error)
+                        setLoading(false)
+                      })
+                    })
+                }}>
                   <img src='https://firebasestorage.googleapis.com/v0/b/pegoda-6de8a.appspot.com/o/Google__G__Logo.svg.png?alt=media' alt="logo 3" />
                 </Button>
                 <Button type="false">
@@ -251,7 +280,7 @@ export default class SignUp extends Component {
             </Card>
           </Content>
         </div>
-      </>
-    )
-  }
+      </Spin>
+    </>
+  )
 }

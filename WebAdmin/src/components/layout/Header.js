@@ -25,6 +25,7 @@ import {
   Drawer,
   Typography,
   Switch,
+  Menu,
 } from "antd"
 
 import {
@@ -32,11 +33,14 @@ import {
   StarOutlined,
   TwitterOutlined,
   FacebookFilled,
+  UserOutlined,
 } from "@ant-design/icons"
 
-import { NavLink, Link } from "react-router-dom"
+import { NavLink, Link, useHistory } from "react-router-dom"
 import styled from "styled-components"
 import avtar from "../../assets/images/team-2.jpg"
+
+import jwtDecode from 'jwt-decode'
 
 const ButtonContainer = styled.div`
   .ant-btn-primary {
@@ -251,7 +255,6 @@ const setting = [
 
 function Header({
   placement,
-  name,
   subName,
   onPress,
   handleSidenavColor,
@@ -263,17 +266,50 @@ function Header({
   const [visible, setVisible] = useState(false)
   const [sidenavType, setSidenavType] = useState("transparent")
 
+  const [login, setLogin] = useState(false)
+  const [name, setName] = useState('')
+  const history = useHistory()
+
+  const menuUser = (
+    <Menu>
+      <Menu.Item key="0">
+        <Button onClick={() => {
+
+        }}>Thông Tin Cá Nhân</Button>
+      </Menu.Item>
+      <Menu.Item key="1">
+        <Button onClick={() => {
+          localStorage.removeItem('token')
+          setLogin(false)
+        }}>Đăng Xuất</Button>
+      </Menu.Item>
+    </Menu>
+  )
+
   useEffect(() => window.scrollTo(0, 0))
 
   const showDrawer = () => setVisible(true)
   const hideDrawer = () => setVisible(false)
+
+  const token = localStorage.getItem('token')
+
+  useEffect(() => {
+    if (token) {
+      setLogin(true)
+      const decode = jwtDecode(token)
+      const name = decode.FullName
+      setName(name)
+    } else {
+      setLogin(false)
+    }
+  }, [token])
 
   return (
     <>
       {/* <div className="setting-drwer" onClick={showDrawer}>
         {setting}
       </div> */}
-      <Row gutter={[24, 0]}>
+      {login ? <Row gutter={[24, 0]}>
         <Col span={24} md={6}>
           <Breadcrumb>
             <Breadcrumb.Item>
@@ -421,17 +457,26 @@ function Header({
               </div>
             </div>
           </Drawer>
-          <Link to="/sign-in" className="btn-sign-in">
-            {profile}
-            <span>Sign in</span>
-          </Link>
+          <div className="btn-sign-in">
+            <Dropdown overlay={menuUser} trigger={["click"]}>
+              <div
+                className="ant-dropdown-link"
+                onClick={e => e.preventDefault()}
+                style={{ cursor: 'pointer' }}
+              >
+                {profile}
+                <span>{name}</span>
+              </div>
+            </Dropdown>
+          </div>
           <Input
             className="header-search"
             placeholder="Type here..."
             prefix={<SearchOutlined />}
           />
         </Col>
-      </Row>
+      </Row> : history.push('sign-in')
+      }
     </>
   )
 }
