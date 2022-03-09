@@ -11,12 +11,14 @@ namespace Api.Controllers
 {
     public class CustomerController : BaseApiController
     {
-        private readonly CustomerService _service;
-        public CustomerController(CustomerService service)
+        private readonly CustomerService _customerService;
+        private readonly UserService _userService;
+        public CustomerController(CustomerService customerService, UserService userService)
         {
-            _service = service;
+            _customerService = customerService;
+            _userService = userService;
         }
-        [HttpPost]
+        [HttpPost("Register")]
         [SwaggerOperation(Summary = "Create new customer")]
         public async Task<ActionResult> Create(ResponseCustomerModel newCustomer)
         {
@@ -30,7 +32,18 @@ namespace Api.Controllers
                 Address = newCustomer.Address
             };
 
-            await _service.Create(customer);
+            User user = new User
+            {
+                Name = newCustomer.Name,
+                Email = newCustomer.Email,
+                Address = newCustomer.Address,
+                Image = newCustomer.Image,
+                RoleId = new Guid("142ed46c-3d55-4c0f-cef7-08d9fb4fdece"),
+            };
+
+            await _userService.Create(user);
+
+            await _customerService.Create(customer);
             return CreatedAtAction(nameof(GetById), new { id = customer.Id }, customer);
         }
         [HttpPut("{id}")]
@@ -41,7 +54,7 @@ namespace Api.Controllers
             {
                 return BadRequest();
             }
-            bool check = await _service.Update(updateCustomer);
+            bool check = await _customerService.Update(updateCustomer);
             if (!check)
             {
                 return NotFound();
@@ -52,7 +65,7 @@ namespace Api.Controllers
         [SwaggerOperation(Summary = "Get customer by Id")]
         public async Task<ActionResult> GetById(Guid id)
         {
-            Customer customer = await _service.GetById(id);
+            Customer customer = await _customerService.GetById(id);
             if (customer == null)
             {
                 return NotFound();
@@ -63,7 +76,7 @@ namespace Api.Controllers
         [SwaggerOperation(Summary = "Get list customer")]
         public ActionResult GetList()
         {
-            List<Customer> listCustomers = _service.GetList();
+            List<Customer> listCustomers = _customerService.GetList();
 
             return Ok(listCustomers);
         }
@@ -71,7 +84,7 @@ namespace Api.Controllers
         [SwaggerOperation(Summary = "Delete customer by Id")]
         public async Task<ActionResult> Delete(Guid id)
         {
-            bool check = await _service.Delete(id);
+            bool check = await _customerService.Delete(id);
             if (!check)
             {
                 return NotFound();

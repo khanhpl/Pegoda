@@ -13,6 +13,5 @@ namespace Api.Models
         public string Email { get; set; }
         public string Image { get; set; }
         public string Address { get; set; }
-        public Guid RoleId { get; set; }
     }
 }

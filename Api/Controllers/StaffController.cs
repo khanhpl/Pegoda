@@ -12,12 +12,14 @@ namespace Api.Controllers
 {
     public class StaffController : BaseApiController
     {
-        private readonly StaffService _service;
-        public StaffController(StaffService service)
+        private readonly StaffService _staffService;
+        private readonly UserService _userService;
+        public StaffController(StaffService staffService, UserService userService)
         {
-            _service = service;
+            _staffService = staffService;
+            _userService = userService;
         }
-        [HttpPost]
+        [HttpPost("Register")]
         [SwaggerOperation(Summary = "Create new Staff")]
         public async Task<ActionResult> Create(CreateStaffModel newStaff)
         {
@@ -29,7 +31,16 @@ namespace Api.Controllers
                 Name = newStaff.Name,
                 Email = newStaff.Email
             };
-            await _service.Create(staff);
+            User user = new User
+            {
+                Name = newStaff.Name,
+                Email = newStaff.Email,
+                Image = newStaff.Image,
+                RoleId = new Guid("eb55bb48-1cf4-4f4a-15d2-08d9fac956cb"),
+            };
+
+            await _userService.Create(user);
+            await _staffService.Create(staff);
             return CreatedAtAction(nameof(GetById), new { id = staff.Id }, staff);
         }
         [HttpPut("{id}")]
@@ -49,7 +60,7 @@ namespace Api.Controllers
                 Name = updateStaff.Name,
                 Email = updateStaff.Email,
             };
-            bool check = await _service.Update(staff);
+            bool check = await _staffService.Update(staff);
             if (!check)
             {
                 return NotFound();
@@ -60,7 +71,7 @@ namespace Api.Controllers
         [SwaggerOperation(Summary = "Get Staff by Id")]
         public async Task<ActionResult> GetById(Guid id)
         {
-            Staff staff = await _service.GetById(id);
+            Staff staff = await _staffService.GetById(id);
             if (staff == null)
             {
                 return NotFound();
@@ -82,18 +93,18 @@ namespace Api.Controllers
         {
             if (CenterId == Guid.Empty)
             {
-                return  _service.GetList( pageNumber, pageSize);
+                return _staffService.GetList(pageNumber, pageSize);
             }
-            List<Staff> listStaffs = await _service.GetByCenterId(CenterId,pageNumber,pageSize);
-            
+            List<Staff> listStaffs = await _staffService.GetByCenterId(CenterId, pageNumber, pageSize);
+
             return listStaffs;
         }
-        
+
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete Staff by Id")]
         public async Task<ActionResult> Delete(Guid id)
         {
-            bool check = await _service.Delete(id);
+            bool check = await _staffService.Delete(id);
             if (!check)
             {
                 return NotFound();
