@@ -37,5 +37,9 @@ namespace Api.Services
         {
             return await _repo.SearchByName(name, pageNumber, pageSize);
         }
+        public async Task<List<Service>> SearchByCenterId(Guid centerId, int pageNumber, int pageSize)
+        {
+            return await _repo.SearchByCenterId(centerId, pageNumber, pageSize);
+        }
     }
 }

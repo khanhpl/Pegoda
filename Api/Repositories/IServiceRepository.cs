@@ -13,5 +13,6 @@ namespace Api.Repositories
         List<Service> GetList(int pageNumber, int pageSize);
         Task<bool> Delete(Guid id);
         Task<List<Service>> SearchByName(String name, int pageNumber, int pageSize);
+        Task<List<Service>> SearchByCenterId(Guid centerId, int pageNumber, int pageSize);
     }
 }
