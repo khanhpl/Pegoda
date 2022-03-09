@@ -15,13 +15,11 @@ namespace Api.Controllers
         public UserController(UserService service)
         {
             _service = service;
-            // _firebaseApp = firebaseApp;
-            // _firebaseAuth = FirebaseAuth.GetAuth(_firebaseApp);
         }
 
         [Route("Register")]
         [HttpPost]
-        [SwaggerOperation(Summary = "Register new user")]
+        [SwaggerOperation(Summary = "Register new user with role ADMIN")]
         public async Task<ActionResult> Register(RegisterUserModel newUser)
         {
             User user = new User
@@ -30,7 +28,7 @@ namespace Api.Controllers
                 Email = newUser.Email,
                 Address = newUser.Address,
                 Image = newUser.Image,
-                RoleId = newUser.RoleId
+                RoleId = new Guid("9e675f86-b425-4047-a36f-08d9fb37c635")
             };
             await _service.Create(user);
             return CreatedAtAction(nameof(GetByEmail), new { email = newUser.Email }, newUser);

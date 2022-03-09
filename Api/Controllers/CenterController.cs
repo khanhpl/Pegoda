@@ -11,12 +11,14 @@ namespace Api.Controllers
 {
     public class CenterController : BaseApiController
     {
-        private readonly CenterService _service;
-        public CenterController(CenterService service)
+        private readonly CenterService _centerService;
+        private readonly UserService _userService;
+        public CenterController(CenterService centerService, UserService userService)
         {
-            _service = service;
+            _centerService = centerService;
+            _userService = userService;
         }
-        [HttpPost]
+        [HttpPost("Register")]
         [SwaggerOperation(Summary = "Create new center")]
         public async Task<ActionResult> Create(ResponseCenterModel newCenter)
         {
@@ -28,7 +30,15 @@ namespace Api.Controllers
                 Longitude = newCenter.Longitude,
                 Latitude = newCenter.Latitude
             };
-            await _service.Create(center);
+            User user = new User
+            {
+                Name = newCenter.Name,
+                Address = newCenter.Address,
+                RoleId = new Guid("4aed7714-efbe-421c-5f5a-08d9f62291f6"),
+            };
+
+            await _userService.Create(user);
+            await _centerService.Create(center);
             return CreatedAtAction(nameof(GetById), new { id = center.Id }, center);
         }
         [HttpPut("{id}")]
@@ -39,7 +49,7 @@ namespace Api.Controllers
             {
                 return BadRequest();
             }
-            bool check = await _service.Update(updateCenter);
+            bool check = await _centerService.Update(updateCenter);
             if (!check)
             {
                 return NotFound();
@@ -50,7 +60,7 @@ namespace Api.Controllers
         [SwaggerOperation(Summary = "Get center by Id")]
         public async Task<ActionResult> GetById(Guid id)
         {
-            Center center = await _service.GetById(id);
+            Center center = await _centerService.GetById(id);
             if (center == null)
             {
                 return NotFound();
@@ -61,7 +71,7 @@ namespace Api.Controllers
         [SwaggerOperation(Summary = "Delete center by Id")]
         public async Task<ActionResult> Delete(Guid id)
         {
-            bool check = await _service.Delete(id);
+            bool check = await _centerService.Delete(id);
             if (!check)
             {
                 return NotFound();
@@ -74,12 +84,12 @@ namespace Api.Controllers
         {
             if (name == null || address == null)
             {
-                List<Center> listCenters = _service.GetList(pageNumber, pageSize);
+                List<Center> listCenters = _centerService.GetList(pageNumber, pageSize);
                 return listCenters;
             }
             else
             {
-                List<Center> centers = await _service.SearchByAddressAndName(name, address, pageNumber, pageSize);
+                List<Center> centers = await _centerService.SearchByAddressAndName(name, address, pageNumber, pageSize);
                 if (centers == null)
                 {
                     return null;
