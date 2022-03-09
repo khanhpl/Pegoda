@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/order_review.dart';
 import '../../../MyLib/globals.dart' as globals;
 import '../../../MyLib/models/show_order_item.dart';
+import '../../../MyLib/constants.dart' as Constants;
 
 class OrderHistoryScreen extends StatefulWidget {
   @override
@@ -13,9 +14,14 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
+    var _primaryColor = Constants.primaryColor;
+    var _bgColor = Constants.bgColor;
+    var _boxColor = Constants.boxColor;
     // TODO: implement build
     return Material(
       child: Container(
+        color: _bgColor,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           // physics: ClampingScrollPhysics(),

@@ -48,6 +48,7 @@ class _ShowResultState extends State<ShowResult> {
                 );
               },
               child: Container(
+                color: _boxColor,
                 padding: EdgeInsets.only(
                     top: _pageHeight * 0.03, bottom: _pageHeight * 0.03),
                 child: Row(
@@ -79,6 +80,20 @@ class _ShowResultState extends State<ShowResult> {
                           ),
                         ),
                         SizedBox(height: _pageHeight * 0.02),
+                        Container(
+                          width: _pageWidth * 0.6,
+                          child: Text(
+                            pcc.PCCContent,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: _pageHeight * 0.022,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.grey[400],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: _pageHeight * 0.02),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -94,15 +109,27 @@ class _ShowResultState extends State<ShowResult> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            Text(
-                              '(999+)',
-                              style: TextStyle(
-                                  fontSize: _pageHeight * 0.022,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.grey[400]),
+                            Row(
+                              children: [
+                                Text(
+                                  '(999+) . ',
+                                  style: TextStyle(
+                                      fontSize: _pageHeight * 0.022,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey[600]),
+                                ),
+
+                                Text(
+                                  pcc.PCCDistance,
+                                  style: TextStyle(
+                                      fontSize: _pageHeight * 0.022,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey[600]),
+                                ),
+                              ],
                             ),
                           ],
-                        ),
+                        )
                       ],
                     ),
                   ],

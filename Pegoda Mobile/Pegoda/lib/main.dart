@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/provider/google_sign_in_provider.dart';
 import 'package:pegoda/controllers/customer_main.dart';
+import 'package:pegoda/screens/customer/cus_account/cancel_order_screen.dart';
+import 'package:pegoda/screens/customer/cus_account/cancel_order_success_screen.dart';
 import 'package:pegoda/screens/customer/cus_account/cus_app_infor_screen.dart';
 import 'package:pegoda/screens/customer/cus_account/cus_app_setting_screen.dart';
 import 'package:pegoda/screens/customer/cus_account/cus_personal_setting_screen.dart';
@@ -9,6 +11,7 @@ import 'package:pegoda/screens/customer/cus_main/neareast_pcc_screen.dart';
 import 'package:pegoda/screens/customer/cus_main/questions_screen.dart';
 import 'package:pegoda/screens/customer/pet/add_pet_screen.dart';
 import 'package:pegoda/screens/customer/search/order_screen.dart';
+import 'package:pegoda/screens/customer/search/order_success_screen.dart';
 import 'package:pegoda/screens/customer/search/search_screen.dart';
 import 'package:pegoda/screens/welcome/welcome_screen.dart';
 import 'package:provider/provider.dart';
@@ -49,6 +52,10 @@ class MyApp extends StatelessWidget {
             '/addPetScreen': (context) => AddPetScreen(),
             '/neareastPCCScreen': (context) => NearestPCCScreen(),
             '/orderScreen': (context) => OrderScreen(),
+            '/registerScreen': (context) => RegisterScreen(),
+            '/orderSuccessScreen': (context) => OrderSuccessScreen(),
+            '/cancelOrderScreen': (context) => CancelOrderScreen(),
+            '/cancelOrderSuccessScreen': (context) => CancelOrderSuccessScreen(),
           },
           // home: WelcomeScreen(),
         ),

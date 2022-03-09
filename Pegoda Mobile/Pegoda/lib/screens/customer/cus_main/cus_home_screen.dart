@@ -4,6 +4,7 @@ import 'package:pegoda/MyLib/class/pcc.dart';
 import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:pegoda/MyLib/models/show_coupon_on_home_screen.dart';
 import 'package:pegoda/MyLib/models/show_pcc_item.dart';
+import 'package:pegoda/MyLib/models/show_result.dart';
 import 'package:pegoda/MyLib/models/show_service_type_screen.dart';
 import 'package:pegoda/screens/customer/cus_main/up_nav_bar.dart';
 import '../../../MyLib/constants.dart' as Constants;
@@ -335,13 +336,13 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                       width: _pageWidth,
                       child: Column(
                         children: [
-                          SizedBox(height: _pageHeight * 0.02),
+                          SizedBox(height: _pageHeight * 0.03),
                         ],
                       ),
                     );
                   },
                   itemBuilder: (BuildContext context, int index) {
-                    return ShowPCCItem(pcc: _pccList[index]);
+                    return ShowResult(pcc: _pccList[index]);
                   },
                 ),
 
@@ -380,6 +381,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                     },
                   ),
                 ),
+                SizedBox(height: _pageHeight*0.1),
               ],
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/order_review.dart';
 import 'package:pegoda/MyLib/models/show_order_detail.dart';
+import '../../MyLib/constants.dart' as Constants;
 
 class ShowOrderItem extends StatefulWidget {
   OrderReview orderReview;
@@ -8,7 +9,8 @@ class ShowOrderItem extends StatefulWidget {
   ShowOrderItem({required this.orderReview});
 
   @override
-  State<ShowOrderItem> createState() => _ShowOrderItemState(orderReview: this.orderReview);
+  State<ShowOrderItem> createState() =>
+      _ShowOrderItemState(orderReview: this.orderReview);
 }
 
 class _ShowOrderItemState extends State<ShowOrderItem> {
@@ -18,7 +20,12 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    var size = MediaQuery
+        .of(context)
+        .size;
+    var _primaryColor = Constants.primaryColor;
+    var _bgColor = Constants.bgColor;
+    var _boxColor = Constants.boxColor;
     // TODO: implement build
     return Material(
       child: Container(
@@ -26,14 +33,15 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
         margin: EdgeInsets.fromLTRB(size.width * 0.03, 0, size.width * 0.03, 0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
-          color: Colors.grey[200],
+          color: _boxColor,
         ),
         child: FlatButton(
           onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ShowOrderDetail(orderReview: this.orderReview),
+                builder: (context) =>
+                    ShowOrderDetail(orderReview: this.orderReview),
               ),
             );
           },
@@ -45,7 +53,7 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
                 height: size.height * 0.1,
                 child: Icon(
                   Icons.bookmarks,
-                  size: size.width*0.08,
+                  size: size.width * 0.08,
                 ),
               ),
               Container(
@@ -82,9 +90,9 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
                         ),
                         children: [
                           TextSpan(
-                            text: orderReview.Status,
+                            text: _getOrderStatus(),
                             style: TextStyle(
-                              color: Color(0xffFF3300),
+                              color: _getStatusColor(),
                             ),
                           ),
                         ],
@@ -117,5 +125,32 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
         ),
       ),
     );
+  }
+
+  String _getOrderStatus() {
+    String orderStatus = orderReview.Status;
+
+    if (orderStatus == "1") {
+      return "Đang xử lý";
+    } else if (orderStatus == "2") {
+      return "Đã xác nhận";
+    } else if (orderStatus == "3") {
+      return "Đã hoàn thành";
+    } else {
+      return "Đã hủy";
+    }
+  }
+
+  Color _getStatusColor(){
+    String orderStatus = orderReview.Status;
+    if (orderStatus == "1") {
+      return Colors.yellow;
+    } else if (orderStatus == "2") {
+      return Colors.blueAccent;
+    } else if (orderStatus == "3") {
+      return Colors.lightGreen;
+    } else {
+      return Colors.redAccent;
+    }
   }
 }

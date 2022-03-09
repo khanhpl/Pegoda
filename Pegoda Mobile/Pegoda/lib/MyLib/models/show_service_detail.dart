@@ -119,6 +119,14 @@ class _ShowServiceDetailState extends State<ShowServiceDetail> {
               ),
               SizedBox(height: _pageHeight * 0.03),
               Text(
+                'Giá ưu đãi từ Thứ 2 đến thứ 6: '+service.ServiceDailyPrice+'đ',
+                style: TextStyle(
+                  fontSize: _pageHeight * 0.026,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: _pageHeight * 0.03),
+              Text(
                 'Mô tả',
                 style: TextStyle(
                   fontSize: _pageHeight * 0.026,

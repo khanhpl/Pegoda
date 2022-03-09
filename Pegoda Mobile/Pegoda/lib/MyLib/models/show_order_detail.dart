@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/order_review.dart';
+import '../../MyLib/constants.dart' as Constants;
 
-class ShowOrderDetail extends StatelessWidget{
+class ShowOrderDetail extends StatelessWidget {
   OrderReview orderReview;
+
   ShowOrderDetail({required this.orderReview});
+
+  // var _checkCancelButton = false;
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
+    var _primaryColor = Constants.primaryColor;
+    var _bgColor = Constants.bgColor;
+    var _boxColor = Constants.boxColor;
     // TODO: implement build
     return Material(
       child: Container(
+        color: _bgColor,
         width: size.width,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -42,7 +52,6 @@ class ShowOrderDetail extends StatelessWidget{
                   fontSize: size.height * 0.032,
                 ),
               ),
-
               SizedBox(height: size.height * 0.05),
               Container(
                 margin: EdgeInsets.fromLTRB(
@@ -50,7 +59,7 @@ class ShowOrderDetail extends StatelessWidget{
                 padding: EdgeInsets.fromLTRB(size.width * 0.03,
                     size.height * 0.03, size.width * 0.03, size.height * 0.03),
                 decoration: BoxDecoration(
-                  color: Colors.grey[200],
+                  color: _boxColor,
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Column(
@@ -110,8 +119,7 @@ class ShowOrderDetail extends StatelessWidget{
                         ),
                       ],
                     ),
-
-                    SizedBox(height: size.height*0.03),
+                    SizedBox(height: size.height * 0.03),
                     Row(
                       children: [
                         Container(
@@ -139,8 +147,7 @@ class ShowOrderDetail extends StatelessWidget{
                         ),
                       ],
                     ),
-
-                    SizedBox(height: size.height*0.03),
+                    SizedBox(height: size.height * 0.03),
                     Row(
                       children: [
                         Container(
@@ -168,8 +175,7 @@ class ShowOrderDetail extends StatelessWidget{
                         ),
                       ],
                     ),
-
-                    SizedBox(height: size.height*0.03),
+                    SizedBox(height: size.height * 0.03),
                     Row(
                       children: [
                         Container(
@@ -197,8 +203,7 @@ class ShowOrderDetail extends StatelessWidget{
                         ),
                       ],
                     ),
-
-                    SizedBox(height: size.height*0.03),
+                    SizedBox(height: size.height * 0.03),
                     Row(
                       children: [
                         Container(
@@ -226,8 +231,7 @@ class ShowOrderDetail extends StatelessWidget{
                         ),
                       ],
                     ),
-
-                    SizedBox(height: size.height*0.03),
+                    SizedBox(height: size.height * 0.03),
                     Row(
                       children: [
                         Container(
@@ -255,8 +259,7 @@ class ShowOrderDetail extends StatelessWidget{
                         ),
                       ],
                     ),
-
-                    SizedBox(height: size.height*0.03),
+                    SizedBox(height: size.height * 0.03),
                     Row(
                       children: [
                         Container(
@@ -273,9 +276,9 @@ class ShowOrderDetail extends StatelessWidget{
                         Expanded(
                           child: Container(
                             child: Text(
-                              orderReview.Status,
+                              _getOrderStatus(),
                               style: TextStyle(
-                                color: Color(0xffFF3300),
+                                color: _getStatusColor(),
                                 fontSize: size.height * 0.02,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -287,27 +290,61 @@ class ShowOrderDetail extends StatelessWidget{
                   ],
                 ),
               ),
-
               SizedBox(height: size.height * 0.06),
-              Container(
-                padding: EdgeInsets.fromLTRB(size.width*0.03, 0, size.width*0.03, 0),
-                decoration: BoxDecoration(
-                  color: Color(0xff333333),
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: FlatButton(
-                  child: Text(
-                    'Trang chủ',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: size.height * 0.024,
-                      fontWeight: FontWeight.w400,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.fromLTRB(
+                        size.width * 0.03, 0, size.width * 0.03, 0),
+                    decoration: BoxDecoration(
+                      color: Color(0xff333333),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: FlatButton(
+                      child: Text(
+                        'Trang chủ',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: size.height * 0.024,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/cusMain');
+                      },
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/cusMain');
-                  },
-                ),
+                  _checkCancelButton()
+                      ? SizedBox(width: size.width * 0.1)
+                      : SizedBox(),
+                  _checkCancelButton()
+                      ? Container(
+                          padding: EdgeInsets.fromLTRB(
+                              size.width * 0.03, 0, size.width * 0.03, 0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(
+                              color: Color(0xff333333),
+                            ),
+                          ),
+                          child: FlatButton(
+                            child: Text(
+                              'Hủy đơn',
+                              style: TextStyle(
+                                color: Color(0xff333333),
+                                fontSize: size.height * 0.024,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/cancelOrderScreen');
+                            },
+                          ),
+                        )
+                      : SizedBox(),
+                ],
               ),
               SizedBox(height: size.height * 0.06),
             ],
@@ -317,4 +354,39 @@ class ShowOrderDetail extends StatelessWidget{
     );
   }
 
+  String _getOrderStatus() {
+    String orderStatus = orderReview.Status;
+
+    if (orderStatus == "1") {
+      return "Đang xử lý";
+    } else if (orderStatus == "2") {
+      return "Đã xác nhận";
+    } else if (orderStatus == "3") {
+      return "Đã hoàn thành";
+    } else {
+      return "Đã hủy";
+    }
+  }
+
+  Color _getStatusColor() {
+    String orderStatus = orderReview.Status;
+    if (orderStatus == "1") {
+      return Colors.yellow;
+    } else if (orderStatus == "2") {
+      return Colors.blueAccent;
+    } else if (orderStatus == "3") {
+      return Colors.lightGreen;
+    } else {
+      return Colors.redAccent;
+    }
+  }
+
+  bool _checkCancelButton() {
+    String orderStatus = orderReview.Status;
+    if (orderStatus == "1" || orderStatus == "2") {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

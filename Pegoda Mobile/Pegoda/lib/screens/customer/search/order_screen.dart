@@ -1,10 +1,10 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:pegoda/MyLib/models/show_pet_item_on_order.dart';
 import 'package:pegoda/MyLib/models/show_service_item.dart';
+import 'package:pegoda/MyLib/models/show_time_slot_item.dart';
 import '../../../MyLib/constants.dart' as Constants;
 import '../../../MyLib/globals.dart' as Globals;
 
@@ -18,14 +18,16 @@ class _OrderScreenState extends State<OrderScreen> {
   var paymentValue;
   List _listPayment = Globals.listPayment;
   List _serviceList = Globals.listService;
+  var _primaryColor = Constants.primaryColor;
+  var _boxColor = Constants.boxColor;
+  var _bgColor = Constants.bgColor;
+  var _date = 'Chọn thời gian thực hiện';
 
   @override
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
     var _pageWidth = MediaQuery.of(context).size.width;
-    var _primaryColor = Constants.primaryColor;
-    var _boxColor = Constants.boxColor;
-    var _bgColor = Constants.bgColor;
+
     var pccAddress =
         "31 Lê Hữu kiều, Phường Bình Trưng Tây, Quận 2, Thành phố Hồ Chí Mình, Việt Nam";
     return Scaffold(
@@ -50,9 +52,10 @@ class _OrderScreenState extends State<OrderScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
+        alignment: Alignment.center,
         padding:
             EdgeInsets.fromLTRB(_pageWidth * 0.03, 0, _pageWidth * 0.03, 0),
-        height: _pageHeight * 0.15,
+        height: _pageHeight * 0.14,
         decoration: BoxDecoration(
           color: _boxColor,
           border: Border(
@@ -64,6 +67,7 @@ class _OrderScreenState extends State<OrderScreen> {
         ),
         child: Column(
           children: [
+            SizedBox(height: _pageHeight * 0.02),
             Row(
               children: [
                 Text(
@@ -75,7 +79,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
                 Spacer(),
                 Text(
-                  '590.000đ',
+                  '500.000đ',
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: _pageHeight * 0.03,
@@ -88,7 +92,9 @@ class _OrderScreenState extends State<OrderScreen> {
                 backgroundColor: MaterialStateProperty.resolveWith<Color>(
                     (states) => _primaryColor),
               ),
-              onPressed: () {},
+              onPressed: () {
+                _showConfirmDialog();
+              },
               child: Container(
                 width: _pageWidth,
                 alignment: Alignment.center,
@@ -183,17 +189,9 @@ class _OrderScreenState extends State<OrderScreen> {
                       FlatButton(
                         padding: EdgeInsets.all(0),
                         onPressed: () {
-                          DatePicker.showDateTimePicker(context,
-                              showTitleActions: true,
-                              minTime: DateTime.now(),
-                              maxTime: DateTime(2023, 12, 31),
-                              onChanged: (date) {
-                            print('change $date');
-                          }, onConfirm: (date) {
-                            print('confirm $date');
-                          },
-                              currentTime: DateTime.now(),
-                              locale: LocaleType.vi);
+                          setState(() {
+                            _chooseDateTime(context);
+                          });
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -301,7 +299,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     ),
                     Spacer(),
                     Text(
-                      '300.000đ',
+                      '250.000đ',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: _pageHeight * 0.026,
@@ -324,7 +322,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     ),
                     Spacer(),
                     Text(
-                      '290.000đ',
+                      '250.000đ',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: _pageHeight * 0.026,
@@ -388,7 +386,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   ),
                   Spacer(),
                   Text(
-                    '590.000đ',
+                    '500.000đ',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: _pageHeight * 0.028,
@@ -442,7 +440,6 @@ class _OrderScreenState extends State<OrderScreen> {
             ),
             child: Container(
               width: size.width,
-
               height: size.height * 0.7,
               child: ListView.separated(
                 physics: NeverScrollableScrollPhysics(),
@@ -450,7 +447,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 scrollDirection: Axis.vertical,
                 itemCount: _serviceList.length,
                 separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(height: size.height*0.02);
+                  return SizedBox(height: size.height * 0.02);
                 },
                 itemBuilder: (BuildContext context, int index) {
                   return ShowServiceItem(service: _serviceList[index]);
@@ -467,6 +464,326 @@ class _OrderScreenState extends State<OrderScreen> {
     return DropdownMenuItem(
       value: item,
       child: Text(item),
+    );
+  }
+
+  _chooseDateTime(BuildContext context) {
+    var _pageHeight = MediaQuery.of(context).size.height;
+    var _pageWidth = MediaQuery.of(context).size.width;
+    var _primaryColor = Constants.primaryColor;
+    var _boxColor = Constants.boxColor;
+    var _bgColor = Constants.bgColor;
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(0),
+          backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+          scrollable: true,
+          content: Container(
+            width: _pageWidth,
+            height: _pageHeight * 0.8,
+            padding: EdgeInsets.fromLTRB(
+                _pageWidth * 0.03, _pageHeight * 0.05, _pageWidth * 0.03, 0),
+            decoration: BoxDecoration(
+              color: _boxColor,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text(
+                    'Chọn thời gian thực hiện',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: _pageHeight * 0.03,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(height: _pageHeight * 0.05),
+                  Container(
+                    width: _pageWidth,
+                    // alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Chọn ngày',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: _pageHeight * 0.026,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: _pageHeight * 0.02),
+                  FlatButton(
+                    padding: EdgeInsets.all(0),
+                    onPressed: () {
+                      setState(() {
+                        DatePicker.showDatePicker(context,
+                            showTitleActions: true,
+                            minTime: DateTime.now(),
+                            maxTime: DateTime(2023, 12, 31),
+                            onChanged: (date) {},
+                            onConfirm: (date) {
+                              setState(() {
+                                String dateInput = 'Ngày: ' +
+                                    date.day.toString() +
+                                    '-' +
+                                    date.month.toString() +
+                                    '-' +
+                                    date.year.toString();
+                                _changeDate(dateInput);
+                              });
+                            },
+                            currentTime: DateTime.now(),
+                            locale: LocaleType.vi);
+                      });
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          child: Container(
+                            height: _pageWidth * 0.04,
+                            width: _pageWidth * 0.04,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/cus/search_screen/calendar_ic.png'),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: _primaryColor,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        SizedBox(width: _pageWidth * 0.03),
+                        Text(
+                          _date,
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: _pageHeight * 0.02,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: _pageHeight * 0.03),
+                  Container(
+                    width: _pageWidth,
+                    // alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Chọn khung giờ',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: _pageHeight * 0.026,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: _pageHeight * 0.02),
+
+                  Row(
+                    children: [
+                      Container(
+                        height: _pageHeight*0.03,
+                        width: _pageHeight*0.03,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      Text(
+                        ' Không thể chọn',
+                        style: TextStyle(
+                          fontSize: _pageHeight*0.02,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Spacer(),
+                      Container(
+                        height: _pageHeight*0.03,
+                        width: _pageHeight*0.03,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.grey),
+                        ),
+                      ),
+                      Text(
+                        ' Có thể chọn',
+                        style: TextStyle(
+                          fontSize: _pageHeight*0.02,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+
+                    ],
+                  ),
+                  SizedBox(height: _pageHeight * 0.02),
+                  Row(
+                    children: [
+                      Container(
+                        height: _pageHeight*0.03,
+                        width: _pageHeight*0.03,
+                        decoration: BoxDecoration(
+                          color: _primaryColor,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      Text(
+                        ' Đang chọn',
+                        style: TextStyle(
+                          fontSize: _pageHeight*0.02,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: _pageHeight * 0.02),
+                  Container(
+                    width: _pageWidth,
+                    // alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Sáng',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: _pageHeight * 0.024,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: _pageHeight * 0.02),
+                  Container(
+                    height: _pageHeight * 0.08,
+                    child: ListView.separated(
+                      // physics: NeverScrollableScrollPhysics(),
+                      // shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: Globals.listTimeSlotMorning.length,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(width: _pageWidth * 0.015);
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        return TimeSlotItem(timeSlot: Globals.listTimeSlotMorning[index]);
+                      },
+                    ),
+                  ),
+                  SizedBox(height: _pageHeight * 0.02),
+                  Container(
+                    width: _pageWidth,
+                    // alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Chiều',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: _pageHeight * 0.024,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: _pageHeight * 0.02),
+                  Container(
+                    height: _pageHeight * 0.08,
+                    child: ListView.separated(
+                      // physics: NeverScrollableScrollPhysics(),
+                      // shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: Globals.listTimeSlotLunch.length,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(width: _pageWidth * 0.015);
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        return TimeSlotItem(timeSlot: Globals.listTimeSlotLunch[index]);
+                      },
+                    ),
+                  ),
+                  SizedBox(height: _pageHeight * 0.02),
+                  Container(
+                    width: _pageWidth,
+                    // alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Tối',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: _pageHeight * 0.024,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: _pageHeight * 0.02),
+                  Container(
+                    height: _pageHeight * 0.08,
+                    child: ListView.separated(
+                      // physics: NeverScrollableScrollPhysics(),
+                      // shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: Globals.listTimeSlotEvening.length,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(width: _pageWidth * 0.015);
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        return TimeSlotItem(timeSlot: Globals.listTimeSlotEvening[index]);
+                      },
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _changeDate(String date) async {
+    setState(() {
+      print('ngày được set: ' + date);
+      _date = date;
+    });
+  }
+
+  Future<void> _showConfirmDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Xác nhận đặt lịch'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Text('Bạn xác nhận muốn đặt lịch?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Xác nhận',style: TextStyle(color: _primaryColor),),
+              onPressed: () {
+                Navigator.pushNamed(context, '/orderSuccessScreen');
+              },
+            ),
+            TextButton(
+              child: Text('Hủy',style: TextStyle(color: _primaryColor),),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
