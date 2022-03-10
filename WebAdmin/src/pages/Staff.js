@@ -10,10 +10,12 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import { Card, Col, Row, Table } from "antd"
+import { Card, Col, Row, Table, Button, Modal, Form, Input, Select, Upload } from "antd"
+import { UploadOutlined } from '@ant-design/icons'
 import axios from "axios"
 import { useEffect, useState } from "react"
 
+const { Option } = Select
 
 // table code start
 const columns = [
@@ -61,6 +63,10 @@ function Staff() {
   const [pageSize, setPageSize] = useState(10)
   const [length, setLength] = useState()
   const [loading, setLoading] = useState(true)
+  const [visible, setVisible] = useState(false)
+  const [loadingButton, setLoadingButton] = useState(false)
+
+  const [form] = Form.useForm()
 
   useEffect(() => {
     axios.get(`https://pegoda.azurewebsites.net/api/v1.0/staffs?pageNumber=${currentPage}&pageSize=${pageSize}`, {
@@ -80,6 +86,48 @@ function Staff() {
       .catch(error => console.log(error.response))
   }, [])
 
+  const onFinish = (values) => {
+    console.log(values)
+    setLoadingButton(true)
+    const formData = new FormData()
+    formData.append('file', values.image.file)
+    let image = ''
+    axios.post('https://pegoda.azurewebsites.net/api/v1.0/uploads', formData, {
+      headers: {
+        //'Authorization': `Bearer ${token}`
+        'Content-Type': `multipart/form-data; boundary=${data._boundary}`
+      }
+    }).then((response) => {
+      console.log(response.data)
+      const centerId = localStorage.getItem('centerId')
+      image = response.data.urlImage
+      console.log({
+        name: values.name,
+        gender: values.gender,
+        email: values.email,
+        image,
+        centerId
+      })
+      axios.post('https://pegoda.azurewebsites.net/api/v1.0/staffs/register', {
+        // headers: {
+        //   'Authorization': `Bearer ${token}`
+        // },
+        // data: {
+        name: values.name,
+        gender: values.gender,
+        email: values.email,
+        image,
+        centerId
+        // }
+      }).then(response => {
+        console.log(response.data)
+        setLoadingButton(false)
+        setVisible(false)
+      })
+        .catch(error => console.log(error.response))
+    }).catch(error => console.log(error.response))
+  }
+
   return (
     <>
       <div className="tabled">
@@ -89,14 +137,11 @@ function Staff() {
               bordered={false}
               className="criclebox tablespace mb-24"
               title="Quản lý nhân viên"
-            // extra={
-            //   <>
-            //     <Radio.Group onChange={onChange} defaultValue="a">
-            //       <Radio.Button value="a">All</Radio.Button>
-            //       <Radio.Button value="b">ONLINE</Radio.Button>
-            //     </Radio.Group>
-            //   </>
-            // }
+              extra={
+                <Button type='primary' onClick={() => {
+                  setVisible(true)
+                }}>Tạo Nhân Viên</Button>
+              }
             >
               <div className="table-responsive">
                 <Table
@@ -118,7 +163,76 @@ function Staff() {
             </Card>
           </Col>
         </Row>
-      </div>
+      </div >
+      <Modal
+        title='Tạo tài khoản nhân viên'
+        visible={visible}
+        onCancel={() => {
+          setVisible(false)
+          form.resetFields()
+        }}
+        maskClosable={false}
+        footer={false}
+      >
+        <Form
+          form={form}
+          name="basic"
+          layout='vertical'
+          onFinish={onFinish}
+          autoComplete="off"
+        >
+          <Form.Item
+            label="Họ Và Tên"
+            name="name"
+            rules={[{ required: true, message: 'Vui lòng nhập họ và tên' }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Email"
+            name='email'
+            rules={[{ required: true, type: 'email', message: 'Vui lòng nhập email' }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label='Giới tính'
+            name='gender'
+            rules={[{ required: true, message: 'Vui lòng chọn giới tính' }]}
+          >
+            <Select defaultValue="Giới tính" onChange={(value) => console.log(value)}>
+              <Option value='Nam'>
+                Nam
+              </Option>
+              <Option value='Nữ'>
+                Nữ
+              </Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            label='Hình ảnh'
+            name='image'
+            rules={[{ required: true, message: 'Vui lòng tải lên ảnh' }]}
+          >
+            <Upload
+              listType='picture'
+              maxCount={1}
+              beforeUpload={() => false}
+            >
+              <Button icon={<UploadOutlined />}>Tải hình ảnh</Button>
+            </Upload>
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit" loading={loadingButton}>
+              Đăng kí
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   )
 }

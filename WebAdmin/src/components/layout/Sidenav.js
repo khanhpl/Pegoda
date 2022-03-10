@@ -224,6 +224,25 @@ function Sidenav({ color }) {
             <span className="label">Nhân Viên</span>
           </NavLink>
         </Menu.Item>
+        <Menu.Item key="4">
+          <NavLink to="/admin">
+            <span
+              className="icon"
+              style={{
+                background: page === "admin" ? color : "",
+              }}
+            >
+              <span
+                style={{
+                  opacity: page !== "admin" ? '0.4' : "",
+                  color: page === "admin" ? "white" : ""
+                }} class="material-icons-outlined" >
+                admin_panel_settings
+              </span>
+            </span>
+            <span className="label">Admin</span>
+          </NavLink>
+        </Menu.Item>
         {/* <Menu.Item key="3">
           <NavLink to="/billing">
             <span
