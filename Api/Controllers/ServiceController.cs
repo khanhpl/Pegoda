@@ -97,10 +97,10 @@ namespace Api.Controllers
             if (name != null && centerId != Guid.Empty)
             {
                 listService = await _service.SearchByNameAndCenterId(centerId, name, pageNumber, pageSize);
-                
+
                 return listService;
             }
-            else if (name != null)
+            else if (name != null && centerId == Guid.Empty)
             {
                 listService = await _service.SearchByName(name, pageNumber, pageSize);
                 if (listService == null)
@@ -109,7 +109,7 @@ namespace Api.Controllers
                 }
                 return listService;
             }
-            else if (centerId != Guid.Empty)
+            else if (centerId != Guid.Empty && name == null)
             {
                 listService = await _service.SearchByCenterId(centerId, pageNumber, pageSize);
                 if (listService == null)
