@@ -84,24 +84,40 @@ namespace Api.Controllers
             return NoContent();
         }
         [HttpGet]
-        [SwaggerOperation(Summary = "Search by name and paging")]
-        public async Task<List<Service>> SearchByName(String name, int pageNumber, int pageSize)
+        [SwaggerOperation(Summary = "Search by name or center id and paging")]
+        public async Task<List<Service>> SearchByName(String name, Guid centerId, int pageNumber, int pageSize)
         {
-            if (name == null)
+            List<Service> listService = new List<Service>();
+            if (name == null && centerId == Guid.Empty)
             {
-                List<Service> listService = _service.GetList(pageNumber, pageSize);
+                listService = _service.GetList(pageNumber, pageSize);
 
                 return listService;
             }
-            else
+            if (name != null && centerId != Guid.Empty)
             {
-                List<Service> service = await _service.SearchByName(name, pageNumber, pageSize);
-                if (service == null)
+                listService = await _service.SearchByNameAndCenterId(centerId, name, pageNumber, pageSize);
+
+                return listService;
+            }
+            else if (name != null && centerId == Guid.Empty)
+            {
+                listService = await _service.SearchByName(name, pageNumber, pageSize);
+                if (listService == null)
                 {
                     return null;
                 }
-                return service;
+                return listService;
             }
+            else if (centerId != Guid.Empty && name == null)
+            {
+                listService = await _service.SearchByCenterId(centerId, pageNumber, pageSize);
+                if (listService == null)
+                {
+                    return null;
+                }
+            }
+            return listService;
         }
     }
 }
