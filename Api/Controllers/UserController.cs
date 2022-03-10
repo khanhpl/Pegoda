@@ -31,28 +31,7 @@ namespace Api.Controllers
                 RoleId = new Guid("9e675f86-b425-4047-a36f-08d9fb37c635")
             };
             await _service.Create(user);
-            return CreatedAtAction(nameof(GetByEmail), new { email = newUser.Email }, newUser);
-        }
-
-        [HttpGet]
-        [SwaggerOperation(Summary = "Get information user by email")]
-        public ActionResult GetByEmail(string email)
-        {
-            User response = _service.GetByEmail(email);
-            if (response == null)
-            {
-                return NotFound();
-            }
-            ResponseUserModel user = new ResponseUserModel
-            {
-                Id = response.Id,
-                Name = response.Name,
-                Email = response.Email,
-                Address = response.Address,
-                Image = response.Image,
-                RoleId = response.RoleId
-            };
-            return Ok(user);
+            return CreatedAtAction(nameof(GetList), new { email = newUser.Email }, newUser);
         }
         [Route("Login")]
         [HttpPost]
@@ -104,6 +83,33 @@ namespace Api.Controllers
                 return BadRequest();
             }
             return NoContent();
+        }
+        [HttpGet]
+        [SwaggerOperation(Summary = "Get information user by email, by roleId and pagination")]
+        public async Task<ActionResult> GetList(string email, Guid roleId, int pageNumber, int pageSize)
+        {
+            if (email == null)
+            {
+                return Ok(await _service.GetList(roleId, pageNumber, pageSize));
+            }
+            else
+            {
+                User response = _service.GetByEmail(email);
+                if (response == null)
+                {
+                    return NotFound();
+                }
+                ResponseUserModel user = new ResponseUserModel
+                {
+                    Id = response.Id,
+                    Name = response.Name,
+                    Email = response.Email,
+                    Address = response.Address,
+                    Image = response.Image,
+                    RoleId = response.RoleId
+                };
+                return Ok(user);
+            }
         }
     }
 }
