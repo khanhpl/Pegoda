@@ -10,8 +10,8 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import { Card, Col, Row, Table, Button, Modal, Form, Input, Select, Upload } from "antd"
 import { UploadOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Form, Input, Modal, Row, Select, Table, Upload } from "antd"
 import axios from "axios"
 import { useEffect, useState } from "react"
 

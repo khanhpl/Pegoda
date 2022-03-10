@@ -1,5 +1,7 @@
-import { Button, Col, Row, Card, Modal, Form, Input, InputNumber, Table } from 'antd'
-import { useState, useEffect } from 'react'
+import { UploadOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Form, Input, Modal, Row, Table, Upload } from 'antd'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 
 const Admin = () => {
     const [visible, setVisible] = useState(false)
@@ -9,8 +11,45 @@ const Admin = () => {
 
     const [form] = Form.useForm()
 
-    const onFinish = () => {
-
+    const onFinish = (values) => {
+        console.log(values)
+        setLoadingButton(true)
+        const formData = new FormData()
+        formData.append('file', values.image.file)
+        let image = ''
+        axios.post('https://pegoda.azurewebsites.net/api/v1.0/uploads', formData, {
+            headers: {
+                //'Authorization': `Bearer ${token}`
+                'Content-Type': `multipart/form-data; boundary=${data._boundary}`
+            }
+        }).then((response) => {
+            console.log(response.data)
+            const centerId = localStorage.getItem('centerId')
+            image = response.data.urlImage
+            console.log({
+                name: values.name,
+                gender: values.gender,
+                email: values.email,
+                image,
+                centerId
+            })
+            axios.post('https://pegoda.azurewebsites.net/api/v1.0/users/register', {
+                // headers: {
+                //   'Authorization': `Bearer ${token}`
+                // },
+                // data: {
+                name: values.name,
+                email: values.email,
+                image,
+                address: values.address
+                // }
+            }).then(response => {
+                console.log(response.data)
+                setLoadingButton(false)
+                setVisible(false)
+            })
+                .catch(error => console.log(error.response))
+        }).catch(error => console.log(error.response))
     }
 
     const columns = [
@@ -40,7 +79,13 @@ const Admin = () => {
     ]
 
     useEffect(() => {
-
+        axios.get('https://pegoda.azurewebsites.net/api/v1.0/users?roleId=9E675F86-B425-4047-A36F-08D9FB37C635', {
+            //'Authorization': `Bearer ${token}`
+        }).then(response => {
+            console.log(response.data)
+            setData(response.data)
+            setLoading(false)
+        }).catch(error => console.log(error))
     }, [])
 
     return (
@@ -89,18 +134,18 @@ const Admin = () => {
                     autoComplete="off"
                 >
                     <Form.Item
-                        label="Tên Cửa Hàng"
+                        label="Họ Và Tên"
                         name="name"
-                        rules={[{ required: true, message: 'Vui lòng nhập tên cửa hàng' }]}
+                        rules={[{ required: true, message: 'Vui lòng nhập họ và tên' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Mô Tả"
-                        name="description"
-                        rules={[{ required: true, message: 'Vui lòng nhập mô tả' }]}
+                        label="Email"
+                        name="email"
+                        rules={[{ required: true, message: 'Vui lòng nhập email', type: 'email' }]}
                     >
-                        <Input.TextArea />
+                        <Input />
                     </Form.Item>
                     <Form.Item
                         label="Địa Chỉ"
@@ -110,18 +155,17 @@ const Admin = () => {
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Kinh Độ"
-                        name="longitude"
-                        rules={[{ required: true, message: 'Vui lòng nhập kinh độ' }]}
+                        label='Hình ảnh'
+                        name='image'
+                        rules={[{ required: true, message: 'Vui lòng tải lên ảnh' }]}
                     >
-                        <InputNumber />
-                    </Form.Item>
-                    <Form.Item
-                        label="Vĩ Độ"
-                        name="latitude"
-                        rules={[{ required: true, message: 'Vui lòng nhập vĩ độ' }]}
-                    >
-                        <InputNumber />
+                        <Upload
+                            listType='picture'
+                            maxCount={1}
+                            beforeUpload={() => false}
+                        >
+                            <Button icon={<UploadOutlined />}>Tải hình ảnh</Button>
+                        </Upload>
                     </Form.Item>
 
                     <Form.Item>
