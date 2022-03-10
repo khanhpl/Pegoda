@@ -88,10 +88,16 @@ namespace Api.Controllers
         public async Task<List<Service>> SearchByName(String name, Guid centerId, int pageNumber, int pageSize)
         {
             List<Service> listService = new List<Service>();
-            if (name == null || centerId == Guid.Empty)
+            if (name == null && centerId == Guid.Empty)
             {
                 listService = _service.GetList(pageNumber, pageSize);
 
+                return listService;
+            }
+            if (name != null && centerId != Guid.Empty)
+            {
+                listService = await _service.SearchByNameAndCenterId(centerId, name, pageNumber, pageSize);
+                
                 return listService;
             }
             else if (name != null)

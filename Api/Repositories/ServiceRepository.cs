@@ -86,5 +86,18 @@ namespace Api.Repositories
             }
             return service;
         }
+        public async Task<List<Service>> SearchByNameAndCenterId(Guid centerId, String name, int pageNumber, int pageSize)
+        {
+            if (pageNumber == 0 && pageSize == 0)
+            {
+                return await _context.Service.Where(x => (x.CenterId.Equals(centerId)) && x.Name.Contains(name)).ToListAsync();
+            }
+            List<Service> service = await _context.Service.Where(x => (x.CenterId.Equals(centerId)) && x.Name.Contains(name)).ToPagedList(pageNumber, pageSize).ToListAsync();
+            if (service == null)
+            {
+                return null;
+            }
+            return service;
+        }
     }
 }
