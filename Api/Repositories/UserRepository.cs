@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Data;
 using Api.Entities;
 using Api.Models;
+using Google.Apis.Util;
 using Microsoft.EntityFrameworkCore;
 using quiz_app_dotnet_api.Helper;
+using X.PagedList;
 
 namespace Api.Repositories
 {
@@ -61,6 +64,18 @@ namespace Api.Repositories
             _context.User.Update(newUser);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<List<User>> GetList(Guid roleId, int pageNumber, int pageSize)
+        {
+            if (pageNumber == 0 && pageSize == 0)
+            {
+                return await _context.User.Where(x => x.RoleId == roleId).ToListAsync();
+            }
+            else
+            {
+                return await _context.User.Where(x => x.RoleId == roleId).ToPagedList(pageNumber, pageSize).ToListAsync();
+            }
         }
     }
 }
