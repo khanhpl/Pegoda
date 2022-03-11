@@ -21,6 +21,7 @@ import {
   Input,
   Checkbox,
   Spin,
+  message
 } from "antd"
 // import logo1 from "../assets/images/logos-facebook.svg"
 // import logo2 from "../assets/images/logo-apple.svg"
@@ -38,6 +39,7 @@ import {
   GithubOutlined,
 } from "@ant-design/icons"
 import axios from "axios"
+import jwtDecode from "jwt-decode"
 
 const { Title } = Typography
 const { Header, Footer, Content } = Layout
@@ -201,12 +203,20 @@ export default function SignUp() {
                         token: response.user.accessToken
                       }).then(response => {
                         console.log(response.data)
-                        localStorage.setItem('token', response.data.token)
-                        setLoading(false)
-                        history.push('/dashboard')
+                        const decode = jwtDecode(response.data.token)
+                        if (decode.Role !== 'ADMIN') {
+                          message.error('Tài khoản này không có quyền để truy cập', 5)
+                          setLoading(false)
+                        } else {
+                          localStorage.setItem('token', response.data.token)
+                          setLoading(false)
+                          history.push('/dashboard')
+                          message.success('Đăng nhập thành công')
+                        }
                       }).catch(error => {
                         console.log(error)
                         setLoading(false)
+                        message.error('Tài khoản chưa được đăng kí', 5)
                       })
                     })
                 }}>
