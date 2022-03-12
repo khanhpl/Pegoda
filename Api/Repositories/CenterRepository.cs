@@ -29,7 +29,7 @@ namespace Api.Repositories
             {
                 return false;
             }
-            User user = _context.User.AsNoTracking().FirstOrDefault(x => x.Id == newCenter.Id);
+            User user = _context.User.AsNoTracking().FirstOrDefault(x => x.Email == newCenter.Email);
             if (user == null)
             {
                 return false;
