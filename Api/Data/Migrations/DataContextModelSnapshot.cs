@@ -69,6 +69,9 @@ namespace Api.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<float>("Latitude")
                         .HasColumnType("real");
 
@@ -233,9 +236,6 @@ namespace Api.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")

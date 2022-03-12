@@ -25,6 +25,7 @@ namespace Api.Controllers
             Center center = new Center
             {
                 Name = newCenter.Name,
+                Email = newCenter.Email,
                 Description = newCenter.Description,
                 Address = newCenter.Address,
                 Longitude = newCenter.Longitude,
@@ -33,6 +34,7 @@ namespace Api.Controllers
             User user = new User
             {
                 Name = newCenter.Name,
+                Email = newCenter.Email,
                 Address = newCenter.Address,
                 RoleId = new Guid("4aed7714-efbe-421c-5f5a-08d9f62291f6"),
             };
