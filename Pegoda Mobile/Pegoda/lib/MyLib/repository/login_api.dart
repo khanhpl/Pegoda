@@ -30,9 +30,6 @@ class LoginApi {
       // print('token: ' + token);
       if (response.statusCode.toString() == '200') {
         Globals.CheckExistedUser = true;
-        if(Globals.CheckExistedUser){
-          print('đúng 1');
-        }
         return true;
       } else {
         Globals.CheckExistedUser = false;

@@ -367,7 +367,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                   )
                 ]),
                 Container(
-                  height: _pageHeight * 0.35,
+                  height: _pageHeight * 0.37,
                   child: ListView.separated(
                     // physics: NeverScrollableScrollPhysics(),
                     // shrinkWrap: true,
