@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using Api.Data;
 using Api.Entities;
@@ -76,7 +77,22 @@ namespace Api.Repositories
             {
                 return false;
             }
+            User user = await _context.User.AsNoTracking().FirstOrDefaultAsync(x => x.Email == newStaff.Email);
+            if (user == null)
+            {
+                return false;
+            }
+            User newUser = new User()
+            {
+                Id = user.Id,
+                Name = newStaff.Name,
+                Email = newStaff.Email,
+                Image = newStaff.Image,
+                Address = user.Address,
+                RoleId = user.RoleId,
+            };
             _context.Staff.Update(newStaff);
+            _context.User.Update(newUser);
             await _context.SaveChangesAsync();
             return true;
         }

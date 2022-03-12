@@ -29,6 +29,21 @@ namespace Api.Repositories
             {
                 return false;
             }
+            User user = _context.User.AsNoTracking().FirstOrDefault(x => x.Id == newCenter.Id);
+            if (user == null)
+            {
+                return false;
+            }
+            User newUser = new User()
+            {
+                Id = user.Id,
+                Name = newCenter.Name,
+                Email = user.Email,
+                Image = user.Image,
+                Address = newCenter.Address,
+                RoleId = user.RoleId,
+            };
+            _context.User.Update(newUser);
             _context.Center.Update(newCenter);
             await _context.SaveChangesAsync();
             return true;
@@ -71,7 +86,7 @@ namespace Api.Repositories
             {
                 return await _context.Center.Where(x => x.Name.Contains(name) || x.Address.Contains(address)).ToListAsync();
             }
-            List<Center> center = await _context.Center.Where((x => x.Name.Contains(name) || x.Address.Contains(address))).ToPagedList(pageNumber,pageSize).ToListAsync();
+            List<Center> center = await _context.Center.Where((x => x.Name.Contains(name) || x.Address.Contains(address))).ToPagedList(pageNumber, pageSize).ToListAsync();
             if (center == null)
             {
                 return null;

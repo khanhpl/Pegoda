@@ -56,6 +56,21 @@ namespace Api.Repositories
             {
                 return false;
             }
+            User user = await _context.User.AsNoTracking().FirstOrDefaultAsync(x => x.Email == newCustomer.Email);
+            if (user == null)
+            {
+                return false;
+            }
+            User newUser = new User()
+            {
+                Id = user.Id,
+                Name = newCustomer.Name,
+                Email = newCustomer.Email,
+                Image = newCustomer.Image,
+                Address = newCustomer.Address,
+                RoleId = user.RoleId,
+            };
+            _context.User.Update(newUser);
             _context.Customer.Update(newCustomer);
             await _context.SaveChangesAsync();
             return true;
