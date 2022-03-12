@@ -18,7 +18,7 @@ const columns = [
     title: "STT",
     dataIndex: "stt",
     key: "stt",
-    // width: "32%",
+    width: "5%",
     render: (item, record, index) => (<>{index + 1}</>)
   },
   {
@@ -26,11 +26,16 @@ const columns = [
     dataIndex: "name",
     key: "name",
   },
-
+  {
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
+  },
   {
     title: "Địa Chỉ",
     key: "address",
     dataIndex: "address",
+    ellipsis: true,
   },
   {
     title: "Kinh Độ",
@@ -48,22 +53,32 @@ const columns = [
 function Center() {
   const [visible, setVisible] = useState(false)
   const [loadingButton, setLoadingButton] = useState(false)
-
-  const [form] = Form.useForm()
-
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
+  const [length, setLength] = useState()
+  const [pageSize, setPageSize] = useState(10)
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const [form] = Form.useForm()
 
   useEffect(() => {
     axios.get('https://pegoda.azurewebsites.net/api/v1.0/centers', {
       //'Authorization': `Bearer ${token}`
     }).then((response) => {
       console.log(response.data)
-      setData(response.data)
-      setLoading(false)
+      setLength(response.data.length)
     })
       .catch(error => console.log(error.response))
   }, [])
+
+  useEffect(() => {
+    axios.get(`https://pegoda.azurewebsites.net/api/v1.0/centers?pageNumber=${currentPage}&pageSize=${pageSize}`)
+      .then((response) => {
+        console.log(response.data)
+        setData(response.data)
+        setLoading(false)
+      })
+  }, [currentPage, pageSize])
 
   const onFinish = (values) => {
     console.log(values)
@@ -88,6 +103,7 @@ function Center() {
           <Col xs="24" xl={24}>
             <Card
               bordered={false}
+              style={{ paddingRight: 10, paddingLeft: 10 }}
               className="criclebox tablespace mb-24"
               title="Quản lý cửa hàng"
               extra={
@@ -100,7 +116,15 @@ function Center() {
                 <Table
                   columns={columns}
                   dataSource={data}
-                  pagination={true}
+                  pagination={{
+                    current: currentPage,
+                    pageSize: pageSize,
+                    total: length,
+                    onChange: (page, pageSize) => {
+                      setCurrentPage(page)
+                      setPageSize(pageSize)
+                    }
+                  }}
                   loading={loading}
                   className="ant-border-space"
                 />

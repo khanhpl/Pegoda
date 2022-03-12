@@ -23,7 +23,7 @@ const columns = [
     title: "STT",
     dataIndex: "stt",
     key: "stt",
-    // width: "32%",
+    width: "5%",
     render: (item, record, index) => (<>{index + 1}</>)
   },
   {
@@ -134,6 +134,7 @@ function Staff() {
         <Row gutter={[24, 0]}>
           <Col xs="24" xl={24}>
             <Card
+              style={{ paddingRight: 10, paddingLeft: 10 }}
               bordered={false}
               className="criclebox tablespace mb-24"
               title="Quản lý nhân viên"

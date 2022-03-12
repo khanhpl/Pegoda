@@ -8,6 +8,9 @@ const Admin = () => {
     const [loadingButton, setLoadingButton] = useState(false)
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState([])
+    const [length, setLength] = useState()
+    const [pageSize, setPageSize] = useState(10)
+    const [currentPage, setCurrentPage] = useState(1)
 
     const [form] = Form.useForm()
 
@@ -57,6 +60,7 @@ const Admin = () => {
             title: "STT",
             dataIndex: "stt",
             key: "stt",
+            width: '5%',
             render: (item, record, index) => (<>{index + 1}</>)
         },
         {
@@ -83,10 +87,19 @@ const Admin = () => {
             //'Authorization': `Bearer ${token}`
         }).then(response => {
             console.log(response.data)
-            setData(response.data)
-            setLoading(false)
+            setLength(response.data.length)
         }).catch(error => console.log(error))
     }, [])
+
+    useEffect(() => {
+        axios.get(`https://pegoda.azurewebsites.net/api/v1.0/users?roleId=9E675F86-B425-4047-A36F-08D9FB37C635&pageNumber=${currentPage}&pageSize=${pageSize}`)
+            .then((response) => {
+                console.log(response.data)
+                setData(response.data)
+                setLoading(false)
+            })
+            .catch(error => console.log(error))
+    }, [currentPage, pageSize])
 
     return (
         <>
@@ -94,6 +107,7 @@ const Admin = () => {
                 <Row gutter={[24, 0]}>
                     <Col xs="24" xl={24}>
                         <Card
+                            style={{ paddingRight: 10, paddingLeft: 10 }}
                             bordered={false}
                             className="criclebox tablespace mb-24"
                             title="Quản lý cửa hàng"
@@ -107,7 +121,15 @@ const Admin = () => {
                                 <Table
                                     columns={columns}
                                     dataSource={data}
-                                    pagination={true}
+                                    pagination={{
+                                        current: currentPage,
+                                        pageSize: pageSize,
+                                        total: length,
+                                        onChange: (page, pageSize) => {
+                                            setCurrentPage(page)
+                                            setPageSize(pageSize)
+                                        }
+                                    }}
                                     loading={loading}
                                     className="ant-border-space"
                                 />
