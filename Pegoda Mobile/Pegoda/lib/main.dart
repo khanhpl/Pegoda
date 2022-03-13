@@ -15,7 +15,7 @@ import 'package:pegoda/screens/welcome/welcome_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pegoda/screens/welcome/register_screen.dart';
-
+import 'package:pegoda/screens/customer/cus_main/chat_screen.dart';
 
 
 Future main() async{
@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
                 CusMain(selectedIndex: 1, isBottomNav: true),
             '/notificationScreen': (context) =>
                 CusMain(selectedIndex: 1, isBottomNav: false),
+            '/chatScreen': (context) => ChatPage(),
             '/personalSettingScreen': (context) => PersonalSettingScreen(),
             '/orderHistoryScreen': (context) => OrderHistoryScreen(),
             '/appInforScreen': (context) => AppInforScreen(),

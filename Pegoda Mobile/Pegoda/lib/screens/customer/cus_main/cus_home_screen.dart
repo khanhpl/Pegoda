@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/PetcarePlace.dart';
 import 'package:pegoda/MyLib/class/coupon.dart';
@@ -142,7 +141,8 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                         children: [
                           FlatButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/neareastPCCScreen');
+                              Navigator.pushNamed(
+                                  context, '/neareastPCCScreen');
                             },
                             child: Image.asset(
                               'assets/cus/main_screen/center_ic.png',
@@ -220,7 +220,9 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                       Column(
                         children: [
                           FlatButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/chatScreen');
+                            },
                             child: Image.asset(
                               'assets/cus/main_screen/chat_online_ic.png',
                               height: _pageWidth * 0.3 * 0.33,
@@ -303,7 +305,6 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                 ]),
                 SizedBox(height: _pageHeight * 0.02),
                 Container(
-
                   height: _pageHeight * 0.32,
                   child: ListView.separated(
                     // physics: NeverScrollableScrollPhysics(),
@@ -368,7 +369,181 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                 ),
 
                 SizedBox(height: _pageHeight * 0.03),
-                //Trung tâm nổi bật
+                Row(children: [
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //spa grooming
+                        FlatButton(
+                          onPressed: () {},
+                          child: Image.asset(
+                            'assets/cus/main_screen/groomingPet.png',
+                            height: _pageWidth * 0.3 * 0.33,
+                            width: _pageWidth * 0.3 * 0.33,
+                          ),
+                          padding: EdgeInsets.all(0),
+                        ),
+                        SizedBox(height: _pageHeight * 0.03),
+                        Container(
+                          child: Text(
+                            'Spa & grooming',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                      ]),
+                  SizedBox(width: _pageWidth * 0.03),
+                  // kham benh
+                  Column(children: [
+                    FlatButton(
+                      onPressed: () {},
+                      child: Image.asset(
+                        'assets/cus/main_screen/khambenh.png',
+                        height: _pageWidth * 0.3 * 0.33,
+                        width: _pageWidth * 0.3 * 0.33,
+                      ),
+                      padding: EdgeInsets.all(0),
+                    ),
+                    SizedBox(height: _pageHeight * 0.03),
+                    Container(
+                      child: Text(
+                        'Kham benh',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ]),
+                  //dat cho di dao
+                  Column(children: [
+                    FlatButton(
+                      onPressed: () {},
+                      child: Image.asset(
+                        'assets/cus/main_screen/datchodidao.png',
+                        height: _pageWidth * 0.3 * 0.33,
+                        width: _pageWidth * 0.3 * 0.33,
+                      ),
+                      padding: EdgeInsets.all(0),
+                    ),
+                    SizedBox(height: _pageHeight * 0.03),
+                    Container(
+                      child: Text(
+                        'Dat cho di dao',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ]),
+                  //cap cuu 24/7
+                  Expanded(
+                    child: Column(children: [
+                      FlatButton(
+                        onPressed: () {},
+                        child: Image.asset(
+                          'assets/cus/main_screen/capcuu.png',
+                          height: _pageWidth * 0.3 * 0.33,
+                          width: _pageWidth * 0.3 * 0.33,
+                        ),
+                        padding: EdgeInsets.all(0),
+                      ),
+                      SizedBox(height: _pageHeight * 0.03),
+                      Container(
+                        child: Text(
+                          'Cap cuu 24/7',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ]),
+                  ),
+                ]),
+                SizedBox(height: _pageHeight * 0.03),
+                Row(children: [
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //spa grooming
+                        FlatButton(
+                          onPressed: () {},
+                          child: Image.asset(
+                            'assets/cus/main_screen/groomingPet.png',
+                            height: _pageWidth * 0.3 * 0.33,
+                            width: _pageWidth * 0.3 * 0.33,
+                          ),
+                          padding: EdgeInsets.all(0),
+                        ),
+                        SizedBox(height: _pageHeight * 0.03),
+                        Container(
+                          child: Text(
+                            'Spa & grooming',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                      ]),
+                  SizedBox(width: _pageWidth * 0.03),
+                  // kham benh
+                  Column(children: [
+                    FlatButton(
+                      onPressed: () {},
+                      child: Image.asset(
+                        'assets/cus/main_screen/khambenh.png',
+                        height: _pageWidth * 0.3 * 0.33,
+                        width: _pageWidth * 0.3 * 0.33,
+                      ),
+                      padding: EdgeInsets.all(0),
+                    ),
+                    SizedBox(height: _pageHeight * 0.03),
+                    Container(
+                      child: Text(
+                        'Kham benh',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ]),
+                  //dat cho di dao
+                  Column(children: [
+                    FlatButton(
+                      onPressed: () {},
+                      child: Image.asset(
+                        'assets/cus/main_screen/datchodidao.png',
+                        height: _pageWidth * 0.3 * 0.33,
+                        width: _pageWidth * 0.3 * 0.33,
+                      ),
+                      padding: EdgeInsets.all(0),
+                    ),
+                    SizedBox(height: _pageHeight * 0.03),
+                    Container(
+                      child: Text(
+                        'Dat cho di dao',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ]),
+                  //cap cuu 24/7
+                  Expanded(
+                    child: Column(children: [
+                      FlatButton(
+                        onPressed: () {},
+                        child: Image.asset(
+                          'assets/cus/main_screen/capcuu.png',
+                          height: _pageWidth * 0.3 * 0.33,
+                          width: _pageWidth * 0.3 * 0.33,
+                        ),
+                        padding: EdgeInsets.all(0),
+                      ),
+                      SizedBox(height: _pageHeight * 0.03),
+                      Container(
+                        child: Text(
+                          'Cap cuu 24/7',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ]),
+                  ),
+                ]),
 
                 SizedBox(height: _pageHeight * 0.03),
                 //Trung tâm nổi bật
