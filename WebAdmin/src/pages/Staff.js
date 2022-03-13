@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
 /*!
 =========================================================
@@ -65,6 +66,7 @@ function Staff() {
   const [loading, setLoading] = useState(true)
   const [visible, setVisible] = useState(false)
   const [loadingButton, setLoadingButton] = useState(false)
+  const [dataSelect, setDataSelect] = useState([])
 
   const [form] = Form.useForm()
 
@@ -86,6 +88,13 @@ function Staff() {
       .catch(error => console.log(error.response))
   }, [])
 
+  useEffect(() => {
+    axios.get('https://pegoda.azurewebsites.net/api/v1.0/centers', {
+      //'Authorization': `Bearer ${token}`
+    }).then(response => setDataSelect(response.data))
+      .catch(error => console.log(error))
+  }, [])
+
   const onFinish = (values) => {
     console.log(values)
     setLoadingButton(true)
@@ -99,14 +108,13 @@ function Staff() {
       }
     }).then((response) => {
       console.log(response.data)
-      const centerId = localStorage.getItem('centerId')
       image = response.data.urlImage
       console.log({
         name: values.name,
         gender: values.gender,
         email: values.email,
         image,
-        centerId
+        centerId: values.centerId
       })
       axios.post('https://pegoda.azurewebsites.net/api/v1.0/staffs/register', {
         // headers: {
@@ -117,7 +125,7 @@ function Staff() {
         gender: values.gender,
         email: values.email,
         image,
-        centerId
+        centerId: values.centerId
         // }
       }).then(response => {
         console.log(response.data)
@@ -225,6 +233,19 @@ function Staff() {
             >
               <Button icon={<UploadOutlined />}>Tải hình ảnh</Button>
             </Upload>
+          </Form.Item>
+
+          <Form.Item
+            label='Tên Trung Tâm'
+            name='centerId'
+            rules={[{ required: true, message: 'Vui lòng chọn tên trung tâm' }]}>
+            <Select defaultValue="Tên Trung Tâm" onChange={(value) => console.log(value)}>
+              {dataSelect.map((element) => (
+                <Option key={element.id} value={element.id}>
+                  {element.name}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
 
           <Form.Item>
