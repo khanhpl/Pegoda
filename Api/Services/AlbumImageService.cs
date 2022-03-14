@@ -25,13 +25,17 @@ namespace Api.Services
         {
             return await _repo.GetById(id);
         }
-        public async Task<List<AlbumImage>> GetByCenterIdOrPetId(Guid PetId, int pageNumber, int pageSize)
+        public async Task<List<AlbumImage>> GetByPetId(Guid PetId, int pageNumber, int pageSize)
         {
             return await _repo.GetByPetId(PetId, pageSize, pageNumber);
         }
         public async Task<List<AlbumImage>> GetByCenterId(Guid CenterId, int pageNumber, int pageSize)
         {
             return await _repo.GetByCenterId(CenterId, pageSize, pageNumber);
+        }
+        public async Task<List<AlbumImage>> GetByCenterIdAndPetId(Guid CenterId, Guid PetId, int pageNumber, int pageSize)
+        {
+            return await _repo.GetByCenterIdAndPetId(CenterId, PetId, pageSize, pageNumber);
         }
         public List<AlbumImage> GetList(int pageNumber, int pageSize)
         {

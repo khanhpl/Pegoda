@@ -82,6 +82,22 @@ namespace Api.Repositories
             return listAlbumImage;
         }
 
+        public async Task<List<AlbumImage>> GetByCenterIdAndPetId(Guid CenterId, Guid PetId, int pageNumber, int pageSize)
+        {
+            if (pageNumber == 0 && pageSize == 0)
+            {
+                return await _context.AlbumImage.Where(x => x.CenterId.Equals(CenterId) && x.PetId.Equals(PetId)).ToListAsync();
+            }
+            List<AlbumImage> listAlbumImage = await _context.AlbumImage.Where(x => x.CenterId.Equals(CenterId) && x.PetId.Equals(PetId)).ToPagedList(pageNumber, pageSize).ToListAsync();
+            if (listAlbumImage == null)
+            {
+                return null;
+            }
+            return listAlbumImage;
+        }
+        
+
+
         public async Task<bool> Update(AlbumImage newAlbumImage)
         {
             AlbumImage albumImage = await _context.AlbumImage.AsNoTracking().FirstOrDefaultAsync(x => x.Id == newAlbumImage.Id);

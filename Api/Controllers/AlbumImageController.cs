@@ -74,19 +74,25 @@ namespace Api.Controllers
         [SwaggerOperation(Summary = "Get album image by Center Id or by Pet Id and pagination")]
         public async Task<List<AlbumImage>> GetByCenterIdOrPetId(Guid CenterId, Guid PetId, int pageNumber, int pageSize)
         {
-            if (CenterId == Guid.Empty || PetId == Guid.Empty)
+            if (CenterId == Guid.Empty && PetId == Guid.Empty)
             {
                 return _service.GetList(pageNumber, pageSize);
             }
-            else if (CenterId != Guid.Empty)
+            else if (CenterId != Guid.Empty && PetId != Guid.Empty)
+            {
+                List<AlbumImage> listAlbumImagesByCenterIdAndPetId = await _service.GetByCenterIdAndPetId(CenterId, PetId, pageNumber, pageSize);
+
+                return listAlbumImagesByCenterIdAndPetId;
+            }
+            else if (CenterId != Guid.Empty && PetId == Guid.Empty)
             {
                 List<AlbumImage> listAlbumImagesByCenterId = await _service.GetByCenterId(CenterId, pageNumber, pageSize);
 
                 return listAlbumImagesByCenterId;
             }
-            else if (PetId != Guid.Empty)
+            else if (PetId != Guid.Empty && CenterId == Guid.Empty)
             {
-                List<AlbumImage> listAlbumImagesByPetId = await _service.GetByCenterId(PetId, pageNumber, pageSize);
+                List<AlbumImage> listAlbumImagesByPetId = await _service.GetByPetId(PetId, pageNumber, pageSize);
 
                 return listAlbumImagesByPetId;
             }
