@@ -68,10 +68,15 @@ class _ShowPCCModelItemState extends State<ShowPCCModelItem> {
                   builder: (context, snapshot) {
                     if (snapshot.hasError) print(snapshot.error);
                     if (snapshot.hasData) {
-                      return Text(
-                        // snapshot.data![0].imageLink,
-                        '',
-                      );
+                      // return Container(
+                      //   width: _pageWidth*0.02,
+                      //   child: Text(
+                      //     snapshot.data![0].imageLink,
+                      //     maxLines: 2,
+                      //     overflow: TextOverflow.ellipsis,
+                      //   ),
+                      // );
+                      return Image.network(snapshot.data![0].imageLink);
                     } else {
                       return Container(child: CircularProgressIndicator());
                     }

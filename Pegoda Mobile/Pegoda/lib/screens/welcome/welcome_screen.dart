@@ -21,33 +21,33 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   // })();
 
   @override
-  Widget build(BuildContext context) =>
-      Material(
-        child: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasData) {
-              // final user = FirebaseAuth.instance.currentUser!.getIdToken()
-              //     .then((value) => Globals.firebaseToken = value.toString());
-              // user
-              //     .getIdToken()
-              //     .then((value) => Globals.firebaseToken = value.toString());
+  Widget build(BuildContext context) {
+    return Material(
+      child: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasData) {
+            // final user = FirebaseAuth.instance.currentUser!.getIdToken()
+            //     .then((value) => Globals.firebaseToken = value.toString());
+            // user
+            //     .getIdToken()
+            //     .then((value) => Globals.firebaseToken = value.toString());
 
-              // checkCurExistedUser(Globals.firebaseToken);
-              //test
-              // final user = FirebaseAuth.instance.currentUser!
-              //     .getIdToken()
-              //     .then((value) =>
-              //     {LoginApi().checkCurUser(value).then((value) => {
-              //     if(value){
-              //         CusMain(selectedIndex: 0, isBottomNav: true);
-              //     }else{
-              //         RegisterScreen();
-              //     }
-              // })});
-              //test
+            // checkCurExistedUser(Globals.firebaseToken);
+            //test
+            // final user = FirebaseAuth.instance.currentUser!
+            //     .getIdToken()
+            //     .then((value) =>
+            //     {LoginApi().checkCurUser(value).then((value) => {
+            //     if(value){
+            //         CusMain(selectedIndex: 0, isBottomNav: true);
+            //     }else{
+            //         RegisterScreen();
+            //     }
+            // })});
+            //test
             // final checkCurUser =
             //     LoginApi().checkCurUser(Globals.firebaseToken);
             // bool checkExistedUser;
@@ -59,19 +59,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             //   }else{
             //     return RegisterScreen();
             //   }
-              //test2
-              print('snapshotdata:' + snapshot.data.toString());
+            //test2
+            print('snapshotdata:' + snapshot.data.toString());
 
 
-              return RegisterScreen();
-            } else if (snapshot.hasError) {
+            return RegisterScreen();
+          } else if (snapshot.hasError) {
             return Center(child: Text('Something went wrong!'));
-            } else {
+          } else {
             return SignUpWidget();
-            }
-          },
-        ),
-      );
+          }
+        },
+      ),
+    );
 
 // void checkCurExistedUser(String firebaseToken) async {
 //   bool checkCurUser = false;
@@ -82,4 +82,5 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 //     Globals.CheckExistedUser = false;
 //   }
 // }
+  }
 }

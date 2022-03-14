@@ -1,9 +1,11 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/pcc.dart';
+import 'package:pegoda/MyLib/class/pcc_image.dart';
 import 'package:pegoda/MyLib/class/pcc_model.dart';
 import 'package:pegoda/MyLib/class/service.dart';
 import 'package:pegoda/MyLib/models/show_service_item.dart';
+import 'package:pegoda/MyLib/repository/get_api.dart';
 import '../constants.dart' as Constants;
 import '../globals.dart' as Globals;
 //Test model
@@ -26,6 +28,8 @@ class _ShowPCCModelDetailState extends State<ShowPCCModelDetail> {
     var _bgColor = Constants.bgColor;
     var _boxColor = Constants.boxColor;
     var _starColor = Constants.starColor;
+    final Future<List<PCCImage>> pccImageListFuture =
+    GetAPI().GetAllPCCImage(pccModel.PCCId);
     // List<Service> _serviceList = pcc.PCCService;
     // Widget CaroselImage = Center(
     //   child: Carousel(
@@ -56,6 +60,7 @@ class _ShowPCCModelDetailState extends State<ShowPCCModelDetail> {
                   fontSize: _pageHeight * 0.03,
                 ),
               ),
+
             ),
           ],
         ),
@@ -78,6 +83,30 @@ class _ShowPCCModelDetailState extends State<ShowPCCModelDetail> {
                   ),
                 ),
                 // child: CaroselImage,
+                child: FutureBuilder<List<PCCImage>>(
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) print(snapshot.error);
+                    if (snapshot.hasData) {
+                      List<NetworkImage> listPCCImage=[];
+                      for(int i = 0; i < snapshot.data!.length; i++){
+                        listPCCImage.add(NetworkImage(snapshot.data![i].imageLink));
+                      }
+                      return Carousel(
+                        images: listPCCImage,
+                        autoplay: true,
+                        dotSize: 5,
+                        dotSpacing: 30,
+                        indicatorBgPadding: 0,
+                        autoplayDuration: Duration(seconds: 5),
+                        borderRadius: true,
+                        dotBgColor: Colors.black.withOpacity(0),
+                      );
+                    } else {
+                      return Container(child: CircularProgressIndicator());
+                    }
+                  },
+                  future: pccImageListFuture,
+                ),
               ),
               SizedBox(height: _pageHeight * 0.05),
               Row(
