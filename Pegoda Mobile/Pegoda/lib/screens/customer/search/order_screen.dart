@@ -190,7 +190,24 @@ class _OrderScreenState extends State<OrderScreen> {
                         padding: EdgeInsets.all(0),
                         onPressed: () {
                           setState(() {
-                            _chooseDateTime(context);
+                            DatePicker.showDateTimePicker(context,
+                                showTitleActions: true,
+                                minTime: DateTime.now(),
+                                maxTime: DateTime(2023, 12, 31),
+                                onChanged: (date) {},
+                                onConfirm: (date) {
+                                  setState(() {
+                                    String dateInput = 'Ngày: ' +
+                                        date.day.toString() +
+                                        '-' +
+                                        date.month.toString() +
+                                        '-' +
+                                        date.year.toString();
+                                    _changeDate(dateInput);
+                                  });
+                                },
+                                currentTime: DateTime.now(),
+                                locale: LocaleType.vi);
                           });
                         },
                         child: Row(
@@ -467,285 +484,6 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 
-  _chooseDateTime(BuildContext context) {
-    var _pageHeight = MediaQuery.of(context).size.height;
-    var _pageWidth = MediaQuery.of(context).size.width;
-    var _primaryColor = Constants.primaryColor;
-    var _boxColor = Constants.boxColor;
-    var _bgColor = Constants.bgColor;
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          contentPadding: EdgeInsets.all(0),
-          backgroundColor: Color.fromRGBO(0, 0, 0, 0),
-          scrollable: true,
-          content: Container(
-            width: _pageWidth,
-            height: _pageHeight * 0.8,
-            padding: EdgeInsets.fromLTRB(
-                _pageWidth * 0.03, _pageHeight * 0.05, _pageWidth * 0.03, 0),
-            decoration: BoxDecoration(
-              color: _boxColor,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Text(
-                    'Chọn thời gian thực hiện',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: _pageHeight * 0.03,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(height: _pageHeight * 0.05),
-                  Container(
-                    width: _pageWidth,
-                    // alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Chọn ngày',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: _pageHeight * 0.026,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: _pageHeight * 0.02),
-                  FlatButton(
-                    padding: EdgeInsets.all(0),
-                    onPressed: () {
-                      setState(() {
-                        DatePicker.showDatePicker(context,
-                            showTitleActions: true,
-                            minTime: DateTime.now(),
-                            maxTime: DateTime(2023, 12, 31),
-                            onChanged: (date) {},
-                            onConfirm: (date) {
-                              setState(() {
-                                String dateInput = 'Ngày: ' +
-                                    date.day.toString() +
-                                    '-' +
-                                    date.month.toString() +
-                                    '-' +
-                                    date.year.toString();
-                                _changeDate(dateInput);
-                              });
-                            },
-                            currentTime: DateTime.now(),
-                            locale: LocaleType.vi);
-                      });
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          child: Container(
-                            height: _pageWidth * 0.04,
-                            width: _pageWidth * 0.04,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/cus/search_screen/calendar_ic.png'),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: _primaryColor,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        SizedBox(width: _pageWidth * 0.03),
-                        Text(
-                          _date,
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: _pageHeight * 0.02,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  SizedBox(height: _pageHeight * 0.03),
-                  Container(
-                    width: _pageWidth,
-                    // alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Chọn khung giờ',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: _pageHeight * 0.026,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: _pageHeight * 0.02),
-
-                  Row(
-                    children: [
-                      Container(
-                        height: _pageHeight*0.03,
-                        width: _pageHeight*0.03,
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      Text(
-                        ' Không thể chọn',
-                        style: TextStyle(
-                          fontSize: _pageHeight*0.02,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Spacer(),
-                      Container(
-                        height: _pageHeight*0.03,
-                        width: _pageHeight*0.03,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.grey),
-                        ),
-                      ),
-                      Text(
-                        ' Có thể chọn',
-                        style: TextStyle(
-                          fontSize: _pageHeight*0.02,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-
-                    ],
-                  ),
-                  SizedBox(height: _pageHeight * 0.02),
-                  Row(
-                    children: [
-                      Container(
-                        height: _pageHeight*0.03,
-                        width: _pageHeight*0.03,
-                        decoration: BoxDecoration(
-                          color: _primaryColor,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      Text(
-                        ' Đang chọn',
-                        style: TextStyle(
-                          fontSize: _pageHeight*0.02,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: _pageHeight * 0.02),
-                  Container(
-                    width: _pageWidth,
-                    // alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Sáng',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: _pageHeight * 0.024,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: _pageHeight * 0.02),
-                  Container(
-                    height: _pageHeight * 0.08,
-                    child: ListView.separated(
-                      // physics: NeverScrollableScrollPhysics(),
-                      // shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: Globals.listTimeSlotMorning.length,
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(width: _pageWidth * 0.015);
-                      },
-                      itemBuilder: (BuildContext context, int index) {
-                        return TimeSlotItem(timeSlot: Globals.listTimeSlotMorning[index]);
-                      },
-                    ),
-                  ),
-                  SizedBox(height: _pageHeight * 0.02),
-                  Container(
-                    width: _pageWidth,
-                    // alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Chiều',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: _pageHeight * 0.024,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: _pageHeight * 0.02),
-                  Container(
-                    height: _pageHeight * 0.08,
-                    child: ListView.separated(
-                      // physics: NeverScrollableScrollPhysics(),
-                      // shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: Globals.listTimeSlotLunch.length,
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(width: _pageWidth * 0.015);
-                      },
-                      itemBuilder: (BuildContext context, int index) {
-                        return TimeSlotItem(timeSlot: Globals.listTimeSlotLunch[index]);
-                      },
-                    ),
-                  ),
-                  SizedBox(height: _pageHeight * 0.02),
-                  Container(
-                    width: _pageWidth,
-                    // alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Tối',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: _pageHeight * 0.024,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: _pageHeight * 0.02),
-                  Container(
-                    height: _pageHeight * 0.08,
-                    child: ListView.separated(
-                      // physics: NeverScrollableScrollPhysics(),
-                      // shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: Globals.listTimeSlotEvening.length,
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(width: _pageWidth * 0.015);
-                      },
-                      itemBuilder: (BuildContext context, int index) {
-                        return TimeSlotItem(timeSlot: Globals.listTimeSlotEvening[index]);
-                      },
-                    ),
-                  ),
-
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   void _changeDate(String date) async {
     setState(() {

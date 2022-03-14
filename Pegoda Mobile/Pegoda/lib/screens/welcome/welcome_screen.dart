@@ -51,16 +51,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             // final checkCurUser =
             //     LoginApi().checkCurUser(Globals.firebaseToken);
             // bool checkExistedUser;
-            // checkCurUser.then((value) => test(value));
-              final user = FirebaseAuth.instance.currentUser!.getIdToken().then((value) => Globals.firebaseToken = value);
-              final checkCurUser = LoginApi().checkCurUser(Globals.firebaseToken).then((value) => Globals.CheckExistedUser = value);
-              if(Globals.CheckExistedUser){
-                return CusMain(selectedIndex: 0, isBottomNav: true);
-              }else{
-                return RegisterScreen();
-              }
+            // // checkCurUser.then((value) => test(value));
+            //   final user = FirebaseAuth.instance.currentUser!.getIdToken().then((value) => Globals.firebaseToken = value);
+            //   final checkCurUser = LoginApi().checkCurUser(Globals.firebaseToken).then((value) => Globals.CheckExistedUser = value);
+            //   if(Globals.CheckExistedUser){
+            //     return CusMain(selectedIndex: 0, isBottomNav: true);
+            //   }else{
+            //     return RegisterScreen();
+            //   }
+              //test2
+              print('snapshotdata:' + snapshot.data.toString());
 
-            return RegisterScreen();
+
+              return RegisterScreen();
             } else if (snapshot.hasError) {
             return Center(child: Text('Something went wrong!'));
             } else {
@@ -69,14 +72,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           },
         ),
       );
-
-  void test(bool value) {
-    if (value) {
-      print('Đúng nè');
-    } else {
-      print('Sai nè');
-    }
-  }
 
 // void checkCurExistedUser(String firebaseToken) async {
 //   bool checkCurUser = false;

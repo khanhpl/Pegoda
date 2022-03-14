@@ -1,21 +1,22 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/pcc.dart';
+import 'package:pegoda/MyLib/class/pcc_model.dart';
 import 'package:pegoda/MyLib/class/service.dart';
 import 'package:pegoda/MyLib/models/show_service_item.dart';
 import '../constants.dart' as Constants;
 import '../globals.dart' as Globals;
 //Test model
-class ShowPCCDetail extends StatefulWidget {
-  PCC pcc;
-  ShowPCCDetail({required this.pcc});
+class ShowPCCModelDetail extends StatefulWidget {
+  PCCModel pccModel;
+  ShowPCCModelDetail({required this.pccModel});
   @override
-  State<ShowPCCDetail> createState() => _ShowPCCDetailState(pcc: this.pcc);
+  State<ShowPCCModelDetail> createState() => _ShowPCCModelDetailState(pccModel: this.pccModel);
 }
 
-class _ShowPCCDetailState extends State<ShowPCCDetail> {
-  PCC pcc;
-  _ShowPCCDetailState({required this.pcc});
+class _ShowPCCModelDetailState extends State<ShowPCCModelDetail> {
+  PCCModel pccModel;
+  _ShowPCCModelDetailState({required this.pccModel});
 
   @override
   Widget build(BuildContext context) {
@@ -25,19 +26,19 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
     var _bgColor = Constants.bgColor;
     var _boxColor = Constants.boxColor;
     var _starColor = Constants.starColor;
-    List<Service> _serviceList = pcc.PCCService;
-    Widget CaroselImage = Center(
-      child: Carousel(
-        images: pcc.PCCListSlideImage,
-        autoplay: true,
-        dotSize: 5,
-        dotSpacing: 30,
-        indicatorBgPadding: 0,
-        autoplayDuration: Duration(seconds: 5),
-        borderRadius: true,
-        dotBgColor: Colors.black.withOpacity(0),
-      ),
-    );
+    // List<Service> _serviceList = pcc.PCCService;
+    // Widget CaroselImage = Center(
+    //   child: Carousel(
+    //     images: pcc.PCCListSlideImage,
+    //     autoplay: true,
+    //     dotSize: 5,
+    //     dotSpacing: 30,
+    //     indicatorBgPadding: 0,
+    //     autoplayDuration: Duration(seconds: 5),
+    //     borderRadius: true,
+    //     dotBgColor: Colors.black.withOpacity(0),
+    //   ),
+    // );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: _primaryColor,
@@ -48,7 +49,7 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
           children: [
             Container(
               child: Text(
-                pcc.PCCName,
+                pccModel.PCCName,
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -68,6 +69,7 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
             children: [
               Container(
                 height: _pageHeight * 0.4,
+                width: _pageWidth,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -75,7 +77,7 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
                     topRight: Radius.circular(20),
                   ),
                 ),
-                child: CaroselImage,
+                // child: CaroselImage,
               ),
               SizedBox(height: _pageHeight * 0.05),
               Row(
@@ -110,7 +112,8 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
                           size: _pageHeight * 0.025,
                         ),
                         Text(
-                          ' '+pcc.PCCRating,
+                          // ' '+pcc.PCCRating,
+                          ' ',
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: _pageHeight * 0.022,
@@ -125,7 +128,7 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
               Row(
                 children: [
                   Text(
-                    pcc.PCCName,
+                    pccModel.PCCName,
                     style: TextStyle(
                       fontSize: _pageHeight * 0.03,
                       fontWeight: FontWeight.w500,
@@ -135,7 +138,7 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
                   ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                          (states) => _primaryColor),
+                              (states) => _primaryColor),
                     ),
                     onPressed: () {
                       Navigator.popAndPushNamed(context, '/orderScreen');
@@ -148,7 +151,7 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
               Container(
                 width: _pageWidth,
                 child: Text(
-                  pcc.PCCContent,
+                  pccModel.PCCDescription,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -192,7 +195,7 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
                     Container(
                       width: _pageWidth,
                       child: Text(
-                        pcc.PCCAddress,
+                        pccModel.PCCAddress,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -222,25 +225,25 @@ class _ShowPCCDetailState extends State<ShowPCCDetail> {
                       alignment: Alignment.topLeft,
                     ),
                     SizedBox(height: _pageHeight*0.02),
-                    ListView.separated(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: _serviceList.length,
-                      separatorBuilder: (BuildContext context, int index) {
-                        return Container(
-                          width: _pageWidth,
-                          child: Column(
-                            children: [
-                              SizedBox(height: _pageHeight * 0.02),
-                            ],
-                          ),
-                        );
-                      },
-                      itemBuilder: (BuildContext context, int index) {
-                        return ShowServiceItem(service: _serviceList[index]);
-                      },
-                    ),
+                    // ListView.separated(
+                    //   physics: NeverScrollableScrollPhysics(),
+                    //   shrinkWrap: true,
+                    //   scrollDirection: Axis.vertical,
+                    //   itemCount: _serviceList.length,
+                    //   separatorBuilder: (BuildContext context, int index) {
+                    //     return Container(
+                    //       width: _pageWidth,
+                    //       child: Column(
+                    //         children: [
+                    //           SizedBox(height: _pageHeight * 0.02),
+                    //         ],
+                    //       ),
+                    //     );
+                    //   },
+                    //   itemBuilder: (BuildContext context, int index) {
+                    //     return ShowServiceItem(service: _serviceList[index]);
+                    //   },
+                    // ),
                   ],
                 ),
               ),

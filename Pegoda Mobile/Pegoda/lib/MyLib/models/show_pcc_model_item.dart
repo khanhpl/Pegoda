@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/pcc.dart';
+import 'package:pegoda/MyLib/class/pcc_image.dart';
+import 'package:pegoda/MyLib/class/pcc_model.dart';
 import 'package:pegoda/MyLib/models/show_pcc_detail.dart';
+import 'package:pegoda/MyLib/models/show_pcc_model_detail.dart';
+import 'package:pegoda/MyLib/repository/get_api.dart';
 import '../constants.dart' as Constants;
-//Test Model
-class ShowPCCItem extends StatefulWidget {
-  PCC pcc;
 
-  ShowPCCItem({required this.pcc});
+class ShowPCCModelItem extends StatefulWidget {
+  PCCModel pccModel;
+
+  ShowPCCModelItem({required this.pccModel});
 
   @override
-  State<ShowPCCItem> createState() => _ShowPCCItemState(pcc: this.pcc);
+  State<ShowPCCModelItem> createState() =>
+      _ShowPCCModelItemState(pccModel: this.pccModel);
 }
 
-class _ShowPCCItemState extends State<ShowPCCItem> {
-  PCC pcc;
+class _ShowPCCModelItemState extends State<ShowPCCModelItem> {
+  PCCModel pccModel;
 
-  _ShowPCCItemState({required this.pcc});
+  _ShowPCCModelItemState({required this.pccModel});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +29,9 @@ class _ShowPCCItemState extends State<ShowPCCItem> {
     var _primaryColor = Constants.primaryColor;
     var _boxColor = Constants.boxColor;
     var _bgColor = Constants.bgColor;
+    final Future<List<PCCImage>> pccImageListFuture =
+        GetAPI().GetAllPCCImage(pccModel.PCCId);
+
     // TODO: implement build
     return Material(
       child: FlatButton(
@@ -32,15 +40,14 @@ class _ShowPCCItemState extends State<ShowPCCItem> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ShowPCCDetail(pcc: this.pcc),
+              builder: (context) => ShowPCCModelDetail(pccModel: pccModel),
             ),
           );
         },
         child: Container(
           color: _boxColor,
           padding: EdgeInsets.only(
-              top: _pageHeight * 0.03,
-              bottom: _pageHeight * 0.03),
+              top: _pageHeight * 0.03, bottom: _pageHeight * 0.03),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,11 +58,25 @@ class _ShowPCCItemState extends State<ShowPCCItem> {
                 width: _pageWidth * 0.25,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: AssetImage(
-                        pcc.PCCImage),
-                    fit: BoxFit.fill,
-                  ),
+                  // image: DecorationImage(
+                  //   image: AssetImage(
+                  //       pcc.PCCImage),
+                  //   fit: BoxFit.fill,
+                  // ),
+                ),
+                child: FutureBuilder<List<PCCImage>>(
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) print(snapshot.error);
+                    if (snapshot.hasData) {
+                      return Text(
+                        // snapshot.data![0].imageLink,
+                        '',
+                      );
+                    } else {
+                      return Container(child: CircularProgressIndicator());
+                    }
+                  },
+                  future: pccImageListFuture,
                 ),
               ),
               SizedBox(width: _pageWidth * 0.03),
@@ -64,7 +85,7 @@ class _ShowPCCItemState extends State<ShowPCCItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    pcc.PCCName,
+                    pccModel.PCCName,
                     style: TextStyle(
                       fontSize: _pageHeight * 0.022,
                       fontWeight: FontWeight.w500,
@@ -74,7 +95,7 @@ class _ShowPCCItemState extends State<ShowPCCItem> {
                   Container(
                     width: _pageWidth * 0.6,
                     child: Text(
-                      pcc.PCCContent,
+                      pccModel.PCCDescription,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -93,13 +114,13 @@ class _ShowPCCItemState extends State<ShowPCCItem> {
                         color: Constants.starColor,
                         size: _pageHeight * 0.02,
                       ),
-                      Text(
-                        ' '+ pcc.PCCRating + ' ',
-                        style: TextStyle(
-                          fontSize: _pageHeight * 0.022,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      // Text(
+                      //   ' '+ pcc.PCCRating + ' ',
+                      //   style: TextStyle(
+                      //     fontSize: _pageHeight * 0.022,
+                      //     fontWeight: FontWeight.w500,
+                      //   ),
+                      // ),
                       Text(
                         '(999+)',
                         style: TextStyle(

@@ -1,0 +1,55 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+import 'package:pegoda/MyLib/class/pcc_image.dart';
+import 'package:pegoda/MyLib/class/pcc_model.dart';
+import '../globals.dart' as Globals;
+
+class GetAPI {
+  Future<List<PCCModel>> GetAllPCC() async {
+    try {
+      var url =
+      Uri.parse("https://pegoda.azurewebsites.net/api/v1.0/centers");
+      final response = await http.get(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode.toString() == '200') {
+        return parseAgentsPCCModel(response.body);
+      } else {
+        throw Exception('Unable to fetch PCCModel from the REST API');
+      }
+    } finally {}
+  }
+  Future<List<PCCImage>> GetAllPCCImage(var CenterID) async {
+    try {
+      var url =
+      Uri.parse("https://pegoda.azurewebsites.net/api/v1.0/albumimages?CenterId=${CenterID}");
+      final response = await http.get(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode.toString() == '200') {
+        return parseAgentsPCCImage(response.body);
+      } else {
+        throw Exception('Unable to fetch PCCImage from the REST API');
+      }
+    } finally {}
+  }
+}
+List<PCCModel> parseAgentsPCCModel(String responseBody) {
+final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+return parsed.map<PCCModel>((json) => PCCModel.fromJson(json)).toList();
+}
+
+List<PCCImage> parseAgentsPCCImage(String responseBody) {
+  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+  return parsed.map<PCCImage>((json) => PCCImage.fromJson(json)).toList();
+}
+
+
+

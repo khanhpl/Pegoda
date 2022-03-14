@@ -189,6 +189,7 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
                         onPressed: () {
                           final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
                           provider.logout();
+
                           Navigator.pushNamed(context, '/');
                         },
                         child: Row(

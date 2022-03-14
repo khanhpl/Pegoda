@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/coupon.dart';
 import 'package:pegoda/MyLib/class/order_review.dart';
+import 'package:pegoda/MyLib/class/pcc_model.dart';
 import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:pegoda/MyLib/class/service.dart';
 import 'package:pegoda/MyLib/class/time_slot.dart';
@@ -293,3 +294,6 @@ List<String> listCancelReport = [
 ];
 
 var firebaseToken='' ;
+List<PCCModel> listPccModel = [
+
+];
