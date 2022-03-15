@@ -32,7 +32,13 @@ namespace Api.Repositories
             {
                 return false;
             }
+            User user = await _context.User.AsNoTracking().FirstOrDefaultAsync(x => x.Email == staff.Email);
+            if (user == null)
+            {
+                return false;
+            }
             _context.Staff.Remove(staff);
+            _context.User.Remove(user);
             await _context.SaveChangesAsync();
             return true;
         }
