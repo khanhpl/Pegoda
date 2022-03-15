@@ -17,7 +17,7 @@ namespace Api.Controllers
         {
             _service = service;
         }
-        [Authorize(Roles = "CUSTOMER")]
+        [Authorize(Roles = "CENTER")]
         [HttpPost]
         [SwaggerOperation(Summary = "Create new pet")]
         public async Task<ActionResult> Create(ResponsePetModel newPet)
@@ -34,7 +34,7 @@ namespace Api.Controllers
             await _service.Create(pet);
             return CreatedAtAction(nameof(GetById), new { id = pet.Id }, pet);
         }
-        [Authorize(Roles = "CUSTOMER")]
+        [Authorize(Roles = "CENTER")]
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update pet")]
         public async Task<ActionResult> Update(Guid id, UpdatePetModel updatePet)
@@ -79,7 +79,7 @@ namespace Api.Controllers
 
             return Ok(listPets);
         }
-        [Authorize(Roles = "CUSTOMER")]
+        [Authorize(Roles = "CENTER")]
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete pet by Id")]
         public async Task<ActionResult> Delete(Guid id)

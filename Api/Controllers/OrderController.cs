@@ -17,7 +17,7 @@ namespace Api.Controllers
         {
             _service = service;
         }
-        [Authorize(Roles = "CENTER")]
+        [Authorize(Roles = "CENTER, STAFF")]
         [HttpPost]
         [SwaggerOperation(Summary = "Create new order")]
         public async Task<ActionResult> Create(ResponseOrderModel newOrder)
@@ -35,7 +35,7 @@ namespace Api.Controllers
             await _service.Create(order);
             return CreatedAtAction(nameof(GetById), new { id = order.Id }, order);
         }
-        [Authorize(Roles = "CENTER")]
+        [Authorize(Roles = "CENTER, STAFF")]
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update order")]
         public async Task<ActionResult> Update(Guid id, UpdateOrderModel updateOrder)
@@ -81,7 +81,7 @@ namespace Api.Controllers
 
             return listOrders;
         }
-        [Authorize(Roles = "CENTER")]
+        [Authorize(Roles = "CENTER, STAFF")]
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete order by Id")]
         public async Task<ActionResult> Delete(Guid id)
