@@ -4,20 +4,27 @@ import 'package:pegoda/MyLib/class/pcc.dart';
 import 'package:pegoda/MyLib/class/pcc_image.dart';
 import 'package:pegoda/MyLib/class/pcc_model.dart';
 import 'package:pegoda/MyLib/class/service.dart';
+import 'package:pegoda/MyLib/class/service_model.dart';
 import 'package:pegoda/MyLib/models/show_service_item.dart';
+import 'package:pegoda/MyLib/models/show_service_model_item.dart';
 import 'package:pegoda/MyLib/repository/get_api.dart';
 import '../constants.dart' as Constants;
 import '../globals.dart' as Globals;
+
 //Test model
 class ShowPCCModelDetail extends StatefulWidget {
   PCCModel pccModel;
+
   ShowPCCModelDetail({required this.pccModel});
+
   @override
-  State<ShowPCCModelDetail> createState() => _ShowPCCModelDetailState(pccModel: this.pccModel);
+  State<ShowPCCModelDetail> createState() =>
+      _ShowPCCModelDetailState(pccModel: this.pccModel);
 }
 
 class _ShowPCCModelDetailState extends State<ShowPCCModelDetail> {
   PCCModel pccModel;
+
   _ShowPCCModelDetailState({required this.pccModel});
 
   @override
@@ -29,20 +36,10 @@ class _ShowPCCModelDetailState extends State<ShowPCCModelDetail> {
     var _boxColor = Constants.boxColor;
     var _starColor = Constants.starColor;
     final Future<List<PCCImage>> pccImageListFuture =
-    GetAPI().GetAllPCCImage(pccModel.PCCId);
-    // List<Service> _serviceList = pcc.PCCService;
-    // Widget CaroselImage = Center(
-    //   child: Carousel(
-    //     images: pcc.PCCListSlideImage,
-    //     autoplay: true,
-    //     dotSize: 5,
-    //     dotSpacing: 30,
-    //     indicatorBgPadding: 0,
-    //     autoplayDuration: Duration(seconds: 5),
-    //     borderRadius: true,
-    //     dotBgColor: Colors.black.withOpacity(0),
-    //   ),
-    // );
+        GetAPI().GetAllPCCImage(pccModel.PCCId);
+    final Future<List<ServiceModel>> serviceFuture =
+        GetAPI().GetServiceModelByCenterID(pccModel.PCCId);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: _primaryColor,
@@ -60,7 +57,6 @@ class _ShowPCCModelDetailState extends State<ShowPCCModelDetail> {
                   fontSize: _pageHeight * 0.03,
                 ),
               ),
-
             ),
           ],
         ),
@@ -87,9 +83,10 @@ class _ShowPCCModelDetailState extends State<ShowPCCModelDetail> {
                   builder: (context, snapshot) {
                     if (snapshot.hasError) print(snapshot.error);
                     if (snapshot.hasData) {
-                      List<NetworkImage> listPCCImage=[];
-                      for(int i = 0; i < snapshot.data!.length; i++){
-                        listPCCImage.add(NetworkImage(snapshot.data![i].imageLink));
+                      List<NetworkImage> listPCCImage = [];
+                      for (int i = 0; i < snapshot.data!.length; i++) {
+                        listPCCImage
+                            .add(NetworkImage(snapshot.data![i].imageLink));
                       }
                       return Carousel(
                         images: listPCCImage,
@@ -167,7 +164,7 @@ class _ShowPCCModelDetailState extends State<ShowPCCModelDetail> {
                   ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                              (states) => _primaryColor),
+                          (states) => _primaryColor),
                     ),
                     onPressed: () {
                       Navigator.popAndPushNamed(context, '/orderScreen');
@@ -253,7 +250,29 @@ class _ShowPCCModelDetailState extends State<ShowPCCModelDetail> {
                       ),
                       alignment: Alignment.topLeft,
                     ),
-                    SizedBox(height: _pageHeight*0.02),
+                    SizedBox(height: _pageHeight * 0.02),
+                    FutureBuilder<List<ServiceModel>>(
+                      future: serviceFuture,
+                      builder: (context, snapshot){
+                        if (snapshot.hasError) print(snapshot.error);
+                        if (snapshot.hasData) {
+                          return ListView.separated(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            itemCount: snapshot.data!.length,
+                            separatorBuilder: (BuildContext context, int index) {
+                              return SizedBox(height: _pageHeight * 0.02);
+                            },
+                            itemBuilder: (BuildContext context, int index) {
+                              return ShowServiceModelItem(serviceModel: snapshot.data![index]);
+                            },
+                          );
+                        } else {
+                          return Container(child: CircularProgressIndicator());
+                        }
+                      },
+                    ),
                     // ListView.separated(
                     //   physics: NeverScrollableScrollPhysics(),
                     //   shrinkWrap: true,
@@ -276,7 +295,6 @@ class _ShowPCCModelDetailState extends State<ShowPCCModelDetail> {
                   ],
                 ),
               ),
-
               SizedBox(height: _pageHeight * 0.05),
             ],
           ),
@@ -285,5 +303,3 @@ class _ShowPCCModelDetailState extends State<ShowPCCModelDetail> {
     );
   }
 }
-
-

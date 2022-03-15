@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:pegoda/MyLib/class/pcc_image.dart';
 import 'package:pegoda/MyLib/class/pcc_model.dart';
+import 'package:pegoda/MyLib/class/service_model.dart';
 import '../globals.dart' as Globals;
 
 class GetAPI {
@@ -40,6 +41,24 @@ class GetAPI {
       }
     } finally {}
   }
+
+  Future<List<ServiceModel>> GetServiceModelByCenterID(var CenterID) async {
+    try {
+      var url =
+      Uri.parse("https://pegoda.azurewebsites.net/api/v1.0/services?centerId=${CenterID}");
+      final response = await http.get(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode.toString() == '200') {
+        return parseAgentsServiceModel(response.body);
+      } else {
+        throw Exception('Unable to fetch ServiceModel from the REST API');
+      }
+    } finally {}
+  }
 }
 List<PCCModel> parseAgentsPCCModel(String responseBody) {
 final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
@@ -49,6 +68,11 @@ return parsed.map<PCCModel>((json) => PCCModel.fromJson(json)).toList();
 List<PCCImage> parseAgentsPCCImage(String responseBody) {
   final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
   return parsed.map<PCCImage>((json) => PCCImage.fromJson(json)).toList();
+}
+
+List<ServiceModel> parseAgentsServiceModel(String responseBody) {
+  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+  return parsed.map<ServiceModel>((json) => ServiceModel.fromJson(json)).toList();
 }
 
 
