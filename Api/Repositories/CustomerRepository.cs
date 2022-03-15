@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Api.Data;
 using Api.Entities;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 
 namespace Api.Repositories
 {
@@ -33,10 +34,27 @@ namespace Api.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
-
-        public List<Customer> GetList()
+        public List<Customer> GetList(int pageNumber, int pageSize)
         {
-            return _context.Customer.ToList();
+            if (pageNumber == 0 && pageSize == 0)
+            {
+                return _context.Customer.ToList();
+            }
+            return _context.Customer.ToPagedList(pageNumber, pageSize).ToList();
+        }
+
+        public async Task<List<Customer>> GetListByName(String name, int pageNumber, int pageSize)
+        {
+            if (pageNumber == 0 && pageSize == 0)
+            {
+                return _context.Customer.Where(x => x.Name.Contains(name)).ToList();
+            }
+            List<Customer> customer = await _context.Customer.Where(x => x.Name.Contains(name)).ToPagedList(pageNumber, pageSize).ToListAsync();
+            if (customer == null)
+            {
+                return null;
+            }
+            return customer;
         }
 
         public async Task<Customer> GetById(Guid id)

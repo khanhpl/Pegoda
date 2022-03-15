@@ -73,12 +73,18 @@ namespace Api.Controllers
             return Ok(customer);
         }
         [HttpGet]
-        [SwaggerOperation(Summary = "Get list customer")]
-        public ActionResult GetList()
+        [SwaggerOperation(Summary = "Get list customer by name")]
+        public async Task<List<Customer>> GetList(String name, int pageNumber, int pageSize)
         {
-            List<Customer> listCustomers = _customerService.GetList();
-
-            return Ok(listCustomers);
+            List<Customer> listCustomers = new List<Customer>();
+            if (name == null)
+            {
+                listCustomers = _customerService.GetList(pageNumber, pageSize);
+            }else
+            {
+                listCustomers = await _customerService.GetListByName(name, pageNumber, pageSize);
+            }
+            return listCustomers;
         }
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete customer by Id")]
