@@ -58,7 +58,7 @@ namespace Api.Repositories
                              join customer in _context.Customer on pet.CustomerId equals customer.Id
                              join service in _context.Service on orderitem.ServiceId equals service.Id
                              where order.CenterId == centerId
-                             select new { CustomerName = customer.Name, PetName = pet.Name, PetGender = pet.Gender, BookingTime = orderitem.BookingTime, ServiceName = service.Name, Status = order.Status };
+                             select new { OrderId = order.Id, CustomerName = customer.Name, PetName = pet.Name, PetGender = pet.Gender, BookingTime = orderitem.BookingTime, ServiceName = service.Name, Status = order.Status };
 
                 return orders.ToList();
             }
