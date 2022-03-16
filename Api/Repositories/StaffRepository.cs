@@ -56,18 +56,44 @@ namespace Api.Repositories
             return staff;
         }
 
-        public async Task<List<Staff>> GetByCenterId(Guid CenterId, int pageNumber, int pageSize)
+        public async Task<List<Staff>> SearchByName(String name, int pageNumber, int pageSize)
         {
             if (pageNumber == 0 && pageSize == 0)
             {
-                return await _context.Staff.Where(x => x.CenterId.Equals(CenterId)).ToListAsync();
+                return await _context.Staff.Where(x => x.Name.Contains(name)).ToListAsync();
             }
-            List<Staff> listStaff = await _context.Staff.Where(x => x.CenterId.Equals(CenterId)).ToPagedList(pageNumber, pageSize).ToListAsync();
-            if (listStaff == null)
+            List<Staff> staffs = await _context.Staff.Where(x => x.Name.Contains(name)).ToPagedList(pageNumber, pageSize).ToListAsync();
+            if (staffs == null)
             {
                 return null;
             }
-            return listStaff;
+            return staffs;
+        }
+        public async Task<List<Staff>> SearchByCenterId(Guid centerId, int pageNumber, int pageSize)
+        {
+            if (pageNumber == 0 && pageSize == 0)
+            {
+                return await _context.Staff.Where(x => x.CenterId.Equals(centerId)).ToListAsync();
+            }
+            List<Staff> staffs = await _context.Staff.Where(x => x.CenterId.Equals(centerId)).ToPagedList(pageNumber, pageSize).ToListAsync();
+            if (staffs == null)
+            {
+                return null;
+            }
+            return staffs;
+        }
+        public async Task<List<Staff>> SearchByNameAndCenterId(Guid centerId, String name, int pageNumber, int pageSize)
+        {
+            if (pageNumber == 0 && pageSize == 0)
+            {
+                return await _context.Staff.Where(x => (x.CenterId.Equals(centerId)) && x.Name.Contains(name)).ToListAsync();
+            }
+            List<Staff> staffs = await _context.Staff.Where(x => (x.CenterId.Equals(centerId)) && x.Name.Contains(name)).ToPagedList(pageNumber, pageSize).ToListAsync();
+            if (staffs == null)
+            {
+                return null;
+            }
+            return staffs;
         }
 
         public async Task<bool> Update(Staff newStaff)

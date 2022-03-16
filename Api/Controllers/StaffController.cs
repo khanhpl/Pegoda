@@ -88,16 +88,40 @@ namespace Api.Controllers
             return Ok(responseStaffModel);
         }
         [HttpGet]
-        [SwaggerOperation(Summary = "Get Staff by Center Id and pagination")]
-        public async Task<List<Staff>> GetByCenterId(Guid CenterId, int pageNumber, int pageSize)
+        [SwaggerOperation(Summary = "Get Staff by Center Id or name and pagination")]
+        public async Task<List<Staff>> GetByCenterIdOrName(String name, Guid centerId, int pageNumber, int pageSize)
         {
-            if (CenterId == Guid.Empty)
+            List<Staff> listStaff = new List<Staff>();
+            if (name == null && centerId == Guid.Empty)
             {
-                return _staffService.GetList(pageNumber, pageSize);
-            }
-            List<Staff> listStaffs = await _staffService.GetByCenterId(CenterId, pageNumber, pageSize);
+                listStaff = _staffService.GetList(pageNumber, pageSize);
 
-            return listStaffs;
+                return listStaff;
+            }
+            if (name != null && centerId != Guid.Empty)
+            {
+                listStaff = await _staffService.SearchByNameAndCenterId(centerId, name, pageNumber, pageSize);
+
+                return listStaff;
+            }
+            else if (name != null && centerId == Guid.Empty)
+            {
+                listStaff = await _staffService.SearchByName(name, pageNumber, pageSize);
+                if (listStaff == null)
+                {
+                    return null;
+                }
+                return listStaff;
+            }
+            else if (centerId != Guid.Empty && name == null)
+            {
+                listStaff = await _staffService.SearchByCenterId(centerId, pageNumber, pageSize);
+                if (listStaff == null)
+                {
+                    return null;
+                }
+            }
+            return listStaff;
         }
 
         [HttpDelete("{id}")]
