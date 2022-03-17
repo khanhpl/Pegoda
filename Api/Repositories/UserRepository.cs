@@ -45,7 +45,20 @@ namespace Api.Repositories
                 return null;
             }
             Role role = _context.Role.FirstOrDefault(u => u.Id == user.RoleId);
-            return _jwtHelper.generateJwtToken(user, role);
+            Center center;
+            Staff staff;
+            Guid centerId = Guid.Empty;
+            if (role.Name == "CENTER")
+            {
+                center = _context.Center.FirstOrDefault(c => c.Email == user.Email);
+                centerId = center.Id;
+            }
+            else if (role.Name == "STAFF")
+            {
+                staff = _context.Staff.FirstOrDefault(s => s.Email == user.Email);
+                centerId = staff.CenterId;
+            }
+            return _jwtHelper.generateJwtToken(user, role, centerId);
         }
         public async Task<bool> Delete(Guid id)
         {
