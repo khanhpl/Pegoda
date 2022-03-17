@@ -7,8 +7,9 @@ const TableOrder = () => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
 
-    const apiUrl = 'https://pegoda.azurewebsites.net/api/v1.0/orders?pageNumber=1&pageSize=10'
     const token = localStorage.getItem('token')
+    const centerId = localStorage.getItem('centerId')
+    const apiUrl = `https://pegoda.azurewebsites.net/api/v1.0/orders?pageNumber=1&pageSize=10&centerId=${centerId}`
     useEffect(() => {
         axios.get(apiUrl, {
             'Authorization': `Bearer ${token}`
@@ -18,7 +19,7 @@ const TableOrder = () => {
             console.log(response.data)
         })
             .catch(error => console.log(error))
-    }, [token])
+    }, [token, centerId, apiUrl])
 
     return (
         <>
@@ -52,7 +53,7 @@ const TableOrder = () => {
                                     <TableCell align="right">{row.totalPrice}</TableCell>
                                     <TableCell align="right">{row.scores}</TableCell>
                                     <TableCell align="right">{row.feedback}</TableCell>
-                                    <TableCell align="right">{row.date.replace('T', ' ')}</TableCell>
+                                    {/* <TableCell align="right">{row.date.replace('T', ' ')}</TableCell> */}
                                     <TableCell align='right'>
                                         <InfoOutlined color='primary' style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => console.log('info')} />
                                         <Edit color="info" style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => { console.log('edit') }} />
