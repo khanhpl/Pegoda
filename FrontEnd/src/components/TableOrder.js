@@ -38,6 +38,7 @@ const TableOrder = () => {
                                 <TableCell align="right">Tên dịch vụ</TableCell>
                                 <TableCell align="right">Thời gian đặt</TableCell>
                                 <TableCell align="right">Trạng thái</TableCell>
+                                <TableCell align="right">Hành động</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -49,11 +50,12 @@ const TableOrder = () => {
                                     <TableCell component="th" scope="row">
                                         {index + 1}
                                     </TableCell>
-                                    <TableCell>{row.totalPrice}</TableCell>
-                                    <TableCell align="right">{row.totalPrice}</TableCell>
-                                    <TableCell align="right">{row.scores}</TableCell>
-                                    <TableCell align="right">{row.feedback}</TableCell>
-                                    {/* <TableCell align="right">{row.date.replace('T', ' ')}</TableCell> */}
+                                    <TableCell>{row.customerName}</TableCell>
+                                    <TableCell align="right">{row.petName}</TableCell>
+                                    <TableCell align="right">{row.petGender}</TableCell>
+                                    <TableCell align="right">{row.serviceName}</TableCell>
+                                    <TableCell align="right">{row.bookingTime.replace('T', '  ')}</TableCell>
+                                    <TableCell align="right">{row.status}</TableCell>
                                     <TableCell align='right'>
                                         <InfoOutlined color='primary' style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => console.log('info')} />
                                         <Edit color="info" style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => { console.log('edit') }} />
