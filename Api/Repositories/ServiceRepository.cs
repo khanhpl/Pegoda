@@ -99,5 +99,29 @@ namespace Api.Repositories
             }
             return service;
         }
+        public async Task<List<Service>> Search(string nameService, Guid animalId, Guid serviceTypeId)
+        {
+            if (nameService != null && animalId != Guid.Empty && serviceTypeId != Guid.Empty)
+            {
+                return await _context.Service.Where(x => x.Name.Contains(nameService)).Where(x => x.AnimalId == animalId).Where(x => x.ServiceTypeId == serviceTypeId).ToListAsync();
+            }
+            else if (nameService == null && animalId != Guid.Empty && serviceTypeId != Guid.Empty)
+            {
+                return await _context.Service.Where(x => x.AnimalId == animalId).Where(x => x.ServiceTypeId == serviceTypeId).ToListAsync();
+            }
+            else if (nameService == null && animalId == Guid.Empty && serviceTypeId != Guid.Empty)
+            {
+                return await _context.Service.Where(x => x.ServiceTypeId == serviceTypeId).ToListAsync();
+            }
+            else if (nameService != null && animalId == Guid.Empty && serviceTypeId == Guid.Empty)
+            {
+                return await _context.Service.Where(x => x.AnimalId == animalId).ToListAsync();
+            }
+            else if (nameService != null && animalId == Guid.Empty && serviceTypeId == Guid.Empty)
+            {
+                return await _context.Service.Where(x => x.AnimalId == animalId).ToListAsync();
+            }
+            return await _context.Service.ToListAsync();
+        }
     }
 }
