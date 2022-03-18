@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Api.Entities;
 using Api.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Services
 {
@@ -41,10 +42,14 @@ namespace Api.Services
         {
             return await _repo.SearchByCenterId(centerId, pageNumber, pageSize);
         }
-        public async Task<List<Service>> SearchByNameAndCenterId(Guid centerId,String name, int pageNumber, int pageSize)
+        public async Task<List<Service>> SearchByNameAndCenterId(Guid centerId, String name, int pageNumber, int pageSize)
         {
             return await _repo.SearchByNameAndCenterId(centerId, name, pageNumber, pageSize);
         }
-        
+        public async Task<List<Service>> Search(string nameService, Guid animalId, Guid serviceTypeId)
+        {
+            return await _repo.Search(nameService, animalId, serviceTypeId);
+        }
+
     }
 }
