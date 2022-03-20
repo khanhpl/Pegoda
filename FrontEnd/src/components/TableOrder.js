@@ -1,4 +1,4 @@
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Box, CircularProgress } from "@mui/material"
+import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Box, CircularProgress, ButtonGroup, Button } from "@mui/material"
 import { Delete, Edit, InfoOutlined } from '@mui/icons-material'
 import { useEffect, useState } from "react"
 import axios from "axios"
@@ -54,12 +54,17 @@ const TableOrder = () => {
                                     <TableCell align="right">{row.petName}</TableCell>
                                     <TableCell align="right">{row.petGender}</TableCell>
                                     <TableCell align="right">{row.serviceName}</TableCell>
-                                    <TableCell align="right">{row.bookingTime.replace('T', '  ')}</TableCell>
-                                    <TableCell align="right">{row.status}</TableCell>
+                                    <TableCell align="right">{row.bookingTime.slice(0, 19).replace('T', '  ')}</TableCell>
+                                    <TableCell align="right">
+                                        <ButtonGroup>
+                                            <Button variant="contained" color="secondary">Xác Nhận</Button>
+                                            <Button variant="outlined" color="error">Huỷ</Button>
+                                        </ButtonGroup>
+                                    </TableCell>
                                     <TableCell align='right'>
                                         <InfoOutlined color='primary' style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => console.log('info')} />
-                                        <Edit color="info" style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => { console.log('edit') }} />
-                                        <Delete color="error" style={{ cursor: 'pointer' }} onClick={() => { console.log('delete') }} />
+                                        {/* <Edit color="info" style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => { console.log('edit') }} />
+                                        <Delete color="error" style={{ cursor: 'pointer' }} onClick={() => { console.log('delete') }} /> */}
                                     </TableCell>
                                 </TableRow>
                             ))}
