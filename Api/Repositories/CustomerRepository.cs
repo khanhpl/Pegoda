@@ -18,6 +18,7 @@ namespace Api.Repositories
         }
         public async Task<Customer> Create(Customer customer)
         {
+            customer.Status = "active";
             await _context.Customer.AddAsync(customer);
             await _context.SaveChangesAsync();
             return customer;
@@ -25,12 +26,13 @@ namespace Api.Repositories
 
         public async Task<bool> Delete(Guid id)
         {
-            Customer customer = await _context.Customer.FirstOrDefaultAsync(x => x.Id == id);
+            Customer customer = await _context.Customer.FirstOrDefaultAsync(x => x.Id == id && x.Status.Equals("active"));
             if (customer == null)
             {
                 return false;
             }
-            _context.Customer.Remove(customer);
+            customer.Status = "inactive";
+            // _context.Customer.Remove(customer);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -38,18 +40,18 @@ namespace Api.Repositories
         {
             if (pageNumber == 0 && pageSize == 0)
             {
-                return _context.Customer.ToList();
+                return _context.Customer.Where(x => x.Status == "active").ToList();
             }
-            return _context.Customer.ToPagedList(pageNumber, pageSize).ToList();
+            return _context.Customer.Where(x => x.Status.Equals("active")).ToPagedList(pageNumber, pageSize).ToList();
         }
 
         public async Task<List<Customer>> GetListByName(String name, int pageNumber, int pageSize)
         {
             if (pageNumber == 0 && pageSize == 0)
             {
-                return _context.Customer.Where(x => x.Name.Contains(name)).ToList();
+                return _context.Customer.Where(x => x.Name.Contains(name) && x.Status.Equals("active")).ToList();
             }
-            List<Customer> customer = await _context.Customer.Where(x => x.Name.Contains(name)).ToPagedList(pageNumber, pageSize).ToListAsync();
+            List<Customer> customer = await _context.Customer.Where(x => x.Name.Contains(name) && x.Status.Equals("active")).ToPagedList(pageNumber, pageSize).ToListAsync();
             if (customer == null)
             {
                 return null;
@@ -59,7 +61,7 @@ namespace Api.Repositories
 
         public async Task<Customer> GetById(Guid id)
         {
-            Customer customer = await _context.Customer.FirstOrDefaultAsync(x => x.Id == id);
+            Customer customer = await _context.Customer.FirstOrDefaultAsync(x => x.Id == id && x.Status.Equals("active"));
             if (customer == null)
             {
                 return null;
@@ -69,12 +71,12 @@ namespace Api.Repositories
 
         public async Task<bool> Update(Customer newCustomer)
         {
-            Customer customer = await _context.Customer.AsNoTracking().FirstOrDefaultAsync(x => x.Id == newCustomer.Id);
+            Customer customer = await _context.Customer.AsNoTracking().FirstOrDefaultAsync(x => x.Id == newCustomer.Id && x.Status.Equals("active"));
             if (customer == null)
             {
                 return false;
             }
-            User user = await _context.User.AsNoTracking().FirstOrDefaultAsync(x => x.Email == newCustomer.Email);
+            User user = await _context.User.AsNoTracking().FirstOrDefaultAsync(x => x.Email == newCustomer.Email && x.Status.Equals("active"));
             if (user == null)
             {
                 return false;

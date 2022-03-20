@@ -17,13 +17,14 @@ namespace Api.Repositories
         }
         public async Task<Pet> Create(Pet pet)
         {
+            pet.Status = "active";
             await _context.Pet.AddAsync(pet);
             await _context.SaveChangesAsync();
             return pet;
         }
         public async Task<bool> Update(Pet newPet)
         {
-            Pet pet = _context.Pet.AsNoTracking().FirstOrDefault(x => x.Id == newPet.Id);
+            Pet pet = _context.Pet.AsNoTracking().FirstOrDefault(x => x.Id == newPet.Id && x.Status.Equals("active"));
             if (pet == null)
             {
                 return false;
@@ -34,7 +35,7 @@ namespace Api.Repositories
         }
         public async Task<Pet> GetById(Guid id)
         {
-            Pet pet = await _context.Pet.Where(x => x.Id == id).FirstOrDefaultAsync();
+            Pet pet = await _context.Pet.Where(x => x.Id == id && x.Status.Equals("active")).FirstOrDefaultAsync();
             if (pet == null)
             {
                 return null;
@@ -43,16 +44,17 @@ namespace Api.Repositories
         }
         public List<Pet> GetList()
         {
-            return _context.Pet.ToList();
+            return _context.Pet.Where(x => x.Status.Equals("active")).ToList();
         }
         public async Task<bool> Delete(Guid id)
         {
-            Pet pet = await _context.Pet.FirstOrDefaultAsync(x => x.Id == id);
+            Pet pet = await _context.Pet.FirstOrDefaultAsync(x => x.Id == id && x.Status.Equals("active"));
             if (pet == null)
             {
                 return false;
             }
-            _context.Pet.Remove(pet);
+            pet.Status = "inactive";
+            // _context.Pet.Remove(pet);
             await _context.SaveChangesAsync();
             return true;
         }

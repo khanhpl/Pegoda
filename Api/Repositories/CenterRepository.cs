@@ -18,18 +18,19 @@ namespace Api.Repositories
         }
         public async Task<Center> Create(Center center)
         {
+            center.Status = "active";
             await _context.Center.AddAsync(center);
             await _context.SaveChangesAsync();
             return center;
         }
         public async Task<bool> Update(Center newCenter)
         {
-            Center center = _context.Center.AsNoTracking().FirstOrDefault(x => x.Id == newCenter.Id);
+            Center center = _context.Center.AsNoTracking().FirstOrDefault(x => x.Id == newCenter.Id && x.Status.Equals("active"));
             if (center == null)
             {
                 return false;
             }
-            User user = _context.User.AsNoTracking().FirstOrDefault(x => x.Email == newCenter.Email);
+            User user = _context.User.AsNoTracking().FirstOrDefault(x => x.Email == newCenter.Email && x.Status.Equals("active"));
             if (user == null)
             {
                 return false;
@@ -54,7 +55,7 @@ namespace Api.Repositories
         }
         public async Task<Center> GetById(Guid id)
         {
-            Center center = await _context.Center.Where(x => x.Id == id).FirstOrDefaultAsync();
+            Center center = await _context.Center.Where(x => x.Id == id && x.Status.Equals("active")).FirstOrDefaultAsync();
             if (center == null)
             {
                 return null;
@@ -65,9 +66,9 @@ namespace Api.Repositories
         {
             if (pageNumber == 0 && pageSize == 0)
             {
-                return _context.Center.ToList();
+                return _context.Center.Where(x => x.Status.Equals("active")).ToList();
             }
-            return _context.Center.ToPagedList(pageNumber, pageSize).ToList();
+            return _context.Center.Where(x => x.Status.Equals("active")).ToPagedList(pageNumber, pageSize).ToList();
         }
         public async Task<bool> Delete(Guid id)
         {
@@ -76,7 +77,8 @@ namespace Api.Repositories
             {
                 return false;
             }
-            _context.Center.Remove(center);
+            center.Status = "inactive";
+            // _context.Center.Remove(center);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -84,9 +86,9 @@ namespace Api.Repositories
         {
             if (pageNumber == 0 && pageSize == 0)
             {
-                return await _context.Center.Where(x => x.Name.Contains(name) || x.Address.Contains(address)).ToListAsync();
+                return await _context.Center.Where(x => x.Name.Contains(name) || x.Address.Contains(address)).Where(x => x.Status.Equals("active")).ToListAsync();
             }
-            List<Center> center = await _context.Center.Where((x => x.Name.Contains(name) || x.Address.Contains(address))).ToPagedList(pageNumber, pageSize).ToListAsync();
+            List<Center> center = await _context.Center.Where((x => x.Name.Contains(name) || x.Address.Contains(address))).Where(x => x.Status.Equals("active")).ToPagedList(pageNumber, pageSize).ToListAsync();
             if (center == null)
             {
                 return null;

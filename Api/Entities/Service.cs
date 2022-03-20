@@ -14,6 +14,7 @@ namespace Api.Entities
         public string Description { get; set; }
         public string Image { get; set; }
         public int Duration { get; set; }
+        public string Status { get; set; }
         public Guid CenterId { get; set; }
         public virtual Center Center { get; set; }
         public Guid AnimalId { get; set; }
