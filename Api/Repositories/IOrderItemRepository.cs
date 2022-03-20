@@ -10,7 +10,7 @@ namespace Api.Repositories
         Task<OrderItem> Create(OrderItem orderItem);
         Task<bool> Update(OrderItem orderItem);
         Task<OrderItem> GetById(Guid id);
-        List<OrderItem> GetList();
+        List<OrderItem> GetList(Guid orderId);
         Task<bool> Delete(Guid id);
     }
 }
