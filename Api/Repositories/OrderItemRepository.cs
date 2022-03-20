@@ -34,9 +34,18 @@ namespace Api.Repositories
             return true;
         }
 
-        public List<OrderItem> GetList()
+        public List<OrderItem> GetList(Guid orderId)
         {
-            return _context.OrderItem.ToList();
+            if (orderId == Guid.Empty)
+            {
+
+                return _context.OrderItem.ToList();
+            }
+            else if (orderId != Guid.Empty)
+            {
+                return _context.OrderItem.Where(x => x.OrderId == orderId).ToList();
+            }
+            return null;
         }
 
         public async Task<OrderItem> GetById(Guid id)
