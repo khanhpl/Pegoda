@@ -43,7 +43,7 @@ namespace Api.Repositories
             }
             else if (orderId != Guid.Empty)
             {
-                return _context.OrderItem.Where(x => x.OrderId == orderId).ToList();
+                return _context.OrderItem.Where(x => x.OrderId == orderId).Include(x => x.Service).ToList();
             }
             return null;
         }
