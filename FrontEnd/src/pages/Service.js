@@ -6,7 +6,7 @@ import { Close, PhotoCamera, CleaningServicesOutlined } from '@mui/icons-materia
 import { Box, Button, Card, Container, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Stack, styled, TextField, Typography } from "@mui/material"
 import { useState, useEffect } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import ModalService from '../../src/components/_dashboard/service/ModalService'
+import ModalCreateService from '../components/_dashboard/service/ModalCreateService'
 // components
 import Page from '../components/Page'
 import { ListService } from '../components/_dashboard/user'
@@ -43,7 +43,7 @@ export default function Service() {
         </Card>
       </Container>
 
-      <ModalService openDialog={openDialog} handleCloseDialog={handleCloseDialog} />
+      <ModalCreateService openDialog={openDialog} handleCloseDialog={handleCloseDialog} />
     </Page >
   )
 }

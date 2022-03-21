@@ -8,6 +8,7 @@ import { Close, PhotoCamera, CleaningServicesOutlined } from "@mui/icons-materia
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, styled, TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material"
 import { useState, useEffect } from "react"
 import axios from "axios"
+import { LoadingButton } from "@mui/lab"
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -18,20 +19,45 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }))
 
-const ModalService = ({ openDialog, handleCloseDialog }) => {
+const ModalCreateService = ({ openDialog, handleCloseDialog }) => {
     const [state, setState] = useState({
         values: {
             name: '',
             description: '',
             price: '',
-            urlImage: ''
         }
     })
     const [file, setFile] = useState()
     const [animalId, setAnimalId] = useState()
     const [serviceTypeId, setServiceTypeId] = useState()
-    const [listAnimal, setListAnimal] = useState()
-    const [listServiceType, setListServiceType] = useState()
+    const [listAnimal, setListAnimal] = useState([])
+    const [listServiceType, setListServiceType] = useState([])
+    const [loadingButton, setLoadingButton] = useState(false)
+    const [urlImage, setUrlImage] = useState()
+
+    useEffect(() => {
+        axios({
+            url: 'https://pegoda.azurewebsites.net/api/v1.0/servicetypes',
+            method: 'get',
+            headers: {
+                // 'Authorization': `Bearer ${token}`
+            }
+        }).then((response) => {
+            setListServiceType(response.data)
+        }).catch(error => console.log(error))
+    }, [])
+
+    useEffect(() => {
+        axios({
+            url: 'https://pegoda.azurewebsites.net/api/v1.0/animals',
+            method: 'get',
+            headers: {
+                // 'Authorization': `Bearer ${token}`
+            }
+        }).then((response) => {
+            setListAnimal(response.data)
+        }).catch(error => console.log(error))
+    }, [])
 
     const handleChangeInput = (e) => {
         const { value, name } = e.target
@@ -43,7 +69,6 @@ const ModalService = ({ openDialog, handleCloseDialog }) => {
     }
 
     const handleSubmit = async (e) => {
-        console.log(e)
         e.preventDefault()
 
         let valid = true
@@ -59,17 +84,41 @@ const ModalService = ({ openDialog, handleCloseDialog }) => {
             alert("thông tin không hợp lệ")
             return
         }
-        const formData = new FormData()
-        formData.append('file', file)
-        axios({
-            url: 'https://pegoda.azurewebsites.net/api/v1.0/uploads',
-            method: 'post',
-            headers: {
-                // 'Authorization': `Bearer ${token}`
-            },
-            data: formData
-        }).then(response => {
-            const { urlImage } = response.data
+        setLoadingButton(true)
+        if (file) {
+            const formData = new FormData()
+            formData.append('file', file)
+            axios({
+                url: 'https://pegoda.azurewebsites.net/api/v1.0/uploads',
+                method: 'post',
+                headers: {
+                    // 'Authorization': `Bearer ${token}`
+                },
+                data: formData
+            }).then(response => {
+                const { urlImage } = response.data
+                axios({
+                    url: 'https://pegoda.azurewebsites.net/api/v1.0/services',
+                    method: 'post',
+                    headers: {
+                        // 'Authorization': `Bearer ${token}`
+                    },
+                    data: {
+                        name: values.name,
+                        price: values.price,
+                        description: values.description,
+                        image: urlImage,
+                        centerId: localStorage.getItem('centerId'),
+                        animalId,
+                        serviceTypeId,
+                    }
+                }).then(() => {
+                    setLoadingButton(false)
+                    resetForm()
+                }).catch(error => console.log(error.response))
+            })
+                .catch(error => console.log(error))
+        } else {
             axios({
                 url: 'https://pegoda.azurewebsites.net/api/v1.0/services',
                 method: 'post',
@@ -80,12 +129,16 @@ const ModalService = ({ openDialog, handleCloseDialog }) => {
                     name: values.name,
                     price: values.price,
                     description: values.description,
-                    image: urlImage,
+                    image: null,
                     centerId: localStorage.getItem('centerId'),
+                    animalId,
+                    serviceTypeId,
                 }
-            })
-        })
-            .catch(error => console.log(error))
+            }).then(() => {
+                setLoadingButton(false)
+                resetForm()
+            }).catch(error => console.log(error.response))
+        }
     }
 
     const Input = styled('input')({
@@ -96,11 +149,17 @@ const ModalService = ({ openDialog, handleCloseDialog }) => {
         state.values.name = ''
         state.values.description = ''
         state.values.price = ''
+        setUrlImage('')
+        setAnimalId('')
+        setServiceTypeId('')
         handleCloseDialog()
     }
 
-    const handleChange = (event) => {
+    const handleChangeAnimal = (event) => {
         setAnimalId(event.target.value)
+    }
+    const handleChangeServiceType = (event) => {
+        setServiceTypeId(event.target.value)
     }
 
 
@@ -163,11 +222,11 @@ const ModalService = ({ openDialog, handleCloseDialog }) => {
                                     id="demo-simple-select"
                                     value={animalId}
                                     label="Con vật"
-                                    onChange={handleChange}
+                                    onChange={handleChangeAnimal}
                                 >
-                                    <MenuItem value={10}>Ten</MenuItem>
-                                    <MenuItem value={20}>Twenty</MenuItem>
-                                    <MenuItem value={30}>Thirty</MenuItem>
+                                    {listAnimal.map((row, index) => (
+                                        <MenuItem key={index} value={row.id}>{row.type}</MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                             <FormControl fullWidth>
@@ -175,27 +234,31 @@ const ModalService = ({ openDialog, handleCloseDialog }) => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={animalId}
+                                    value={serviceTypeId}
                                     label="Loại dịch vụ"
-                                    onChange={handleChange}
+                                    onChange={handleChangeServiceType}
                                 >
-                                    <MenuItem value={10}>Ten</MenuItem>
-                                    <MenuItem value={20}>Twenty</MenuItem>
-                                    <MenuItem value={30}>Thirty</MenuItem>
+                                    {listServiceType.map((row, index) => (
+                                        <MenuItem key={index} value={row.id}>{row.name}</MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
-                            <label htmlFor="icon-button-file" >
-                                <Input accept="image/*" id="icon-button-file" type="file" onChange={(e) => setFile(e.target.files[0])} />
+                            <label htmlFor="icon-button-file" style={{ display: 'flex' }}>
+                                <Input accept="image/*" id="icon-button-file" type="file" onChange={(e) => {
+                                    setUrlImage(URL.createObjectURL(e.target.files[0]))
+                                    setFile(e.target.files[0])
+                                }} />
                                 <IconButton color="primary" aria-label="upload picture" component="span" >
                                     <PhotoCamera />
                                 </IconButton>
+                                {urlImage && <img alt='hinhanh' src={urlImage} width={100} />}
                             </label>
                         </Box>
                     </DialogContent>
                     <DialogActions>
-                        <Button type='submit'>
+                        <LoadingButton type='submit' loading={loadingButton}>
                             Lưu thay đổi
-                        </Button>
+                        </LoadingButton>
                     </DialogActions>
                 </form>
             </BootstrapDialog>
@@ -204,4 +267,4 @@ const ModalService = ({ openDialog, handleCloseDialog }) => {
     )
 }
 
-export default ModalService
+export default ModalCreateService
