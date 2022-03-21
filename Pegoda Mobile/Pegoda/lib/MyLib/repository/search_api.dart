@@ -23,6 +23,7 @@ class SearchAPI{
           urlString = urlString + "serviceTypeId=${serviceTypeID}";
         }
       }
+      print('Test url String: '+ urlString);
       var url =
       Uri.parse(urlString);
       final response = await http.get(

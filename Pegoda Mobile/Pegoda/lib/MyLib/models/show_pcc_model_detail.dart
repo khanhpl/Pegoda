@@ -1,13 +1,11 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
-import 'package:pegoda/MyLib/class/pcc.dart';
 import 'package:pegoda/MyLib/class/pcc_image.dart';
 import 'package:pegoda/MyLib/class/pcc_model.dart';
-import 'package:pegoda/MyLib/class/service.dart';
 import 'package:pegoda/MyLib/class/service_model.dart';
-import 'package:pegoda/MyLib/models/show_service_item.dart';
 import 'package:pegoda/MyLib/models/show_service_model_item.dart';
 import 'package:pegoda/MyLib/repository/get_api.dart';
+import 'package:pegoda/screens/customer/search/order_screen.dart';
 import '../constants.dart' as Constants;
 import '../globals.dart' as Globals;
 
@@ -167,7 +165,12 @@ class _ShowPCCModelDetailState extends State<ShowPCCModelDetail> {
                           (states) => _primaryColor),
                     ),
                     onPressed: () {
-                      Navigator.popAndPushNamed(context, '/orderScreen');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrderScreen(centerID: pccModel.PCCId),
+                        ),
+                      );
                     },
                     child: Text('Đặt lịch ngay'),
                   ),

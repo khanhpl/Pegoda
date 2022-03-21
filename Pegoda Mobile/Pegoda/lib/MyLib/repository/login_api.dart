@@ -20,10 +20,8 @@ class LoginApi {
         ),
       );
       if (response.statusCode.toString() == '200') {
-        Globals.CheckExistedUser = true;
         return true;
       } else {
-        Globals.CheckExistedUser = false;
         return false;
       }
     } finally {}

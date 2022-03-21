@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/pcc_model.dart';
 import 'package:pegoda/MyLib/class/service_model.dart';
 import 'package:pegoda/MyLib/models/show_pcc_model_item.dart';
-import 'package:pegoda/MyLib/models/show_result.dart';
 import 'package:pegoda/MyLib/models/show_service_model_item_on_result.dart';
 import 'package:pegoda/MyLib/repository/search_api.dart';
 import '../constants.dart' as Constants;

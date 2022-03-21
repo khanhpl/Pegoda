@@ -51,7 +51,6 @@ class MyApp extends StatelessWidget {
             '/questionScreen': (context) => QuestionsScreen(),
             '/addPetScreen': (context) => AddPetScreen(),
             '/neareastPCCScreen': (context) => NearestPCCScreen(),
-            '/orderScreen': (context) => OrderScreen(),
             '/registerScreen': (context) => RegisterScreen(),
             '/orderSuccessScreen': (context) => OrderSuccessScreen(),
             '/cancelOrderScreen': (context) => CancelOrderScreen(),

@@ -1,35 +1,57 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:pegoda/MyLib/class/pet.dart';
+import 'package:pegoda/MyLib/class/service_model.dart';
 import 'package:pegoda/MyLib/models/show_pet_item_on_order.dart';
-import 'package:pegoda/MyLib/models/show_service_item.dart';
+import 'package:pegoda/MyLib/models/show_service_model_item_on_result.dart';
 import 'package:pegoda/MyLib/models/show_time_slot_item.dart';
+import 'package:pegoda/MyLib/repository/get_api.dart';
 import '../../../MyLib/constants.dart' as Constants;
 import '../../../MyLib/globals.dart' as Globals;
 
 class OrderScreen extends StatefulWidget {
+  var centerID;
+
+  OrderScreen({required this.centerID});
+
   @override
-  State<OrderScreen> createState() => _OrderScreenState();
+  State<OrderScreen> createState() =>
+      _OrderScreenState(centerID: this.centerID);
 }
 
 class _OrderScreenState extends State<OrderScreen> {
+  var centerID;
+
+  _OrderScreenState({required this.centerID});
+
   List<Pet> _petList = Globals.petList;
   var paymentValue;
   List _listPayment = Globals.listPayment;
-  List _serviceList = Globals.listService;
+  List<ServiceModel>? _serviceList;
   var _primaryColor = Constants.primaryColor;
   var _boxColor = Constants.boxColor;
   var _bgColor = Constants.bgColor;
   var _date = 'Chọn thời gian thực hiện';
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    GetAPI()
+        .GetServiceModelByCenterID('AE750B41-8D37-5807-5807-08D9F90AA2DD')
+        .then((value) => {
+      setState(() {
+        _serviceList = value;
+      })
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
     var _pageWidth = MediaQuery.of(context).size.width;
+    
 
-    var pccAddress =
-        "31 Lê Hữu kiều, Phường Bình Trưng Tây, Quận 2, Thành phố Hồ Chí Mình, Việt Nam";
     return Scaffold(
       appBar: AppBar(
         backgroundColor: _primaryColor,
@@ -112,140 +134,59 @@ class _OrderScreenState extends State<OrderScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: _pageWidth,
-                decoration: BoxDecoration(
-                    color: _primaryColor,
-                    borderRadius: BorderRadius.circular(20)),
-                padding: EdgeInsets.fromLTRB(_pageHeight * 0.04,
-                    _pageHeight * 0.04, _pageHeight * 0.04, _pageHeight * 0.04),
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(
-                      _pageHeight * 0.04,
-                      _pageHeight * 0.04,
-                      _pageHeight * 0.04,
-                      _pageHeight * 0.04),
-                  decoration: BoxDecoration(
-                      color: _boxColor,
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'ĐƠN VỊ THỰC HIỆN',
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: _pageHeight * 0.024,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(height: _pageHeight * 0.03),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: _pageWidth * 0.1,
-                            width: _pageWidth * 0.1,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/cus/search_screen/pet_homies_ic.jpg'),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: _pageWidth * 0.03),
-                          Text(
-                            'Pet Homies',
-                            style: TextStyle(
-                              fontSize: _pageHeight * 0.022,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: _pageHeight * 0.02),
-                      Container(
-                        width: _pageWidth,
-                        child: Text(
-                          pccAddress,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: _pageHeight * 0.02,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.grey[600],
+              FlatButton(
+                padding: EdgeInsets.all(0),
+                onPressed: () {
+                  setState(() {
+                    DatePicker.showDateTimePicker(context,
+                        showTitleActions: true,
+                        minTime: DateTime.now(),
+                        maxTime: DateTime(2023, 12, 31),
+                        onChanged: (date) {}, onConfirm: (date) {
+                      setState(() {
+                        String dateInput = 'Ngày: ' +
+                            date.day.toString() +
+                            '-' +
+                            date.month.toString() +
+                            '-' +
+                            date.year.toString();
+                        _changeDate(dateInput);
+                      });
+                    }, currentTime: DateTime.now(), locale: LocaleType.vi);
+                  });
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Container(
+                        height: _pageWidth * 0.04,
+                        width: _pageWidth * 0.04,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                                'assets/cus/search_screen/calendar_ic.png'),
+                            fit: BoxFit.fill,
                           ),
                         ),
                       ),
-                      SizedBox(height: _pageHeight * 0.02),
-                      Divider(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: _primaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    SizedBox(width: _pageWidth * 0.03),
+                    Text(
+                      'Chọn thời gian thực hiện',
+                      style: TextStyle(
                         color: Colors.grey[600],
-                        thickness: 2,
+                        fontSize: _pageHeight * 0.02,
+                        fontWeight: FontWeight.w500,
                       ),
-                      SizedBox(height: _pageHeight * 0.02),
-                      FlatButton(
-                        padding: EdgeInsets.all(0),
-                        onPressed: () {
-                          setState(() {
-                            DatePicker.showDateTimePicker(context,
-                                showTitleActions: true,
-                                minTime: DateTime.now(),
-                                maxTime: DateTime(2023, 12, 31),
-                                onChanged: (date) {},
-                                onConfirm: (date) {
-                                  setState(() {
-                                    String dateInput = 'Ngày: ' +
-                                        date.day.toString() +
-                                        '-' +
-                                        date.month.toString() +
-                                        '-' +
-                                        date.year.toString();
-                                    _changeDate(dateInput);
-                                  });
-                                },
-                                currentTime: DateTime.now(),
-                                locale: LocaleType.vi);
-                          });
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: Container(
-                                height: _pageWidth * 0.04,
-                                width: _pageWidth * 0.04,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/cus/search_screen/calendar_ic.png'),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: _primaryColor,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            SizedBox(width: _pageWidth * 0.03),
-                            Text(
-                              'Chọn thời gian thực hiện',
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: _pageHeight * 0.02,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: _pageHeight * 0.04),
@@ -462,12 +403,12 @@ class _OrderScreenState extends State<OrderScreen> {
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
-                itemCount: _serviceList.length,
+                itemCount: _serviceList!.length,
                 separatorBuilder: (BuildContext context, int index) {
                   return SizedBox(height: size.height * 0.02);
                 },
                 itemBuilder: (BuildContext context, int index) {
-                  return ShowServiceItem(service: _serviceList[index]);
+                  return ShowServiceModelItemOnResult(serviceModel: _serviceList![index]);
                 },
               ),
             ),
@@ -483,7 +424,6 @@ class _OrderScreenState extends State<OrderScreen> {
       child: Text(item),
     );
   }
-
 
   void _changeDate(String date) async {
     setState(() {
@@ -508,13 +448,19 @@ class _OrderScreenState extends State<OrderScreen> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Xác nhận',style: TextStyle(color: _primaryColor),),
+              child: Text(
+                'Xác nhận',
+                style: TextStyle(color: _primaryColor),
+              ),
               onPressed: () {
                 Navigator.pushNamed(context, '/orderSuccessScreen');
               },
             ),
             TextButton(
-              child: Text('Hủy',style: TextStyle(color: _primaryColor),),
+              child: Text(
+                'Hủy',
+                style: TextStyle(color: _primaryColor),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },

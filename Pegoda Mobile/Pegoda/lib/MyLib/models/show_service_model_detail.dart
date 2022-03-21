@@ -1,7 +1,6 @@
 
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
-import 'package:pegoda/MyLib/class/service.dart';
 import 'package:pegoda/MyLib/class/service_model.dart';
 import 'package:pegoda/MyLib/repository/get_api.dart';
 import '../constants.dart' as Constants;

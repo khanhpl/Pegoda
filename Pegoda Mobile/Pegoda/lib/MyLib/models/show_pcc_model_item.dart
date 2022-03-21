@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pegoda/MyLib/class/pcc.dart';
 import 'package:pegoda/MyLib/class/pcc_image.dart';
 import 'package:pegoda/MyLib/class/pcc_model.dart';
-import 'package:pegoda/MyLib/models/show_pcc_detail.dart';
 import 'package:pegoda/MyLib/models/show_pcc_model_detail.dart';
 import 'package:pegoda/MyLib/repository/get_api.dart';
 import '../constants.dart' as Constants;

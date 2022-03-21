@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/coupon.dart';
-import 'package:pegoda/MyLib/class/pcc.dart';
 import 'package:pegoda/MyLib/class/pcc_model.dart';
 import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:pegoda/MyLib/models/show_coupon_on_home_screen.dart';
-import 'package:pegoda/MyLib/models/show_pcc_item.dart';
 import 'package:pegoda/MyLib/models/show_pcc_model_item.dart';
-import 'package:pegoda/MyLib/models/show_result.dart';
 import 'package:pegoda/MyLib/models/show_service_type_screen.dart';
 import 'package:pegoda/MyLib/repository/get_api.dart';
 import 'package:pegoda/screens/customer/cus_main/up_nav_bar.dart';
@@ -28,8 +25,6 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
     var _pageWidth = MediaQuery.of(context).size.width;
-
-    List<PCC> _pccList = Globals.pccList;
     List<Pet> _petList = Globals.petList;
     List<Coupon> _couponList = Globals.couponList;
     final getAPI = GetAPI().GetAllPCC().then((value) => checkGetPcc = value);
@@ -256,7 +251,15 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                   // kham benh
                   Column(children: [
                     FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ShowServiceTypeScreen(
+                                serviceName: 'Khám Bệnh', serviceTypeID: 'C30193EE-553D-4ED6-BEBC-08DA0192389B'),
+                          ),
+                        );
+                      },
                       child: Image.asset(
                         'assets/cus/main_screen/khambenh.png',
                         height: _pageWidth * 0.3 * 0.33,
@@ -276,7 +279,15 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                   //dat cho di dao
                   Column(children: [
                     FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ShowServiceTypeScreen(
+                                serviceName: 'Tiêm Phòng', serviceTypeID: 'DAFA1DB8-01F9-4C64-BEBD-08DA0192389B'),
+                          ),
+                        );
+                      },
                       child: Image.asset(
                         'assets/cus/main_screen/capcuu.png',
                         height: _pageWidth * 0.3 * 0.33,
@@ -287,7 +298,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                     SizedBox(height: _pageHeight * 0.03),
                     Container(
                       child: Text(
-                        'Cấp cứu ',
+                        'Tiêm Phòng ',
                         textAlign: TextAlign.center,
                         style: TextStyle(fontWeight: FontWeight.w400),
                       ),
@@ -297,7 +308,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                   Expanded(
                     child: Column(children: [
                       FlatButton(
-                        onPressed: () {},
+                        onPressed: (){},
                         child: Image.asset(
                           'assets/cus/main_screen/xemthem.jpg',
                           height: _pageWidth * 0.3 * 0.33,
@@ -337,25 +348,6 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                   )
                 ]),
                 SizedBox(height: _pageHeight * 0.03),
-                // ListView.separated(
-                //   physics: NeverScrollableScrollPhysics(),
-                //   shrinkWrap: true,
-                //   scrollDirection: Axis.vertical,
-                //   itemCount: _pccList.length,
-                //   separatorBuilder: (BuildContext context, int index) {
-                //     return Container(
-                //       width: _pageWidth,
-                //       child: Column(
-                //         children: [
-                //           SizedBox(height: _pageHeight * 0.03),
-                //         ],
-                //       ),
-                //     );
-                //   },
-                //   itemBuilder: (BuildContext context, int index) {
-                //     return ShowResult(pcc: _pccList[index]);
-                //   },
-                // ),
                 FutureBuilder<List<PCCModel>>(
                   builder: (context, snapshot) {
                     if (snapshot.hasError) print(snapshot.error);
