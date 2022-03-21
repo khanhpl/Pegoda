@@ -11,7 +11,6 @@ import 'package:pegoda/MyLib/models/show_service_model_item_on_result.dart';
 import 'package:pegoda/MyLib/repository/get_api.dart';
 import 'package:pegoda/MyLib/repository/search_api.dart';
 import '../../../MyLib/constants.dart' as Constants;
-import '../../../MyLib/globals.dart' as Globals;
 
 class SearchScreen extends StatefulWidget {
   @override
