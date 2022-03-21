@@ -4,10 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pegoda/MyLib/class/animal.dart';
 import 'package:pegoda/MyLib/class/pcc.dart';
+import 'package:pegoda/MyLib/class/service_model.dart';
 import 'package:pegoda/MyLib/models/show_pcc_detail.dart';
 import 'package:pegoda/MyLib/models/show_pcc_item.dart';
 import 'package:pegoda/MyLib/models/show_result.dart';
+import 'package:pegoda/MyLib/models/show_service_model_item_on_result.dart';
+import 'package:pegoda/MyLib/repository/get_api.dart';
+import 'package:pegoda/MyLib/repository/search_api.dart';
 import '../../../MyLib/constants.dart' as Constants;
 import '../../../MyLib/globals.dart' as Globals;
 
@@ -23,17 +28,28 @@ class _SearchScreenState extends State<SearchScreen> {
   );
 
   Completer<GoogleMapController> _controller = Completer();
-  var _countResult;
-
   var _resultLabel = '';
   var pettypeValue;
   var serviceTypeValue;
   var pccContent =
       "Pet Hour / Day care & Month care - Home care service Pet Playground & Pet Bathing - Hotel";
   bool isHaveResult = false;
-  List _listPettype = Globals.listPettype;
+  List<Animal>? _listPettype ;
   List _listServiceType = Globals.listServiceType;
   List<PCC> _pccList = Globals.pccList;
+  TextEditingController serviceNameController = new TextEditingController();
+  List<ServiceModel>? listResult;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    GetAPI().GetAllAnimal().then((value) => {
+      setState(() {
+        _listPettype = value;
+      })
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +58,7 @@ class _SearchScreenState extends State<SearchScreen> {
     var _primaryColor = Constants.primaryColor;
     var _bgColor = Constants.bgColor;
     var _boxColor = Constants.boxColor;
-
+    print('test animal: ' + _listPettype![0].animalName);
 
     return Scaffold(
       appBar: AppBar(
@@ -91,6 +107,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     Expanded(
                       child: Container(
                         child: TextField(
+                          controller: serviceNameController,
                           decoration: InputDecoration.collapsed(
                             hintText: 'Tìm kiếm dịch vụ',
                             hintStyle: TextStyle(
@@ -106,108 +123,108 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
 
-              //Địa chỉ
-              SizedBox(height: _pageHeight * 0.02),
-              FlatButton(
-                onPressed: () {
-                  setState(() {
-                    _ChooseLocation(context);
-                  });
-                },
-                padding: EdgeInsets.all(0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: _boxColor,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  width: _pageWidth,
-                  height: _pageHeight * 0.1,
-                  child: Row(
-                    children: [
-                      SizedBox(width: _pageWidth * 0.03),
-                      Container(
-                        child: Icon(
-                          Icons.location_on,
-                          color: _primaryColor,
-                        ),
-                        margin: EdgeInsets.only(left: 10),
-                      ),
-                      SizedBox(width: _pageWidth * 0.03),
-                      Expanded(
-                        child: Container(
-                          child: Text(
-                            'Chọn vị trí',
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.w400,
-                              fontSize: _pageHeight * 0.025,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
+              // //Địa chỉ
+              // SizedBox(height: _pageHeight * 0.02),
+              // FlatButton(
+              //   onPressed: () {
+              //     setState(() {
+              //       _ChooseLocation(context);
+              //     });
+              //   },
+              //   padding: EdgeInsets.all(0),
+              //   child: Container(
+              //     decoration: BoxDecoration(
+              //       color: _boxColor,
+              //       borderRadius: BorderRadius.circular(5),
+              //     ),
+              //     width: _pageWidth,
+              //     height: _pageHeight * 0.1,
+              //     child: Row(
+              //       children: [
+              //         SizedBox(width: _pageWidth * 0.03),
+              //         Container(
+              //           child: Icon(
+              //             Icons.location_on,
+              //             color: _primaryColor,
+              //           ),
+              //           margin: EdgeInsets.only(left: 10),
+              //         ),
+              //         SizedBox(width: _pageWidth * 0.03),
+              //         Expanded(
+              //           child: Container(
+              //             child: Text(
+              //               'Chọn vị trí',
+              //               style: TextStyle(
+              //                 color: Colors.black87,
+              //                 fontWeight: FontWeight.w400,
+              //                 fontSize: _pageHeight * 0.025,
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              //
               //Chọn loại thú cưng
               SizedBox(height: _pageHeight * 0.02),
-              Container(
-                height: _pageHeight * 0.1,
-                color: _boxColor,
-                child: Row(
-                  children: [
-                    SizedBox(width: _pageWidth * 0.05),
-                    Text(
-                      'Loại thú cưng:',
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontWeight: FontWeight.w400,
-                        fontSize: _pageHeight * 0.025,
-                      ),
-                    ),
-                    SizedBox(width: _pageWidth * 0.02),
-                    DropdownButton<String>(
-                      value: pettypeValue,
-                      items: _listPettype
-                          .map<DropdownMenuItem<String>>(buildMenuPettypeItem)
-                          .toList(),
-                      onChanged: (pettypeValue) =>
-                          setState(() => this.pettypeValue = pettypeValue),
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   height: _pageHeight * 0.1,
+              //   color: _boxColor,
+              //   child: Row(
+              //     children: [
+              //       SizedBox(width: _pageWidth * 0.05),
+              //       Text(
+              //         'Loại thú cưng:',
+              //         style: TextStyle(
+              //           color: Colors.black87,
+              //           fontWeight: FontWeight.w400,
+              //           fontSize: _pageHeight * 0.025,
+              //         ),
+              //       ),
+              //       SizedBox(width: _pageWidth * 0.02),
+              //       DropdownButton<Animal>(
+              //         value: pettypeValue,
+              //         items: _listPettype!
+              //             .map<DropdownMenuItem<Animal>>(buildMenuPettypeItem)
+              //             .toList(),
+              //         onChanged: (pettypeValue) =>
+              //             setState(() => this.pettypeValue = pettypeValue),
+              //       ),
+              //     ],
+              //   ),
+              // ),
 
-              //Chọn loại thú cưng
-              SizedBox(height: _pageHeight * 0.02),
-              Container(
-                height: _pageHeight * 0.1,
-                color: _boxColor,
-                child: Row(
-                  children: [
-                    SizedBox(width: _pageWidth * 0.05),
-                    Text(
-                      'Loại dịch vụ:',
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontWeight: FontWeight.w400,
-                        fontSize: _pageHeight * 0.025,
-                      ),
-                    ),
-                    SizedBox(width: _pageWidth * 0.02),
-                    DropdownButton<String>(
-                      value: serviceTypeValue,
-                      items: _listServiceType
-                          .map<DropdownMenuItem<String>>(
-                              buildMenuServiceTypeItem)
-                          .toList(),
-                      onChanged: (serviceTypeValue) => setState(
-                          () => this.serviceTypeValue = serviceTypeValue),
-                    ),
-                  ],
-                ),
-              ),
+              // //Chọn loại thú cưng
+              // SizedBox(height: _pageHeight * 0.02),
+              // Container(
+              //   height: _pageHeight * 0.1,
+              //   color: _boxColor,
+              //   child: Row(
+              //     children: [
+              //       SizedBox(width: _pageWidth * 0.05),
+              //       Text(
+              //         'Loại dịch vụ:',
+              //         style: TextStyle(
+              //           color: Colors.black87,
+              //           fontWeight: FontWeight.w400,
+              //           fontSize: _pageHeight * 0.025,
+              //         ),
+              //       ),
+              //       SizedBox(width: _pageWidth * 0.02),
+              //       DropdownButton<String>(
+              //         value: serviceTypeValue,
+              //         items: _listServiceType
+              //             .map<DropdownMenuItem<String>>(
+              //                 buildMenuServiceTypeItem)
+              //             .toList(),
+              //         onChanged: (serviceTypeValue) => setState(
+              //             () => this.serviceTypeValue = serviceTypeValue),
+              //       ),
+              //     ],
+              //   ),
+              // ),
 
               SizedBox(height: _pageHeight * 0.02),
               Container(
@@ -221,6 +238,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                   onPressed: () {
+                    searchService(serviceNameController.text);
                     _search();
                   },
                   child: Text(
@@ -234,51 +252,40 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
               SizedBox(height: _pageHeight * 0.03),
-              Container(
-                child: Text.rich(
-                  TextSpan(
-                      text: _countResult != null ? '($_countResult)' : '',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: _pageHeight * 0.025,
-                        color: Colors.black87,
-                      ),
-                      children: <InlineSpan>[
-                        TextSpan(
-                          text: _resultLabel,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: _pageHeight * 0.025,
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ]),
+              isHaveResult == false
+                  ? Container()
+                  : Text(
+                      'kết quả tìm kiếm',
+                style: TextStyle(
+                  fontSize: _pageHeight * 0.03,
+                  fontWeight: FontWeight.w400,
                 ),
-              ),
+                    ),
 
               //show result
-              SizedBox(height: _pageHeight*0.02),
+              SizedBox(height: _pageHeight * 0.02),
               isHaveResult == false
                   ? Container()
                   : ListView.separated(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: _pccList.length,
-                separatorBuilder: (BuildContext context, int index) {
-                  return Container(
-                    width: _pageWidth,
-                    child: Column(
-                      children: [
-                        SizedBox(height: _pageHeight * 0.02),
-                      ],
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: listResult!.length,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Container(
+                          width: _pageWidth,
+                          child: Column(
+                            children: [
+                              SizedBox(height: _pageHeight * 0.02),
+                            ],
+                          ),
+                        );
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        return ShowServiceModelItemOnResult(
+                            serviceModel: listResult![index]);
+                      },
                     ),
-                  );
-                },
-                itemBuilder: (BuildContext context, int index) {
-                  return ShowResult(pcc: _pccList[index]);
-                },
-              ),
             ],
           ),
         ),
@@ -288,17 +295,23 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void _search() {
     setState(() {
-      _countResult = 1;
-
       _resultLabel = 'Kết quả tìm kiếm';
       isHaveResult = true;
     });
   }
 
-  DropdownMenuItem<String> buildMenuPettypeItem(var item) {
+  Future searchService(String input) async {
+    final service = await SearchAPI().SearchService(input, '', '');
+    if (!mounted) return;
+    setState(() {
+      listResult = service;
+    });
+  }
+
+  DropdownMenuItem<Animal> buildMenuPettypeItem(Animal item) {
     return DropdownMenuItem(
       value: item,
-      child: Text(item),
+      child: Text(item.animalName),
     );
   }
 
@@ -308,8 +321,8 @@ class _SearchScreenState extends State<SearchScreen> {
       child: Text(item),
     );
   }
-  void _ChooseLocation(BuildContext context) {
 
+  void _ChooseLocation(BuildContext context) {
     var size = MediaQuery.of(context).size;
     showDialog(
       context: context,
@@ -320,7 +333,7 @@ class _SearchScreenState extends State<SearchScreen> {
           scrollable: true,
           content: Container(
             width: size.width,
-            height: size.height*0.5,
+            height: size.height * 0.5,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
@@ -338,5 +351,3 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
-
-

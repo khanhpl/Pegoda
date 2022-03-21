@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:pegoda/MyLib/class/pcc_model.dart';
 import 'package:pegoda/MyLib/class/service.dart';
+import 'package:pegoda/MyLib/class/service_model.dart';
 import 'package:pegoda/MyLib/models/show_service_detail.dart';
+import 'package:pegoda/MyLib/models/show_service_model_detail.dart';
+import 'package:pegoda/MyLib/repository/get_api.dart';
 import '../../MyLib/constants.dart' as Constants;
 //Test Model
 
-class ShowServiceItemOnResult extends StatefulWidget{
-  Service service;
-  ShowServiceItemOnResult({required this.service});
+class ShowServiceModelItemOnResult extends StatefulWidget{
+  ServiceModel serviceModel;
+  ShowServiceModelItemOnResult({required this.serviceModel});
   @override
-  State<ShowServiceItemOnResult> createState() => _ShowServiceItemOnResultState(service: this.service);
+  State<ShowServiceModelItemOnResult> createState() => _ShowServiceModelItemOnResultState(serviceModel: this.serviceModel);
 }
 
-class _ShowServiceItemOnResultState extends State<ShowServiceItemOnResult> {
-  Service service;
-  _ShowServiceItemOnResultState({required this.service});
+class _ShowServiceModelItemOnResultState extends State<ShowServiceModelItemOnResult> {
+  ServiceModel serviceModel;
+  _ShowServiceModelItemOnResultState({required this.serviceModel});
   @override
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
@@ -22,13 +26,14 @@ class _ShowServiceItemOnResultState extends State<ShowServiceItemOnResult> {
     var _bgColor = Constants.bgColor;
     var _boxColor = Constants.boxColor;
     var _starColor = Constants.starColor;
+    final Future<String> pccFuture = GetAPI().GetPCCById(serviceModel.centerId);
     // TODO: implement build
     return  FlatButton(
       onPressed: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ShowServiceDetail(service: this.service),
+            builder: (context) => ShowServiceModelDetail(serviceModel: serviceModel),
           ),
         );
       },
@@ -44,7 +49,7 @@ class _ShowServiceItemOnResultState extends State<ShowServiceItemOnResult> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
-                  image: NetworkImage(service.ServiceImage),
+                  image: NetworkImage(serviceModel.image),
                   fit: BoxFit.fill,
                 ),
               ),
@@ -56,7 +61,7 @@ class _ShowServiceItemOnResultState extends State<ShowServiceItemOnResult> {
                 Container(
                   width: _pageWidth * 0.5,
                   child: Text(
-                    service.ServiceName,
+                    serviceModel.name,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: _pageHeight * 0.022,
@@ -66,7 +71,7 @@ class _ShowServiceItemOnResultState extends State<ShowServiceItemOnResult> {
                 ),
                 SizedBox(height: _pageHeight * 0.02),
                 Text(
-                  service.ServicePrice+'đ',
+                  serviceModel.price.toString()+'đ',
                   style: TextStyle(
                     fontSize: _pageHeight * 0.022,
                     fontWeight: FontWeight.w500,
@@ -74,6 +79,28 @@ class _ShowServiceItemOnResultState extends State<ShowServiceItemOnResult> {
                   ),
                 ),
                 SizedBox(height: _pageHeight * 0.015),
+                FutureBuilder<String>(
+                  future: pccFuture,
+                  builder: (context, snapshot){
+                    if (snapshot.hasError) print(snapshot.error);
+                    if (snapshot.hasData) {
+                      return Container(
+                        width: _pageWidth*0.5,
+                        child: Text(
+                          'Trung tâm: '+ snapshot.data!,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: _pageHeight * 0.022,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Container(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
+
               ],
             ),
           ],

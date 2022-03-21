@@ -60,9 +60,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             //     return RegisterScreen();
             //   }
             //test2
-            print('snapshotdata:' + snapshot.data.toString());
-
-
             return RegisterScreen();
           } else if (snapshot.hasError) {
             return Center(child: Text('Something went wrong!'));

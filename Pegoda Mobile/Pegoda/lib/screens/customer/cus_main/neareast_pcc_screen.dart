@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pegoda/MyLib/class/pcc.dart';
-import 'package:pegoda/MyLib/models/show_pcc_item.dart';
+import 'package:pegoda/MyLib/class/pcc_model.dart';
+import 'package:pegoda/MyLib/models/show_pcc_model_item.dart';
+import 'package:pegoda/MyLib/repository/get_api.dart';
 import '../../../MyLib/constants.dart' as Constants;
-import '../../../MyLib/globals.dart' as Globals;
 
 class NearestPCCScreen extends StatefulWidget{
   @override
@@ -11,8 +11,7 @@ class NearestPCCScreen extends StatefulWidget{
 
 class _NearestPCCScreenState extends State<NearestPCCScreen> {
   var _primaryColor = Constants.primaryColor;
-  var _bgColor = Constants.bgColor;
-  List<PCC> _pccList = Globals.pccList;
+  final Future<List<PCCModel>> pccModels = GetAPI().GetAllPCC();
   @override
   Widget build(BuildContext context) {
 
@@ -44,17 +43,29 @@ class _NearestPCCScreenState extends State<NearestPCCScreen> {
             child: Column(
               children: [
                 SizedBox(height: _pageHeight * 0.03),
-                ListView.separated(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemCount: _pccList.length,
-                  separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(height: _pageHeight*0.02);
+                FutureBuilder<List<PCCModel>>(
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) print(snapshot.error);
+                    if (snapshot.hasData) {
+                      return ListView.separated(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        // itemCount: snapshot.data!.length,
+                        itemCount: 5,
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(height: _pageHeight * 0.03);
+                        },
+                        itemBuilder: (BuildContext context, int index) {
+                          return ShowPCCModelItem(
+                              pccModel: snapshot.data![index]);
+                        },
+                      );
+                    } else {
+                      return Container(child: CircularProgressIndicator());
+                    }
                   },
-                  itemBuilder: (BuildContext context, int index) {
-                    return ShowPCCItem(pcc: _pccList[index]);
-                  },
+                  future: pccModels,
                 ),
               ],
             ),

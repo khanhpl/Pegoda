@@ -232,7 +232,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ShowServiceTypeScreen(
-                                    serviceName: 'Spa & Grooming'),
+                                    serviceName: 'Spa & Grooming', serviceTypeID: 'BC91836B-13BA-4690-BEBB-08DA0192389B'),
                               ),
                             );
                           },

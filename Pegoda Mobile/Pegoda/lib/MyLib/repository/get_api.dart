@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:pegoda/MyLib/class/animal.dart';
 import 'package:pegoda/MyLib/class/pcc_image.dart';
 import 'package:pegoda/MyLib/class/pcc_model.dart';
 import 'package:pegoda/MyLib/class/service_model.dart';
@@ -19,6 +20,42 @@ class GetAPI {
       );
       if (response.statusCode.toString() == '200') {
         return parseAgentsPCCModel(response.body);
+      } else {
+        throw Exception('Unable to fetch PCCModel from the REST API');
+      }
+    } finally {}
+  }
+  // Future <PCCModel> GetPCCById(String id) async {
+  //   print('Center ID:' + id);
+  //   try {
+  //     var url =
+  //     Uri.parse("https://pegoda.azurewebsites.net/api/v1.0/centers/${id}");
+  //     final response = await http.get(
+  //       url,
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json; charset=UTF-8',
+  //       },
+  //     );
+  //     if (response.statusCode.toString() == '200') {
+  //       print('Test PCC Name: ' + PCCModel.fromJson(json.decode(response.body)[0]).PCCName);
+  //       return PCCModel.fromJson(json.decode(response.body)[0]);
+  //     } else {
+  //       throw Exception('Unable to fetch PCCModel from the REST API');
+  //     }
+  //   } finally {}
+  // }
+  Future <String> GetPCCById(String id) async {
+    try {
+      var url =
+      Uri.parse("https://pegoda.azurewebsites.net/api/v1.0/centers/${id}");
+      final response = await http.get(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode.toString() == '200') {
+        return json.decode(response.body)['name'];
       } else {
         throw Exception('Unable to fetch PCCModel from the REST API');
       }
@@ -59,7 +96,25 @@ class GetAPI {
       }
     } finally {}
   }
+  Future<List<Animal>> GetAllAnimal() async {
+    try {
+      var url =
+      Uri.parse("https://pegoda.azurewebsites.net/api/v1.0/animals");
+      final response = await http.get(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode.toString() == '200') {
+        return parseAgentsAnimal(response.body);
+      } else {
+        throw Exception('Unable to fetch Animal from the REST API');
+      }
+    } finally {}
+  }
 }
+
 List<PCCModel> parseAgentsPCCModel(String responseBody) {
 final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
 return parsed.map<PCCModel>((json) => PCCModel.fromJson(json)).toList();
@@ -73,6 +128,11 @@ List<PCCImage> parseAgentsPCCImage(String responseBody) {
 List<ServiceModel> parseAgentsServiceModel(String responseBody) {
   final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
   return parsed.map<ServiceModel>((json) => ServiceModel.fromJson(json)).toList();
+}
+
+List<Animal> parseAgentsAnimal(String responseBody) {
+  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+  return parsed.map<Animal>((json) => Animal.fromJson(json)).toList();
 }
 
 
