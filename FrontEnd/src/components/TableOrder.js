@@ -9,6 +9,8 @@ const TableOrder = () => {
     const [loading, setLoading] = useState(true)
     const [openDialog, setOpenDialog] = useState(false)
     const [dataOrderDetail, setDataOrderDetail] = useState([])
+    const [refreshData, setRefreshData] = useState(false)
+    const [loadingButton, setLoadingButton] = useState(false)
 
     const token = localStorage.getItem('token')
     const centerId = localStorage.getItem('centerId')
@@ -22,7 +24,7 @@ const TableOrder = () => {
             console.log(response.data)
         })
             .catch(error => console.log(error))
-    }, [token, centerId, apiUrl])
+    }, [token, centerId, apiUrl, refreshData])
 
     const handleCloseDialog = () => {
         setOpenDialog(false)
@@ -36,6 +38,27 @@ const TableOrder = () => {
             padding: theme.spacing(1),
         },
     }))
+
+    const updateStatus = async (id, status) => {
+        const order = await axios({
+            url: `https://pegoda.azurewebsites.net/api/v1.0/orders/${id}`,
+            method: 'get',
+            headers: {
+                // 'Authorization': `Bearer ${token}`
+            }
+        })
+        order.data.status = status
+        axios({
+            url: `https://pegoda.azurewebsites.net/api/v1.0/orders/${id}`,
+            method: 'put',
+            headers: {
+                // 'Authorization': `Bearer ${token}`
+            },
+            data: order.data
+        }).then(() => {
+            setRefreshData(!refreshData)
+        }).catch(error => console.log(error.response))
+    }
 
     return (
         <>
@@ -75,10 +98,10 @@ const TableOrder = () => {
                                             {row.status === 'pending' && (
                                                 <ButtonGroup>
                                                     <Button variant="contained" color="secondary" onClick={() => {
-                                                        console.log('approved')
+                                                        updateStatus(row.orderId, 'approved')
                                                     }}>Xác Nhận</Button>
                                                     <Button variant="outlined" color="error" onClick={() => {
-                                                        console.log('canceled')
+                                                        updateStatus(row.orderId, 'canceled')
                                                     }}>Huỷ</Button>
                                                 </ButtonGroup>
                                             ) || row.status === 'canceled' && (
