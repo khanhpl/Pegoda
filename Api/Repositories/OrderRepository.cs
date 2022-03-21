@@ -93,7 +93,7 @@ namespace Api.Repositories
                              join customer in _context.Customer on pet.CustomerId equals customer.Id
                              where order.CenterId == centerId
                              select new { OrderId = order.Id, Date = order.Date, TotalPrice = order.TotalPrice, Status = order.Status, PetId = pet.Id, PetName = pet.Name, Gender = pet.Gender, CustomerId = customer.Id, CustomerName = customer.Name, CustomerEmail = customer.Email };
-                return orders.ToList();
+                return orders.OrderByDescending(x => x.Date).ToList();
             }
             else if (pageNumber != 0 && pageSize != 0 && centerId != Guid.Empty)
             {
@@ -102,7 +102,7 @@ namespace Api.Repositories
                              join customer in _context.Customer on pet.CustomerId equals customer.Id
                              where order.CenterId == centerId
                              select new { OrderId = order.Id, Date = order.Date, TotalPrice = order.TotalPrice, Status = order.Status, PetId = pet.Id, PetName = pet.Name, Gender = pet.Gender, CustomerId = customer.Id, CustomerName = customer.Name, CustomerEmail = customer.Email };
-                return orders.ToPagedList(pageNumber, pageSize).ToList();
+                return orders.OrderByDescending(x => x.Date).ToPagedList(pageNumber, pageSize).ToList();
             }
             return null;
         }
