@@ -19,15 +19,6 @@ class LoginApi {
           },
         ),
       );
-      // Map<String, dynamic> responseBody = jsonDecode(response.body);
-      // ResToken resToken = ResToken(resToken: responseBody['token']);
-      // List<ResToken> list = parseAgents(response.body);
-      // print('Status code: ' + response.statusCode.toString());
-      // print('response body: ' + response.body.toString());
-      // print('response token: ' + resToken.resToken);
-      // print('response token: ' + responseBody['token']);
-      // print('response token: ' + list[0].resToken.toString());
-      // print('token: ' + token);
       if (response.statusCode.toString() == '200') {
         Globals.CheckExistedUser = true;
         return true;

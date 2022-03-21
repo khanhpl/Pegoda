@@ -26,7 +26,8 @@ class _ShowServiceModelItemOnResultState extends State<ShowServiceModelItemOnRes
     var _bgColor = Constants.bgColor;
     var _boxColor = Constants.boxColor;
     var _starColor = Constants.starColor;
-    final Future<String> pccFuture = GetAPI().GetPCCById(serviceModel.centerId);
+    final Future<String> pccFuture = GetAPI().GetPCCNameById(serviceModel.centerId);
+
     // TODO: implement build
     return  FlatButton(
       onPressed: () {

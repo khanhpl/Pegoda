@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pegoda/controllers/customer_main.dart';
 import 'package:pegoda/screens/welcome/register_screen.dart';
 import 'package:pegoda/screens/welcome/sign_up_widget.dart';
+import 'package:pegoda/screens/welcome/split_role_screen.dart';
 import '../../MyLib/constants.dart' as Constants;
 import '../../MyLib/globals.dart' as Globals;
 import '../../MyLib/repository/login_api.dart';
@@ -29,38 +30,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
-            // final user = FirebaseAuth.instance.currentUser!.getIdToken()
-            //     .then((value) => Globals.firebaseToken = value.toString());
-            // user
-            //     .getIdToken()
-            //     .then((value) => Globals.firebaseToken = value.toString());
-
-            // checkCurExistedUser(Globals.firebaseToken);
-            //test
-            // final user = FirebaseAuth.instance.currentUser!
-            //     .getIdToken()
-            //     .then((value) =>
-            //     {LoginApi().checkCurUser(value).then((value) => {
-            //     if(value){
-            //         CusMain(selectedIndex: 0, isBottomNav: true);
-            //     }else{
-            //         RegisterScreen();
-            //     }
-            // })});
-            //test
-            // final checkCurUser =
-            //     LoginApi().checkCurUser(Globals.firebaseToken);
-            // bool checkExistedUser;
-            // // checkCurUser.then((value) => test(value));
-            //   final user = FirebaseAuth.instance.currentUser!.getIdToken().then((value) => Globals.firebaseToken = value);
-            //   final checkCurUser = LoginApi().checkCurUser(Globals.firebaseToken).then((value) => Globals.CheckExistedUser = value);
-            //   if(Globals.CheckExistedUser){
-            //     return CusMain(selectedIndex: 0, isBottomNav: true);
-            //   }else{
-            //     return RegisterScreen();
-            //   }
-            //test2
-            return RegisterScreen();
+            return SplitRoleScreen(user: FirebaseAuth.instance.currentUser!);
           } else if (snapshot.hasError) {
             return Center(child: Text('Something went wrong!'));
           } else {
@@ -70,14 +40,5 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       ),
     );
 
-// void checkCurExistedUser(String firebaseToken) async {
-//   bool checkCurUser = false;
-//   checkCurUser = await LoginApi().checkCurUser(firebaseToken);
-//   if (checkCurUser) {
-//     Globals.CheckExistedUser = true;
-//   } else {
-//     Globals.CheckExistedUser = false;
-//   }
-// }
   }
 }

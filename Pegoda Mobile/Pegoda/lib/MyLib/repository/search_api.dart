@@ -23,8 +23,6 @@ class SearchAPI{
           urlString = urlString + "serviceTypeId=${serviceTypeID}";
         }
       }
-      print('String url: '+ urlString);
-
       var url =
       Uri.parse(urlString);
       final response = await http.get(
@@ -33,7 +31,6 @@ class SearchAPI{
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-      print('Responsebody:'+response.body);
       if (response.statusCode.toString() == '200') {
         return parseAgentsServiceModel(response.body);
       } else {

@@ -5,6 +5,7 @@ import 'package:pegoda/MyLib/class/animal.dart';
 import 'package:pegoda/MyLib/class/pcc_image.dart';
 import 'package:pegoda/MyLib/class/pcc_model.dart';
 import 'package:pegoda/MyLib/class/service_model.dart';
+import 'package:pegoda/MyLib/class/service_type.dart';
 import '../globals.dart' as Globals;
 
 class GetAPI {
@@ -25,26 +26,7 @@ class GetAPI {
       }
     } finally {}
   }
-  // Future <PCCModel> GetPCCById(String id) async {
-  //   print('Center ID:' + id);
-  //   try {
-  //     var url =
-  //     Uri.parse("https://pegoda.azurewebsites.net/api/v1.0/centers/${id}");
-  //     final response = await http.get(
-  //       url,
-  //       headers: <String, String>{
-  //         'Content-Type': 'application/json; charset=UTF-8',
-  //       },
-  //     );
-  //     if (response.statusCode.toString() == '200') {
-  //       print('Test PCC Name: ' + PCCModel.fromJson(json.decode(response.body)[0]).PCCName);
-  //       return PCCModel.fromJson(json.decode(response.body)[0]);
-  //     } else {
-  //       throw Exception('Unable to fetch PCCModel from the REST API');
-  //     }
-  //   } finally {}
-  // }
-  Future <String> GetPCCById(String id) async {
+  Future <String> GetPCCNameById(String id) async {
     try {
       var url =
       Uri.parse("https://pegoda.azurewebsites.net/api/v1.0/centers/${id}");
@@ -58,6 +40,24 @@ class GetAPI {
         return json.decode(response.body)['name'];
       } else {
         throw Exception('Unable to fetch PCCModel from the REST API');
+      }
+    } finally {}
+  }
+  Future <String> GetServiceTypeNameById(String id) async {
+    try {
+      var url =
+      Uri.parse("https://pegoda.azurewebsites.net/api/v1.0/servicetypes/${id}");
+      final response = await http.get(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode.toString() == '200') {
+        print('test: ' + json.decode(response.body)['name']);
+        return json.decode(response.body)['name'];
+      } else {
+        throw Exception('Unable to fetch ServiceModel from the REST API');
       }
     } finally {}
   }
@@ -113,6 +113,23 @@ class GetAPI {
       }
     } finally {}
   }
+  Future<List<ServiceType>> GetAllServiceType() async {
+    try {
+      var url =
+      Uri.parse("https://pegoda.azurewebsites.net/api/v1.0/servicetypes");
+      final response = await http.get(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode.toString() == '200') {
+        return parseAgentsServiceType(response.body);
+      } else {
+        throw Exception('Unable to fetch Animal from the REST API');
+      }
+    } finally {}
+  }
 }
 
 List<PCCModel> parseAgentsPCCModel(String responseBody) {
@@ -133,6 +150,10 @@ List<ServiceModel> parseAgentsServiceModel(String responseBody) {
 List<Animal> parseAgentsAnimal(String responseBody) {
   final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
   return parsed.map<Animal>((json) => Animal.fromJson(json)).toList();
+}
+List<ServiceType> parseAgentsServiceType(String responseBody) {
+  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+  return parsed.map<ServiceType>((json) => ServiceType.fromJson(json)).toList();
 }
 
 

@@ -3,6 +3,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/service.dart';
 import 'package:pegoda/MyLib/class/service_model.dart';
+import 'package:pegoda/MyLib/repository/get_api.dart';
 import '../constants.dart' as Constants;
 
 class ShowServiceModelDetail extends StatefulWidget {
@@ -15,6 +16,17 @@ class ShowServiceModelDetail extends StatefulWidget {
 class _ShowServiceModelDetailState extends State<ShowServiceModelDetail> {
   ServiceModel serviceModel;
   _ShowServiceModelDetailState({required this.serviceModel});
+  String? _serviceTypeName;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    GetAPI().GetServiceTypeNameById(serviceModel.serviceTypeId).then((value) => {
+      setState(() {
+        _serviceTypeName = value;
+      })
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
@@ -84,7 +96,7 @@ class _ShowServiceModelDetailState extends State<ShowServiceModelDetail> {
               ),
               SizedBox(height: _pageHeight * 0.04),
               Text(
-                serviceModel.serviceTypeId.toString().toUpperCase(),
+                _serviceTypeName!,
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: _pageHeight * 0.022,
