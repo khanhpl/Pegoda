@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-expressions */
-import { useState, useEffect } from 'react'
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Box, CircularProgress, Container, Stack, Typography, Button, Card, Pagination } from "@mui/material"
 import { Delete, Edit, InfoOutlined } from '@mui/icons-material'
+import { Box, CircularProgress, Pagination, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
 import axios from 'axios'
+import { useEffect, useState } from 'react'
 
 export default function ListService() {
 
@@ -12,8 +12,9 @@ export default function ListService() {
     const [page, setPage] = useState(1)
 
     const token = localStorage.getItem('token')
+    const centerId = localStorage.getItem('centerId')
     useEffect(() => {
-        axios.get(`https://pegoda.azurewebsites.net/api/v1.0/services?pageNumber=${page}&pageSize=10`, {
+        axios.get(`https://pegoda.azurewebsites.net/api/v1.0/services?pageNumber=${page}&pageSize=10&centerId=${centerId}`, {
             'Authorization': `Bearer ${token}`
         }).then(response => {
             setData(response.data)
@@ -21,17 +22,17 @@ export default function ListService() {
             console.log(response.data)
         })
             .catch(error => console.log(error))
-    }, [token, page])
+    }, [token, page, centerId])
 
     useEffect(() => {
-        axios.get('https://pegoda.azurewebsites.net/api/v1.0/services', {
+        axios.get(`https://pegoda.azurewebsites.net/api/v1.0/services?centerId=${centerId}`, {
             'Authorization': `Bearer ${token}`
         }).then(response => {
             console.log(response.data)
             setLength(Math.ceil(response.data.length / 10))
         })
             .catch(error => console.log(error))
-    }, [token])
+    }, [token, centerId])
 
     return (<>
         {loading

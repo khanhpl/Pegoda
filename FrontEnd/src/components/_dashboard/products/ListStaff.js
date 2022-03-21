@@ -1,16 +1,9 @@
 /* eslint-disable no-unused-expressions */
-import PropTypes from 'prop-types'
+import { Delete, Edit, InfoOutlined } from '@mui/icons-material'
 // material
-import { Grid, Box, CircularProgress, TableContainer, Table, TableHead, TableCell, TableBody, TableRow, Paper, Stack, Pagination } from '@mui/material'
-import { Delete, Edit, InfoOutlined, CleaningServicesOutlined } from '@mui/icons-material'
-import { useState, useEffect } from 'react'
+import { Box, CircularProgress, Pagination, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import axios from 'axios'
-
-// ----------------------------------------------------------------------
-
-ListStaff.propTypes = {
-    // products: PropTypes.array.isRequired
-}
+import { useEffect, useState } from 'react'
 
 export default function ListStaff() {
     const [data, setData] = useState([])
@@ -19,24 +12,25 @@ export default function ListStaff() {
     const [length, setLength] = useState()
 
     const token = localStorage.getItem('token')
+    const centerId = localStorage.getItem('centerId')
 
     useEffect(() => {
-        axios.get(`https://pegoda.azurewebsites.net/api/v1.0/staffs?pageNumber=${page}&pageSize=10`, {
+        axios.get(`https://pegoda.azurewebsites.net/api/v1.0/staffs?pageNumber=${page}&pageSize=10&centerId=${centerId}`, {
             'Authorization': `Bearer ${token}`
         }).then(response => {
             console.log(response.data)
             setData(response.data)
             setLoading(false)
         }).catch(error => console.log(error))
-    }, [token, page])
+    }, [token, page, centerId])
 
     useEffect(() => {
-        axios.get('https://pegoda.azurewebsites.net/api/v1.0/staffs', {
+        axios.get(`https://pegoda.azurewebsites.net/api/v1.0/staffs?centerId=${centerId}`, {
             'Authorization': `Bearer ${token}`
         }).then(response => {
             setLength(Math.ceil(response.data.length / 10))
         }).catch(error => console.log(error))
-    }, [token])
+    }, [token, centerId])
 
     return (
         <>
