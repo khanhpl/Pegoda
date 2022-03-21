@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import { Close, InfoOutlined } from '@mui/icons-material'
-import { Box, Button, ButtonGroup, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Card, CardContent } from "@mui/material"
+import { Box, Button, ButtonGroup, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Card, CardContent, Chip } from "@mui/material"
 import axios from "axios"
 import { useEffect, useState } from "react"
 
@@ -74,17 +74,21 @@ const TableOrder = () => {
                                         <TableCell align="right">
                                             {row.status === 'pending' && (
                                                 <ButtonGroup>
-                                                    <Button variant="contained" color="secondary">Xác Nhận</Button>
-                                                    <Button variant="outlined" color="error">Huỷ</Button>
+                                                    <Button variant="contained" color="secondary" onClick={() => {
+                                                        console.log('approved')
+                                                    }}>Xác Nhận</Button>
+                                                    <Button variant="outlined" color="error" onClick={() => {
+                                                        console.log('canceled')
+                                                    }}>Huỷ</Button>
                                                 </ButtonGroup>
                                             ) || row.status === 'canceled' && (
-                                                <Button variant="contained" disabled>Huỷ</Button>
+                                                <Chip label="Huỷ" color='error' variant='outlined' />
                                             ) || row.status === 'approved' && (
-                                                <Button variant="contained" disabled>Phê Duyệt</Button>
+                                                <Chip label="Phê Duyệt" color="primary" variant="outlined" />
                                             )}
                                         </TableCell>
                                         <TableCell align='right'>
-                                            <InfoOutlined color='primary' style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => {
+                                            <Button variant='outlined' color='info' onClick={() => {
                                                 console.log(row.orderId)
                                                 axios({
                                                     url: `https://pegoda.azurewebsites.net/api/v1.0/orderitems?orderId=${row.orderId}`,
@@ -97,7 +101,7 @@ const TableOrder = () => {
                                                     setDataOrderDetail(response.data)
                                                     setOpenDialog(true)
                                                 }).catch(error => console.log(error))
-                                            }} />
+                                            }}>Chi Tiết</Button>
                                             {/* <Edit color="info" style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => { console.log('edit') }} />
                                         <Delete color="error" style={{ cursor: 'pointer' }} onClick={() => { console.log('delete') }} /> */}
                                         </TableCell>
