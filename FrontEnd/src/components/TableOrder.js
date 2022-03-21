@@ -1,5 +1,6 @@
+/* eslint-disable array-callback-return */
 import { Close, InfoOutlined } from '@mui/icons-material'
-import { Box, Button, ButtonGroup, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
+import { Box, Button, ButtonGroup, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Card, CardContent } from "@mui/material"
 import axios from "axios"
 import { useEffect, useState } from "react"
 
@@ -7,6 +8,7 @@ const TableOrder = () => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [openDialog, setOpenDialog] = useState(false)
+    const [dataOrderDetail, setDataOrderDetail] = useState([])
 
     const token = localStorage.getItem('token')
     const centerId = localStorage.getItem('centerId')
@@ -70,15 +72,31 @@ const TableOrder = () => {
                                         <TableCell align="right">{row.gender}</TableCell>
                                         <TableCell align="right">{row.date.slice(0, 19).replace('T', '  ')}</TableCell>
                                         <TableCell align="right">
-                                            <ButtonGroup>
-                                                <Button variant="contained" color="secondary">Xác Nhận</Button>
-                                                <Button variant="outlined" color="error">Huỷ</Button>
-                                            </ButtonGroup>
+                                            {row.status === 'pending' && (
+                                                <ButtonGroup>
+                                                    <Button variant="contained" color="secondary">Xác Nhận</Button>
+                                                    <Button variant="outlined" color="error">Huỷ</Button>
+                                                </ButtonGroup>
+                                            ) || row.status === 'canceled' && (
+                                                <Button variant="contained" disabled>Huỷ</Button>
+                                            ) || row.status === 'approved' && (
+                                                <Button variant="contained" disabled>Phê Duyệt</Button>
+                                            )}
                                         </TableCell>
                                         <TableCell align='right'>
                                             <InfoOutlined color='primary' style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => {
                                                 console.log(row.orderId)
-                                                // setOpenDialog(true)
+                                                axios({
+                                                    url: `https://pegoda.azurewebsites.net/api/v1.0/orderitems?orderId=${row.orderId}`,
+                                                    method: 'get',
+                                                    headers: {
+                                                        // 'Authorization': `Bearer ${token}`
+                                                    }
+                                                }).then((response) => {
+                                                    console.log(response.data)
+                                                    setDataOrderDetail(response.data)
+                                                    setOpenDialog(true)
+                                                }).catch(error => console.log(error))
                                             }} />
                                             {/* <Edit color="info" style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => { console.log('edit') }} />
                                         <Delete color="error" style={{ cursor: 'pointer' }} onClick={() => { console.log('delete') }} /> */}
@@ -108,26 +126,27 @@ const TableOrder = () => {
                             </IconButton>
                         </DialogTitle>
                         <DialogContent dividers>
-                            <Typography gutterBottom>
-                                Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                                dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                                consectetur ac, vestibulum at eros.
-                            </Typography>
-                            <Typography gutterBottom>
-                                Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-                                Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-                            </Typography>
-                            <Typography gutterBottom>
-                                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-                                magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-                                ullamcorper nulla non metus auctor fringilla.
-                            </Typography>
+                            {dataOrderDetail.map((row, index) => (
+                                <Card key={index} style={{ marginBottom: 10 }}>
+                                    <Typography variant="h5" component="div" style={{ paddingLeft: 5 }}>
+                                        Dịch vụ {index + 1}
+                                    </Typography>
+                                    <CardContent>
+                                        <Typography>
+                                            Tên dịch vụ: {row.service.name}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Giá: {row.price}
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            ))}
                         </DialogContent>
-                        <DialogActions>
+                        {/* <DialogActions>
                             <Button autoFocus onClick={handleCloseDialog}>
                                 Lưu thay đổi
                             </Button>
-                        </DialogActions>
+                        </DialogActions> */}
                     </BootstrapDialog>
                 </>
             }
