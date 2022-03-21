@@ -1,15 +1,31 @@
 /* eslint-disable no-unused-expressions */
-import { Delete, Edit, InfoOutlined } from '@mui/icons-material'
+import { Delete, Edit } from '@mui/icons-material'
 import { Box, CircularProgress, Pagination, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import ModalUpdateService from '../service/ModalUpdateService'
 
 export default function ListService() {
-
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [length, setLength] = useState()
     const [page, setPage] = useState(1)
+    const [openDialog, setOpenDialog] = useState(false)
+    const [state, setState] = useState({
+        values: {
+            name: '',
+            description: '',
+            price: '',
+            urlImage: '',
+            animalId: '',
+            serviceTypeId: '',
+        }
+    })
+    const [loadData, setLoadData] = useState(false)
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false)
+    }
 
     const token = localStorage.getItem('token')
     const centerId = localStorage.getItem('centerId')
@@ -22,7 +38,7 @@ export default function ListService() {
             console.log(response.data)
         })
             .catch(error => console.log(error))
-    }, [token, page, centerId])
+    }, [token, page, centerId, loadData])
 
     useEffect(() => {
         axios.get(`https://pegoda.azurewebsites.net/api/v1.0/services?centerId=${centerId}`, {
@@ -70,9 +86,39 @@ export default function ListService() {
                                     <TableCell align="right">{row.price}</TableCell>
                                     {/* <TableCell align="right">{row.protein}</TableCell> */}
                                     <TableCell align='right'>
-                                        <InfoOutlined color='primary' style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => console.log('info')} />
-                                        <Edit color="info" style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => { console.log('edit') }} />
-                                        <Delete color="error" style={{ cursor: 'pointer' }} onClick={() => { console.log('delete') }} />
+                                        {/* <InfoOutlined color='primary' style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => console.log('info')} /> */}
+                                        <Edit color="info" style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => {
+                                            axios({
+                                                url: `https://pegoda.azurewebsites.net/api/v1.0/services/${row.id}`,
+                                                method: 'get',
+                                                headers: {
+                                                    // 'Authorization': `Bearer ${token}`
+                                                }
+                                            }).then((response) => {
+                                                console.log(response.data)
+                                                setState({
+                                                    ...state.values,
+                                                    name: response.data.name,
+                                                    description: response.data.description,
+                                                    price: response.data.price,
+                                                    urlImage: response.data.image,
+                                                    animalId: response.data.animalId,
+                                                    serviceTypeId: response.data.serviceTypeId,
+                                                })
+                                                setOpenDialog(true)
+                                            }).catch(error => console.log(error))
+                                        }} />
+                                        <Delete color="error" style={{ cursor: 'pointer' }} onClick={() => {
+                                            axios({
+                                                url: `https://pegoda.azurewebsites.net/api/v1.0/services/${row.id}`,
+                                                method: 'delete',
+                                                headers: {
+                                                    // 'Authorization': `Bearer ${token}`
+                                                }
+                                            }).then(() => {
+                                                setLoadData(!loadData)
+                                            }).catch(error => console.log(error))
+                                        }} />
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -87,6 +133,7 @@ export default function ListService() {
                         selected && setPage(page)
                     }} />
                 </Stack>
+                <ModalUpdateService openDialog={openDialog} handleCloseDialog={handleCloseDialog} state={state} />
             </>
         }
     </>
