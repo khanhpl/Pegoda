@@ -58,8 +58,8 @@ function Center() {
         email: values.email,
         description: values.description,
         address: values.address,
-        longitude: values.longitude,
-        latitude: values.latitude
+        longitude: 0,
+        latitude: 0
       }).then(response => {
         console.log(response.data)
         setLoadingButton(false)
@@ -78,8 +78,8 @@ function Center() {
           email: values.email,
           description: values.description,
           address: values.address,
-          longitude: values.longitude,
-          latitude: values.latitude
+          longitude: 0,
+          latitude: 0
         }
       }).then(response => {
         console.log(response.data)
@@ -113,16 +113,16 @@ function Center() {
       dataIndex: "address",
       ellipsis: true,
     },
-    {
-      title: "Kinh Độ",
-      key: "longitude",
-      dataIndex: "longitude",
-    },
-    {
-      title: "Vĩ Độ",
-      key: "latitude",
-      dataIndex: "latitude",
-    },
+    // {
+    //   title: "Kinh Độ",
+    //   key: "longitude",
+    //   dataIndex: "longitude",
+    // },
+    // {
+    //   title: "Vĩ Độ",
+    //   key: "latitude",
+    //   dataIndex: "latitude",
+    // },
     {
       title: "Hành Động",
       key: "action",
@@ -174,8 +174,8 @@ function Center() {
         email: response.data.email,
         description: response.data.description,
         address: response.data.address,
-        longitude: response.data.longitude,
-        latitude: response.data.latitude,
+        // longitude: response.data.longitude,
+        // latitude: response.data.latitude,
       })
       setTitle('Chỉnh sửa thông tin cửa hàng')
       setTextButton({
@@ -281,7 +281,7 @@ function Center() {
           >
             <Input />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             label="Kinh Độ"
             name="longitude"
             rules={[{ required: true, message: 'Vui lòng nhập kinh độ' }]}
@@ -294,7 +294,7 @@ function Center() {
             rules={[{ required: true, message: 'Vui lòng nhập vĩ độ' }]}
           >
             <InputNumber />
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item>
             <Button type="primary" htmlType="submit" loading={loadingButton}>
