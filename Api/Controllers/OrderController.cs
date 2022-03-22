@@ -79,6 +79,14 @@ namespace Api.Controllers
 
             return Ok(listOrders);
         }
+        [HttpGet("customer")]
+        [SwaggerOperation(Summary = "Get list order by email")]
+        public ActionResult GetListOrderByCustomerId(string email)
+        {
+            var listOrders = _service.GetListOrderByCustomerId(email);
+
+            return Ok(listOrders);
+        }
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete order by Id")]
         public async Task<ActionResult> Delete(Guid id)

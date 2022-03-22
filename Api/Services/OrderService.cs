@@ -30,6 +30,10 @@ namespace Api.Services
         {
             return _repo.GetList(pageNumber, pageSize, centerId, userId);
         }
+        public dynamic GetListOrderByCustomerId(string email)
+        {
+            return _repo.GetListOrderByCustomerId(email);
+        }
         public async Task<bool> Delete(Guid id)
         {
             return await _repo.Delete(id);

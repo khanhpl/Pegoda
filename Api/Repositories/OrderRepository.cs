@@ -125,5 +125,16 @@ namespace Api.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public dynamic GetListOrderByCustomerId(string email)
+        {
+            var list = from customer in _context.Customer
+                       join pet in _context.Pet on customer.Id equals pet.CustomerId
+                       join order in _context.Order on pet.Id equals order.PetId
+                       where customer.Email == email
+                       select new { CustomerId = customer.Id, CustomerName = customer.Name, Email = customer.Email, PetId = pet.Id, PetName = pet.Name, PetStatus = pet.Status, PetGender = pet.Gender, OrderId = order.Id, Date = order.Date, TotalPrice = order.TotalPrice, OrderStatus = order.Status, CenterId = order.CenterId };
+
+            return list.ToList();
+        }
     }
 }

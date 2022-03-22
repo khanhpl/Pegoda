@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Api.Data;
 using Api.Entities;
+using Firebase.Auth;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Repositories
@@ -42,9 +43,21 @@ namespace Api.Repositories
             }
             return pet;
         }
-        public List<Pet> GetList()
+        public dynamic GetList(string email)
         {
-            return _context.Pet.Where(x => x.Status.Equals("active")).ToList();
+            if (email == null)
+            {
+                return _context.Pet.Where(x => x.Status.Equals("active")).ToList();
+            }
+            else
+            {
+                var list = from pet in _context.Pet
+                           join customer in _context.Customer on pet.CustomerId equals customer.Id
+                           where customer.Email == email
+                           select new { PetId = pet.Id, PetName = pet.Name, PetStatus = pet.Status, AnimalId = pet.AnimalId, CustomerId = customer.Id, CustomerName = customer.Name, Email = customer.Email };
+
+                return list.ToList();
+            }
         }
         public async Task<bool> Delete(Guid id)
         {
