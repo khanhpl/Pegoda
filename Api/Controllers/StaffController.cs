@@ -38,8 +38,12 @@ namespace Api.Controllers
                 Image = newStaff.Image,
                 RoleId = new Guid("eb55bb48-1cf4-4f4a-15d2-08d9fac956cb"),
             };
-
             await _userService.Create(user);
+            User tempUser = await _userService.Create(user);
+            if (tempUser == null)
+            {
+                return BadRequest(new { message = "Email has exist" });
+            }
             await _staffService.Create(staff);
             return CreatedAtAction(nameof(GetById), new { id = staff.Id }, staff);
         }

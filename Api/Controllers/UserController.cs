@@ -30,7 +30,11 @@ namespace Api.Controllers
                 Image = newUser.Image,
                 RoleId = new Guid("9e675f86-b425-4047-a36f-08d9fb37c635")
             };
-            await _service.Create(user);
+            var tempUser = await _service.Create(user);
+            if (tempUser == null)
+            {
+                return BadRequest(new { message = "Email has exist" });
+            }
             return CreatedAtAction(nameof(GetList), new { email = newUser.Email }, newUser);
         }
         [Route("Login")]

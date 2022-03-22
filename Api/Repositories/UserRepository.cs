@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Api.Data;
 using Api.Entities;
 using Api.Models;
+using Google.Apis.Logging;
 using Google.Apis.Util;
 using Microsoft.EntityFrameworkCore;
 using quiz_app_dotnet_api.Helper;
@@ -23,10 +24,15 @@ namespace Api.Repositories
         }
         public async Task<User> Create(User user)
         {
-            user.Status = "active";
-            await _context.User.AddAsync(user);
-            await _context.SaveChangesAsync();
-            return user;
+            User tempUser = _context.User.FirstOrDefault(u => u.Email == user.Email);
+            if (tempUser == null)
+            {
+                user.Status = "active";
+                await _context.User.AddAsync(user);
+                await _context.SaveChangesAsync();
+                return user;
+            }
+            return null;
         }
         public User GetByEmail(string email)
         {

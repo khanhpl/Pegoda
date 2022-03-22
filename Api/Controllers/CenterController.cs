@@ -43,8 +43,12 @@ namespace Api.Controllers
                 Address = newCenter.Address,
                 RoleId = new Guid("4aed7714-efbe-421c-5f5a-08d9f62291f6"),
             };
+            User tempUser = await _userService.Create(user);
+            if (tempUser == null)
+            {
+                return BadRequest(new { message = "Email has exist" });
+            }
 
-            await _userService.Create(user);
             await _centerService.Create(center);
             return CreatedAtAction(nameof(GetById), new { id = center.Id }, center);
         }
