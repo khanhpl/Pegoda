@@ -23,6 +23,7 @@ import "./assets/styles/responsive.css"
 import Staff from "./pages/Staff"
 import Center from "./pages/Center"
 import Admin from "./pages/Admin"
+import ServiceType from "./pages/ServiceType"
 
 function App() {
   return (
@@ -38,7 +39,8 @@ function App() {
           <Route exact path="/rtl" component={Rtl} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/admin" component={Admin} />
-          <Redirect from="*" to="/dashboard" />
+          <Route exact path="/serviceType" component={ServiceType} />
+          <Redirect from="*" to="/center" />
         </Main>
       </Switch>
     </div>
