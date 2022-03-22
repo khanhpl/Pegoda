@@ -26,9 +26,9 @@ namespace Api.Services
         {
             return await _repo.GetById(id);
         }
-        public dynamic GetList(int pageNumber, int pageSize, Guid centerId)
+        public dynamic GetList(int pageNumber, int pageSize, Guid centerId, Guid userId)
         {
-            return _repo.GetList(pageNumber, pageSize, centerId);
+            return _repo.GetList(pageNumber, pageSize, centerId, userId);
         }
         public async Task<bool> Delete(Guid id)
         {

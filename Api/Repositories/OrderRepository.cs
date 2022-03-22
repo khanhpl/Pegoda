@@ -44,7 +44,7 @@ namespace Api.Repositories
             }
             return order;
         }
-        public dynamic GetList(int pageNumber, int pageSize, Guid centerId)
+        public dynamic GetList(int pageNumber, int pageSize, Guid centerId, Guid userId)
         {
             // if (pageNumber == 0 && pageSize == 0 && centerId == Guid.Empty)
             // {
@@ -82,11 +82,11 @@ namespace Api.Repositories
             // }
 
 
-            if (pageNumber == 0 && pageSize == 0 && centerId == Guid.Empty)
+            if (pageNumber == 0 && pageSize == 0 && centerId == Guid.Empty && userId == Guid.Empty)
             {
                 return _context.Order.ToList();
             }
-            else if (pageNumber == 0 && pageSize == 0 && centerId != Guid.Empty)
+            else if (pageNumber == 0 && pageSize == 0 && centerId != Guid.Empty && userId == Guid.Empty)
             {
                 var orders = from order in _context.Order
                              join pet in _context.Pet on order.PetId equals pet.Id
@@ -95,7 +95,7 @@ namespace Api.Repositories
                              select new { OrderId = order.Id, Date = order.Date, TotalPrice = order.TotalPrice, Status = order.Status, PetId = pet.Id, PetName = pet.Name, Gender = pet.Gender, CustomerId = customer.Id, CustomerName = customer.Name, CustomerEmail = customer.Email };
                 return orders.OrderByDescending(x => x.Date).ToList();
             }
-            else if (pageNumber != 0 && pageSize != 0 && centerId != Guid.Empty)
+            else if (pageNumber != 0 && pageSize != 0 && centerId != Guid.Empty && userId == Guid.Empty)
             {
                 var orders = from order in _context.Order
                              join pet in _context.Pet on order.PetId equals pet.Id
@@ -103,6 +103,14 @@ namespace Api.Repositories
                              where order.CenterId == centerId
                              select new { OrderId = order.Id, Date = order.Date, TotalPrice = order.TotalPrice, Status = order.Status, PetId = pet.Id, PetName = pet.Name, Gender = pet.Gender, CustomerId = customer.Id, CustomerName = customer.Name, CustomerEmail = customer.Email };
                 return orders.OrderByDescending(x => x.Date).ToPagedList(pageNumber, pageSize).ToList();
+            }
+            else if (pageNumber == 0 && pageSize == 0 && userId != Guid.Empty && centerId == Guid.Empty)
+            {
+                return _context.Order.Where(x => x.CenterId == centerId).ToList();
+            }
+            else if (pageNumber != 0 && pageSize != 0 && userId != Guid.Empty && centerId == Guid.Empty)
+            {
+                return _context.Order.Where(x => x.CenterId == centerId).ToPagedList(pageNumber, pageSize).ToList();
             }
             return null;
         }
