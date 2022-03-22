@@ -107,6 +107,11 @@ namespace Api
             services.AddTransient<ServiceTypeService, ServiceTypeService>();
             services.AddTransient<IAlbumImageRepository<AlbumImage>, AlbumImageRepository>();
             services.AddTransient<AlbumImageService, AlbumImageService>();
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = _config["RedisConnectionString"];
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
