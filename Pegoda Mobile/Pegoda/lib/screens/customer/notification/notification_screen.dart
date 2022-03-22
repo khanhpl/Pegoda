@@ -1,13 +1,16 @@
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../../../MyLib/constants.dart' as Constants;
 import '../../../main.dart';
-
+import 'package:http/http.dart' as http;
 class NotificationScreen extends StatefulWidget {
 
   final List<RemoteMessage> messages;
-  NotificationScreen({Key? key, required this.messages}) : super (key:key);
+  final String? token;
+  NotificationScreen({Key? key, required this.messages,required this.token}) : super (key:key);
   @override
   State<NotificationScreen> createState() => _NotificationScreenState();
 }
@@ -15,14 +18,51 @@ class NotificationScreen extends StatefulWidget {
 class _NotificationScreenState extends State<NotificationScreen> {
   String notificationMsg = "Waiting for notifcation";
   List<RemoteMessage> msg = [];
+  late String _token;
 
 
+  String constructFCMPayload(String? token) {
 
+    return jsonEncode({
+      'notification' : <String, dynamic>{
+        'body': 'Text',
+        'title': 'Text title'
+      },
+      'priority': 'high',
+      'data': <String ,dynamic>{
+        'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+        'id': '1',
+        'status':'done'
+      },
+      "to" :token
+    });
+  }
+  Future<void> sendPushMessage() async {
+    if (_token == null) {
+      print('Unable to send FCM message, no token exists.');
+      return;
+    }
+
+    try {
+      await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization' : 'key=AAAAlPK_CKI:APA91bHZ-sPFbBXzus1Mr_JQXVS4bVb06it4XuIPqpD2rEW_gwDgvbQXFJ8Z0v24D8K6b-D4a8CzoCqrkjCnarMNFXj35xogAy_yoFvoDQobhxrjPn93Ui1eZlPR0p8DLD7Igt_N2dD4'
+        },
+        body: constructFCMPayload(_token),
+      );
+      print('FCM request for device sent!');
+    } catch (e) {
+      print(e);
+    }
+  }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     msg = widget.messages;
+    _token = widget.token!;
     FirebaseMessaging.onMessage.listen((event) {
       if (mounted){
         setState(() {
@@ -58,6 +98,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ],
         ),
       ),
+      floatingActionButton: Builder(
+        builder: (context) => FloatingActionButton(
+          onPressed: sendPushMessage,
+          backgroundColor: Colors.blue,
+          child: const Icon(Icons.send),
+        ),
+      ),
       body: Material(
         child: Container(
           padding:
@@ -68,10 +115,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
               children: [
                 ListView.builder(
                     shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
                     itemCount: msg.length,
                     itemBuilder: (context, index) {
                       RemoteMessage message = msg[index];
-                      var sendTime = DateTime.parse(message.sentTime.toString()).compareTo(DateTime.now()) * -1;
+                      var sendTime = DateTime.parse(message.sentTime.toString()).compareTo(DateTime.now());
                       return Card(
                         child: ListTile(
                           leading: Container(
@@ -87,7 +135,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     fontWeight: FontWeight.bold
                                 ),),
                               ),
-                              Text(sendTime.toString() + " gio truoc")
+                              Text((sendTime.isNegative ?  (sendTime*-1).toString() : (sendTime.toString()))+ " gio truoc")
                             ],
 
                           ),

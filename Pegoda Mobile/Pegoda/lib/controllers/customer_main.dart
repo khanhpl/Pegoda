@@ -24,7 +24,7 @@ class _CusMainSate extends State<CusMain> {
   int selectedIndex;
   bool isBottomNav;
   List<RemoteMessage> _messages = [];
-
+  String? _token;
   _CusMainSate({required this.selectedIndex, required this.isBottomNav});
 
   var _primaryColor = Constants.primaryColor;
@@ -37,7 +37,7 @@ class _CusMainSate extends State<CusMain> {
         return PetScreen();
       case 2:
         isBottomNav = true;
-        return NotificationScreen(messages: _messages,);
+        return NotificationScreen(messages: _messages,token: _token,);
       case 3:
         isBottomNav = true;
         return CusAccountScreen();
@@ -45,6 +45,12 @@ class _CusMainSate extends State<CusMain> {
       default:
         return CusHomeScreen();
     }
+  }
+  void getTokenFCM() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    setState(() {
+      _token = token;
+    });
   }
 
   void _onItemTapped(int index) {
@@ -70,15 +76,16 @@ class _CusMainSate extends State<CusMain> {
   }
   void _handleMessage(RemoteMessage message) {
     _messages = [..._messages, message];
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationScreen(messages: _messages)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationScreen(messages: _messages,token: _token,)));
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
 
-
+    getTokenFCM();
     setupInteractedMessage();
 
     FirebaseMessaging.onMessage.listen((event) {
