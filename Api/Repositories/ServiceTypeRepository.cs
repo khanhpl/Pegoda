@@ -30,7 +30,7 @@ namespace Api.Repositories
             {
                 return false;
             }
-            _context.ServiceType.Update(serviceType);
+            _context.ServiceType.Update(newServiceType);
             await _context.SaveChangesAsync();
             return true;
         }

@@ -224,6 +224,26 @@ function Sidenav({ color }) {
             <span className="label">Nhân Viên</span>
           </NavLink>
         </Menu.Item>
+        <Menu.Item key="5">
+          <NavLink to="/ServiceType">
+            <span
+              className="icon"
+              style={{
+                background: page === "ServiceType" ? color : "",
+              }}
+            >
+              <span
+                style={{
+                  opacity: page !== "ServiceType" ? '0.4' : "",
+                  color: page === "ServiceType" ? "white" : ""
+                }}
+                class="material-icons-outlined">
+                pets
+                </span>
+            </span>
+            <span className="label">Loại dịch vụ</span>
+          </NavLink>
+        </Menu.Item>
         <Menu.Item key="4">
           <NavLink to="/admin">
             <span
