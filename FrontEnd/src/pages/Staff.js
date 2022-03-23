@@ -1,4 +1,4 @@
-import { useFormik } from 'formik'
+// import { useFormik } from 'formik'
 import { useState } from 'react'
 // material
 import { Container, Stack, Typography, Pagination, Card } from '@mui/material'
@@ -18,20 +18,20 @@ import PRODUCTS from '../_mocks_/products'
 export default function Staff() {
   const [openFilter, setOpenFilter] = useState(false)
 
-  const formik = useFormik({
-    initialValues: {
-      gender: '',
-      category: '',
-      colors: '',
-      priceRange: '',
-      rating: ''
-    },
-    onSubmit: () => {
-      setOpenFilter(false)
-    }
-  })
+  // const formik = useFormik({
+  //   initialValues: {
+  //     gender: '',
+  //     category: '',
+  //     colors: '',
+  //     priceRange: '',
+  //     rating: ''
+  //   },
+  //   onSubmit: () => {
+  //     setOpenFilter(false)
+  //   }
+  // })
 
-  const { resetForm, handleSubmit } = formik
+  // const { resetForm, handleSubmit } = formik
 
   const handleOpenFilter = () => {
     setOpenFilter(true)
@@ -41,10 +41,10 @@ export default function Staff() {
     setOpenFilter(false)
   }
 
-  const handleResetFilter = () => {
-    handleSubmit()
-    resetForm()
-  }
+  // const handleResetFilter = () => {
+  //   handleSubmit()
+  //   resetForm()
+  // }
 
   return (
     <Page title="Dashboard: Products | Minimal-UI">
