@@ -5,6 +5,7 @@ import { Icon } from '@iconify/react'
 import { Box, Button, Container, Link, Modal, Stack, Typography, CircularProgress, Backdrop } from '@mui/material'
 import axios from 'axios'
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import jwtDecode from 'jwt-decode'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { auth } from '../../config/firebaseConfig'
@@ -48,6 +49,8 @@ export default function AuthSocial() {
                 }
                 ).then(response => {
                   console.log(response.data)
+                  const decode = jwtDecode(response.data.token)
+                  localStorage.setItem('centerId', decode.centerId)
                   localStorage.setItem('token', response.data.token)
                   setOpenBackdrop(false)
                   navigate('/dashboard')
