@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:pegoda/MyLib/class/service.dart';
-import 'package:pegoda/MyLib/models/show_service_detail.dart';
+import 'package:pegoda/MyLib/class/service_model.dart';
+import 'package:pegoda/MyLib/models/show_service_model_detail.dart';
 import '../../MyLib/constants.dart' as Constants;
-
-class ShowServiceItem extends StatefulWidget {
-  Service service;
-  ShowServiceItem({required this.service});
+//Test model
+class ShowServiceModelItem extends StatefulWidget {
+  ServiceModel serviceModel;
+  ShowServiceModelItem({required this.serviceModel});
   @override
-  State<ShowServiceItem> createState() => _ShowServiceItemState(service: this.service);
+  State<ShowServiceModelItem> createState() => _ShowServiceModelItemState(serviceModel: this.serviceModel);
 }
 
-class _ShowServiceItemState extends State<ShowServiceItem> {
-  Service service;
-  _ShowServiceItemState({required this.service});
+class _ShowServiceModelItemState extends State<ShowServiceModelItem> {
+  ServiceModel serviceModel;
+  _ShowServiceModelItemState({required this.serviceModel});
   @override
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
@@ -21,12 +21,13 @@ class _ShowServiceItemState extends State<ShowServiceItem> {
     var _bgColor = Constants.bgColor;
     var _boxColor = Constants.boxColor;
     var _starColor = Constants.starColor;
+    // print('image link: '+serviceModel.image[0].toString());
     return FlatButton(
       onPressed: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ShowServiceDetail(service: this.service),
+            builder: (context) => ShowServiceModelDetail(serviceModel: serviceModel),
           ),
         );
       },
@@ -41,7 +42,7 @@ class _ShowServiceItemState extends State<ShowServiceItem> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
-                  image: NetworkImage(service.ServiceImage),
+                  image: NetworkImage(serviceModel.image),
                   fit: BoxFit.fill,
                 ),
               ),
@@ -53,7 +54,7 @@ class _ShowServiceItemState extends State<ShowServiceItem> {
                 Container(
                   width: _pageWidth * 0.5,
                   child: Text(
-                    service.ServiceName,
+                    serviceModel.name,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: _pageHeight * 0.022,
@@ -63,7 +64,7 @@ class _ShowServiceItemState extends State<ShowServiceItem> {
                 ),
                 SizedBox(height: _pageHeight * 0.015),
                 Text(
-                  service.ServicePrice+'đ',
+                  serviceModel.price.toString()+'đ',
                   style: TextStyle(
                     fontSize: _pageHeight * 0.022,
                     fontWeight: FontWeight.w500,
@@ -74,7 +75,7 @@ class _ShowServiceItemState extends State<ShowServiceItem> {
                 Container(
                   width: _pageWidth * 0.5,
                   child: Text(
-                    service.ServiceDescription,
+                    serviceModel.description,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(

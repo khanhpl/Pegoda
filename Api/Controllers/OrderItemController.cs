@@ -77,9 +77,9 @@ namespace Api.Controllers
         }
         [HttpGet]
         [SwaggerOperation(Summary = "Get list order item")]
-        public ActionResult GetAll()
+        public ActionResult GetAll(Guid orderId)
         {
-            List<OrderItem> listOrderItems = _service.GetList();
+            List<OrderItem> listOrderItems = _service.GetList(orderId);
 
             return Ok(listOrderItems);
         }

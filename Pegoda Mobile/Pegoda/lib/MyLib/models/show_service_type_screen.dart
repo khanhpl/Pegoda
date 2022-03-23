@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:pegoda/MyLib/models/show_result.dart';
+import 'package:pegoda/MyLib/class/pcc_model.dart';
+import 'package:pegoda/MyLib/class/service_model.dart';
+import 'package:pegoda/MyLib/models/show_pcc_model_item.dart';
+import 'package:pegoda/MyLib/models/show_service_model_item_on_result.dart';
+import 'package:pegoda/MyLib/repository/search_api.dart';
 import '../constants.dart' as Constants;
 import '../globals.dart' as Globals;
 class ShowServiceTypeScreen extends StatefulWidget{
   var serviceName;
-  ShowServiceTypeScreen({required this.serviceName});
+  var serviceTypeID;
+  ShowServiceTypeScreen({required this.serviceName, required this.serviceTypeID});
   @override
-  State<ShowServiceTypeScreen> createState() => _ShowServiceTypeScreenState(serviceName: this.serviceName);
+  State<ShowServiceTypeScreen> createState() => _ShowServiceTypeScreenState(serviceName: this.serviceName, serviceTypeID: this.serviceTypeID);
 }
 
 class _ShowServiceTypeScreenState extends State<ShowServiceTypeScreen> {
   var serviceName;
-  _ShowServiceTypeScreenState({required this.serviceName});
+  var serviceTypeID;
+  _ShowServiceTypeScreenState({required this.serviceName, required this.serviceTypeID});
   @override
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
@@ -19,7 +25,7 @@ class _ShowServiceTypeScreenState extends State<ShowServiceTypeScreen> {
     var _primaryColor = Constants.primaryColor;
     var _boxColor = Constants.boxColor;
     var _bgColor = Constants.bgColor;
-    List _pccList = Globals.pccList;
+    final Future<List<ServiceModel>> serviceModels = SearchAPI().SearchService('', '', serviceTypeID);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: _primaryColor,
@@ -46,24 +52,28 @@ class _ShowServiceTypeScreenState extends State<ShowServiceTypeScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              ListView.separated(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: _pccList.length,
-                separatorBuilder: (BuildContext context, int index) {
-                  return Container(
-                    width: _pageWidth,
-                    child: Column(
-                      children: [
-                        SizedBox(height: _pageHeight * 0.03),
-                      ],
-                    ),
-                  );
+              FutureBuilder<List<ServiceModel>>(
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) print(snapshot.error);
+                  if (snapshot.hasData) {
+                    return ListView.separated(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      // itemCount: snapshot.data!.length,
+                      itemCount: 10,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(height: _pageHeight * 0.03);
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        return ShowServiceModelItemOnResult(serviceModel: snapshot.data![index]);
+                      },
+                    );
+                  } else {
+                    return Container(child: CircularProgressIndicator());
+                  }
                 },
-                itemBuilder: (BuildContext context, int index) {
-                  return ShowResult(pcc: _pccList[index]);
-                },
+                future: serviceModels,
               ),
               SizedBox(height: _pageHeight*0.1),
             ],

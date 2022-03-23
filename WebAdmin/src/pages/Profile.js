@@ -205,7 +205,7 @@ function Profile() {
                   <td>{user.email}</td>
                   <td>{user.address}</td>
                   <td>
-                    <img src={user.image} alt='hinhanh' style={{ width: 100 }} />
+                    {user.image && <img src={user.image} alt='hinhanh' style={{ width: 100 }} />}
                   </td>
                   <td>
                     <EditOutlined
@@ -281,9 +281,12 @@ function Profile() {
                   }}
                 >
                   <Row>
-                    <Col span={12} id='hinhanh' >
-                      <img src={user.image} alt='hinhanh' width={70} />
-                    </Col>
+                    {
+                      user.image &&
+                      <Col span={12} id='hinhanh' >
+                        <img src={user.image} alt='hinhanh' width={70} />
+                      </Col>
+                    }
                     <Col span={12}>
                       <Button
                         icon={<UploadOutlined />}>Tải hình ảnh</Button>

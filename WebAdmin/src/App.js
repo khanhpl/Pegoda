@@ -23,6 +23,7 @@ import "./assets/styles/responsive.css"
 import Staff from "./pages/Staff"
 import Center from "./pages/Center"
 import Admin from "./pages/Admin"
+import ServiceType from "./pages/ServiceType"
 
 function App() {
   return (
@@ -31,14 +32,15 @@ function App() {
         <Route path="/sign-in" exact component={SignUp} />
         <Route path="/sign-up" exact component={SignIn} />
         <Main>
-          <Route exact path="/dashboard" component={Home} />
+          {/* <Route exact path="/dashboard" component={Home} /> */}
           <Route exact path="/center" component={Center} />
           <Route exact path="/staff" component={Staff} />
           <Route exact path="/billing" component={Billing} />
           <Route exact path="/rtl" component={Rtl} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/admin" component={Admin} />
-          <Redirect from="*" to="/dashboard" />
+          <Route exact path="/serviceType" component={ServiceType} />
+          <Redirect from="*" to="/center" />
         </Main>
       </Switch>
     </div>

@@ -121,6 +121,7 @@ export default function AccountPopover({ name, image, email }) {
         <Box sx={{ p: 2, pt: 1.5 }}>
           <Button fullWidth color="inherit" variant="outlined" onClick={() => {
             localStorage.removeItem('token')
+            localStorage.removeItem('centerId')
             navigate('/login')
           }}>
             Logout

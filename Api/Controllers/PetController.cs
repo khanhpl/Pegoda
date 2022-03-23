@@ -67,10 +67,10 @@ namespace Api.Controllers
             return Ok(pet);
         }
         [HttpGet]
-        [SwaggerOperation(Summary = "Get list pet")]
-        public ActionResult GetList()
+        [SwaggerOperation(Summary = "Get list pet by email customer")]
+        public ActionResult GetList(string email)
         {
-            List<Pet> listPets = _service.GetList();
+            var listPets = _service.GetList(email);
 
             return Ok(listPets);
         }

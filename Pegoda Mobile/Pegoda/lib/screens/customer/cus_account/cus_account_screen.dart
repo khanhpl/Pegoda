@@ -40,7 +40,7 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
               Center(
                 child: Column(
                   children: [
-                    SizedBox(height: _pageHeight*0.03),
+                    SizedBox(height: _pageHeight * 0.03),
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: SizedBox(
@@ -55,8 +55,7 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
-                                        image:AssetImage(
-                                            'assets/app_ic.png'),
+                                        image: AssetImage('assets/app_ic.png'),
                                         fit: BoxFit.fill,
                                       ),
                                     ),
@@ -181,30 +180,34 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
                       height: 55,
                     ),
                     TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Constants.boxColor,
-                          primary: _primaryColor,
-                          padding: EdgeInsets.all(15),
-                        ),
-                        onPressed: () {
-                          final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
-                          provider.logout();
-                          Navigator.pushNamed(context, '/');
-                        },
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                "Đăng xuất",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: _pageHeight * 0.023,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                      style: TextButton.styleFrom(
+                        backgroundColor: Constants.boxColor,
+                        primary: _primaryColor,
+                        padding: EdgeInsets.all(15),
+                      ),
+                      onPressed: () {
+                        final provider = Provider.of<GoogleSignInProvider>(
+                            context,
+                            listen: false);
+                        provider.logout();
+
+                        Navigator.pushNamed(context, '/');
+                      },
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Đăng xuất",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: _pageHeight * 0.023,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                          ],
-                        )),
+                          ),
+                        ],
+                      ),
+                    ),
                     SizedBox(
                       height: 100,
                     ),

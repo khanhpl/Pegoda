@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:pegoda/MyLib/class/Pet_Model.dart';
 import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:pegoda/MyLib/models/show_pet_detail.dart';
+import 'package:pegoda/MyLib/repository/get_api.dart';
 
-class ShowPetItem extends StatefulWidget {
-  Pet pet;
+class ShowPetModelItem extends StatefulWidget {
+  PetModel petModel;
 
-  ShowPetItem({required this.pet});
+  ShowPetModelItem({required this.petModel});
 
   @override
-  State<ShowPetItem> createState() => _ShowPetItemState(pet: this.pet);
+  State<ShowPetModelItem> createState() => _ShowPetModelItemState(petModel: this.petModel);
 }
 
-class _ShowPetItemState extends State<ShowPetItem> {
-  Pet pet;
-
-  _ShowPetItemState({required this.pet});
-
+class _ShowPetModelItemState extends State<ShowPetModelItem> {
+  PetModel petModel;
+  String? animalName;
+  _ShowPetModelItemState({required this.petModel});
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    GetAPI().GetAnimalNameByID(petModel.animalId).then((value) => {
+      setState(() {
+        animalName = value;
+      })
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -33,7 +43,7 @@ class _ShowPetItemState extends State<ShowPetItem> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ShowPetDetail(pet: this.pet),
+                builder: (context) => ShowPetDetail(petModel: this.petModel),
               ),
             );
           },
@@ -47,7 +57,7 @@ class _ShowPetItemState extends State<ShowPetItem> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: NetworkImage(pet.PetImage),
+                    image: NetworkImage(petModel.petImage),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -58,7 +68,7 @@ class _ShowPetItemState extends State<ShowPetItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    pet.PetName,
+                    petModel.petName,
                     style: TextStyle(
                       fontSize: size.height * 0.03,
                       color: Color(0xff825ee4),
@@ -68,7 +78,7 @@ class _ShowPetItemState extends State<ShowPetItem> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      pet.PetGender && true
+                      petModel.genderPet == "Đực"
                           ? Icon(
                               Icons.male,
                               color: Colors.lightBlue,
@@ -78,7 +88,7 @@ class _ShowPetItemState extends State<ShowPetItem> {
                               color: Colors.pinkAccent,
                             ),
                       Text(
-                        pet.PetType,
+                        animalName!,
                         style: TextStyle(
                           fontSize: size.height * 0.022,
                           fontWeight: FontWeight.w400,

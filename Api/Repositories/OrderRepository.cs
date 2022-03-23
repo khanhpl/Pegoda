@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using Api.Data;
 using Api.Entities;
@@ -43,42 +44,75 @@ namespace Api.Repositories
             }
             return order;
         }
-        public dynamic GetList(int pageNumber, int pageSize, Guid centerId)
+        public dynamic GetList(int pageNumber, int pageSize, Guid centerId, Guid userId)
         {
-            if (pageNumber == 0 && pageSize == 0 && centerId == Guid.Empty)
+            // if (pageNumber == 0 && pageSize == 0 && centerId == Guid.Empty)
+            // {
+            //     return _context.Order.ToList();
+            // }
+            // else if (pageNumber == 0 && pageSize == 0)
+            // {
+            //     var orders = from order in _context.Order
+            //                  join center in _context.Center on order.CenterId equals center.Id
+            //                  join orderitem in _context.OrderItem on order.Id equals orderitem.OrderId
+            //                  join pet in _context.Pet on order.PetId equals pet.Id
+            //                  join customer in _context.Customer on pet.CustomerId equals customer.Id
+            //                  join service in _context.Service on orderitem.ServiceId equals service.Id
+            //                  where order.CenterId == centerId
+            //                  select new { OrderId = order.Id, CustomerName = customer.Name, PetName = pet.Name, PetGender = pet.Gender, BookingTime = orderitem.BookingTime, ServiceName = service.Name, Status = order.Status };
+
+            //     return orders.ToList();
+            // }
+            // else if (centerId == Guid.Empty)
+            // {
+            //     return _context.Order.ToPagedList(pageNumber, pageSize).ToList();
+            // }
+            // else
+            // {
+            //     var orders = from order in _context.Order
+            //                  join center in _context.Center on order.CenterId equals center.Id
+            //                  join orderitem in _context.OrderItem on order.Id equals orderitem.OrderId
+            //                  join pet in _context.Pet on order.PetId equals pet.Id
+            //                  join customer in _context.Customer on pet.CustomerId equals customer.Id
+            //                  join service in _context.Service on orderitem.ServiceId equals service.Id
+            //                  where order.CenterId == centerId
+            //                  select new { OrderId = order.Id, CustomerName = customer.Name, PetName = pet.Name, PetGender = pet.Gender, BookingTime = orderitem.BookingTime, ServiceName = service.Name, Status = order.Status };
+
+            //     return orders.ToPagedList(pageNumber, pageSize).ToList();
+            // }
+
+
+            if (pageNumber == 0 && pageSize == 0 && centerId == Guid.Empty && userId == Guid.Empty)
             {
                 return _context.Order.ToList();
             }
-            else if (pageNumber == 0 && pageSize == 0)
+            else if (pageNumber == 0 && pageSize == 0 && centerId != Guid.Empty && userId == Guid.Empty)
             {
                 var orders = from order in _context.Order
-                             join center in _context.Center on order.CenterId equals center.Id
-                             join orderitem in _context.OrderItem on order.Id equals orderitem.OrderId
                              join pet in _context.Pet on order.PetId equals pet.Id
                              join customer in _context.Customer on pet.CustomerId equals customer.Id
-                             join service in _context.Service on orderitem.ServiceId equals service.Id
                              where order.CenterId == centerId
-                             select new { CustomerName = customer.Name, PetName = pet.Name, PetGender = pet.Gender, BookingTime = orderitem.BookingTime, ServiceName = service.Name };
-
-                return orders.ToList();
+                             select new { OrderId = order.Id, Date = order.Date, TotalPrice = order.TotalPrice, Status = order.Status, PetId = pet.Id, PetName = pet.Name, Gender = pet.Gender, CustomerId = customer.Id, CustomerName = customer.Name, CustomerEmail = customer.Email };
+                return orders.OrderByDescending(x => x.Date).ToList();
             }
-            else if (centerId == Guid.Empty)
-            {
-                return _context.Order.ToPagedList(pageNumber, pageSize).ToList();
-            }
-            else
+            else if (pageNumber != 0 && pageSize != 0 && centerId != Guid.Empty && userId == Guid.Empty)
             {
                 var orders = from order in _context.Order
-                             join center in _context.Center on order.CenterId equals center.Id
-                             join orderitem in _context.OrderItem on order.Id equals orderitem.OrderId
                              join pet in _context.Pet on order.PetId equals pet.Id
                              join customer in _context.Customer on pet.CustomerId equals customer.Id
-                             join service in _context.Service on orderitem.ServiceId equals service.Id
                              where order.CenterId == centerId
-                             select new { CustomerName = customer.Name, PetName = pet.Name, PetGender = pet.Gender, BookingTime = orderitem.BookingTime, ServiceName = service.Name };
-
-                return orders.ToPagedList(pageNumber, pageSize).ToList();
+                             select new { OrderId = order.Id, Date = order.Date, TotalPrice = order.TotalPrice, Status = order.Status, PetId = pet.Id, PetName = pet.Name, Gender = pet.Gender, CustomerId = customer.Id, CustomerName = customer.Name, CustomerEmail = customer.Email };
+                return orders.OrderByDescending(x => x.Date).ToPagedList(pageNumber, pageSize).ToList();
             }
+            else if (pageNumber == 0 && pageSize == 0 && userId != Guid.Empty && centerId == Guid.Empty)
+            {
+                return _context.Order.Where(x => x.CenterId == centerId).ToList();
+            }
+            else if (pageNumber != 0 && pageSize != 0 && userId != Guid.Empty && centerId == Guid.Empty)
+            {
+                return _context.Order.Where(x => x.CenterId == centerId).ToPagedList(pageNumber, pageSize).ToList();
+            }
+            return null;
         }
         public async Task<bool> Delete(Guid id)
         {
@@ -90,6 +124,17 @@ namespace Api.Repositories
             _context.Order.Remove(order);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public dynamic GetListOrderByCustomerId(string email)
+        {
+            var list = from customer in _context.Customer
+                       join pet in _context.Pet on customer.Id equals pet.CustomerId
+                       join order in _context.Order on pet.Id equals order.PetId
+                       where customer.Email == email
+                       select new { CustomerId = customer.Id, CustomerName = customer.Name, Email = customer.Email, PetId = pet.Id, PetName = pet.Name, PetStatus = pet.Status, PetGender = pet.Gender, OrderId = order.Id, Date = order.Date, TotalPrice = order.TotalPrice, OrderStatus = order.Status, CenterId = order.CenterId };
+
+            return list.ToList();
         }
     }
 }

@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:pegoda/MyLib/class/service.dart';
-import 'package:pegoda/MyLib/models/show_service_detail.dart';
+import 'package:pegoda/MyLib/class/service_model.dart';
+import 'package:pegoda/MyLib/repository/get_api.dart';
 import '../../MyLib/constants.dart' as Constants;
-class ShowServiceItemOnResult extends StatefulWidget{
-  Service service;
-  ShowServiceItemOnResult({required this.service});
+import '../../MyLib/globals.dart' as Globals;
+//Test Model
+
+class ShowServiceModelItemOnOrder extends StatefulWidget{
+  ServiceModel serviceModel;
+  ShowServiceModelItemOnOrder({required this.serviceModel});
   @override
-  State<ShowServiceItemOnResult> createState() => _ShowServiceItemOnResultState(service: this.service);
+  State<ShowServiceModelItemOnOrder> createState() => _ShowServiceModelItemOnOrderState(serviceModel: this.serviceModel);
 }
 
-class _ShowServiceItemOnResultState extends State<ShowServiceItemOnResult> {
-  Service service;
-  _ShowServiceItemOnResultState({required this.service});
+class _ShowServiceModelItemOnOrderState extends State<ShowServiceModelItemOnOrder> {
+  ServiceModel serviceModel;
+  _ShowServiceModelItemOnOrderState({required this.serviceModel});
+  var _checkChoosen = false;
   @override
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
@@ -20,18 +24,25 @@ class _ShowServiceItemOnResultState extends State<ShowServiceItemOnResult> {
     var _bgColor = Constants.bgColor;
     var _boxColor = Constants.boxColor;
     var _starColor = Constants.starColor;
+    final Future<String> pccFuture = GetAPI().GetPCCNameById(serviceModel.centerId);
+
+
     // TODO: implement build
     return  FlatButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ShowServiceDetail(service: this.service),
-          ),
-        );
+        setState(() {
+          if(_checkChoosen){
+            Globals.listServiceOnOrder.remove(serviceModel);
+            _checkChoosen = false;
+          }else{
+            Globals.listServiceOnOrder.add(serviceModel);
+            _checkChoosen = true;
+          }
+        });
       },
       child: Container(
-        padding: EdgeInsets.fromLTRB(_pageWidth*0.15, 0, _pageWidth*0.05, 0),
+        padding: EdgeInsets.fromLTRB(_pageWidth*0.05, 0, _pageWidth*0.05, 0),
+        color: _checkChoosen ? Color(0xff8C8BE4) : _boxColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -42,7 +53,7 @@ class _ShowServiceItemOnResultState extends State<ShowServiceItemOnResult> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
-                  image: NetworkImage(service.ServiceImage),
+                  image: NetworkImage(serviceModel.image),
                   fit: BoxFit.fill,
                 ),
               ),
@@ -52,9 +63,9 @@ class _ShowServiceItemOnResultState extends State<ShowServiceItemOnResult> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: _pageWidth * 0.5,
+                  width: _pageWidth * 0.4,
                   child: Text(
-                    service.ServiceName,
+                    serviceModel.name,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: _pageHeight * 0.022,
@@ -64,7 +75,7 @@ class _ShowServiceItemOnResultState extends State<ShowServiceItemOnResult> {
                 ),
                 SizedBox(height: _pageHeight * 0.02),
                 Text(
-                  service.ServicePrice+'đ',
+                  serviceModel.price.toString()+'đ',
                   style: TextStyle(
                     fontSize: _pageHeight * 0.022,
                     fontWeight: FontWeight.w500,

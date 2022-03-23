@@ -1,5 +1,5 @@
-import { UploadOutlined } from '@ant-design/icons'
-import { Button, Card, Col, Form, Input, Modal, Row, Table, Upload } from 'antd'
+import { UploadOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Form, Input, Modal, Row, Table, Upload, Space, Popconfirm, message } from 'antd'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
@@ -11,49 +11,14 @@ const Admin = () => {
     const [length, setLength] = useState()
     const [pageSize, setPageSize] = useState(10)
     const [currentPage, setCurrentPage] = useState(1)
+    const [textButton, setTextButton] = useState({
+        key: 0,
+        value: 'Đăng kí'
+    })
+    const [urlImage, setUrlImage] = useState('')
+    const [title, setTitle] = useState('Tạo tài khoản admin')
 
     const [form] = Form.useForm()
-
-    const onFinish = (values) => {
-        console.log(values)
-        setLoadingButton(true)
-        const formData = new FormData()
-        formData.append('file', values.image.file)
-        let image = ''
-        axios.post('https://pegoda.azurewebsites.net/api/v1.0/uploads', formData, {
-            headers: {
-                //'Authorization': `Bearer ${token}`
-                'Content-Type': `multipart/form-data; boundary=${data._boundary}`
-            }
-        }).then((response) => {
-            console.log(response.data)
-            const centerId = localStorage.getItem('centerId')
-            image = response.data.urlImage
-            console.log({
-                name: values.name,
-                gender: values.gender,
-                email: values.email,
-                image,
-                centerId
-            })
-            axios.post('https://pegoda.azurewebsites.net/api/v1.0/users/register', {
-                // headers: {
-                //   'Authorization': `Bearer ${token}`
-                // },
-                // data: {
-                name: values.name,
-                email: values.email,
-                image,
-                address: values.address
-                // }
-            }).then(response => {
-                console.log(response.data)
-                setLoadingButton(false)
-                setVisible(false)
-            })
-                .catch(error => console.log(error.response))
-        }).catch(error => console.log(error.response))
-    }
 
     const columns = [
         {
@@ -79,8 +44,147 @@ const Admin = () => {
             title: "Email",
             key: "email",
             dataIndex: "email",
-        }
+        },
+        {
+            title: "Hành Động",
+            key: "action",
+            dataIndex: "action",
+            render: (_, record) => (
+                <Space size='large'>
+                    <EditOutlined style={{ fontSize: 18 }} onClick={() => {
+                        onEdit(record.email)
+                        setTextButton({
+                            key: 1,
+                            value: 'Thay đổi'
+                        })
+                        setTitle('Thay đổi thông tin admin')
+                        setVisible(true)
+                    }} />
+                    <Popconfirm
+                        title="Bạn có chắc chắn xoá tài khoản này không?"
+                        onConfirm={() => confirmDelete(record.id)}
+                        okText="Chắc chắn"
+                        cancelText="Huỷ"
+                        placement='topRight'
+                    >
+                        <DeleteOutlined style={{ fontSize: 18 }} />
+                    </Popconfirm>
+                </Space>
+            )
+        },
     ]
+
+    const onFinish = (values) => {
+        console.log(values)
+        setLoadingButton(true)
+        if (textButton.key === 0) {
+            if (!values.image) {
+                axios.post('https://pegoda.azurewebsites.net/api/v1.0/users/register', {
+                    // headers: {
+                    //   'Authorization': `Bearer ${token}`
+                    // },
+                    // data: {
+                    name: values.name,
+                    email: values.email,
+                    image: null,
+                    address: values.address
+                    // }
+                }).then(response => {
+                    console.log(response.data)
+                    setLoadingButton(false)
+                    setVisible(false)
+                })
+                    .catch(error => {
+                        console.log(error.response)
+                        if (error.response.status === 400) {
+                            message.error('Email đã tồn tại')
+                        }
+                        setLoadingButton(false)
+                    })
+            } else {
+                const formData = new FormData()
+                formData.append('file', values.image.file)
+                let image = ''
+                axios.post('https://pegoda.azurewebsites.net/api/v1.0/uploads', formData, {
+                    headers: {
+                        //'Authorization': `Bearer ${token}`
+                        'Content-Type': `multipart/form-data; boundary=${data._boundary}`
+                    }
+                }).then((response) => {
+                    console.log(response.data)
+                    image = response.data.urlImage
+                    axios.post('https://pegoda.azurewebsites.net/api/v1.0/users/register', {
+                        // headers: {
+                        //   'Authorization': `Bearer ${token}`
+                        // },
+                        // data: {
+                        name: values.name,
+                        email: values.email,
+                        image,
+                        address: values.address
+                        // }
+                    }).then(response => {
+                        console.log(response.data)
+                        setLoadingButton(false)
+                        setVisible(false)
+                    })
+                        .catch(error => console.log(error.response))
+                }).catch(error => console.log(error.response))
+            }
+        } else {
+            if (urlImage || !values.image) {
+                axios({
+                    url: `https://pegoda.azurewebsites.net/api/v1.0/users/${values.id}`,
+                    method: 'put',
+                    headers: {
+                        // Authorization: `Bearer ${token}`
+                    },
+                    data: {
+                        id: values.id,
+                        name: values.name,
+                        email: values.email,
+                        image: urlImage,
+                        address: values.address,
+                        roleId: values.roleId
+                    }
+                }).then(() => {
+                    setLoadingButton(false)
+                    setVisible(false)
+                }).catch(error => console.log(error))
+            } else {
+                const formData = new FormData()
+                formData.append('file', values.image.file)
+                let image = ''
+                axios.post('https://pegoda.azurewebsites.net/api/v1.0/uploads', formData, {
+                    headers: {
+                        //'Authorization': `Bearer ${token}`
+                        'Content-Type': `multipart/form-data; boundary=${data._boundary}`
+                    }
+                }).then((response) => {
+                    console.log(response.data)
+                    image = response.data.urlImage
+                    axios({
+                        url: `https://pegoda.azurewebsites.net/api/v1.0/users/${values.id}`,
+                        method: 'put',
+                        headers: {
+                            // Authorization: `Bearer ${token}`
+                        },
+                        data: {
+                            id: values.id,
+                            name: values.name,
+                            email: values.email,
+                            image,
+                            address: values.address,
+                            roleId: values.roleId
+                        }
+                    }).then(() => {
+                        setLoadingButton(false)
+                        setVisible(false)
+                    }).catch(error => console.log(error))
+                }).catch(error => console.log(error.response))
+            }
+        }
+    }
 
     useEffect(() => {
         axios.get('https://pegoda.azurewebsites.net/api/v1.0/users?roleId=9E675F86-B425-4047-A36F-08D9FB37C635', {
@@ -99,7 +203,40 @@ const Admin = () => {
                 setLoading(false)
             })
             .catch(error => console.log(error))
-    }, [currentPage, pageSize])
+    }, [currentPage, pageSize, loadingButton])
+
+    const onEdit = (email) => {
+        axios({
+            url: `https://pegoda.azurewebsites.net/api/v1.0/users?email=${email}`,
+            method: 'get',
+            headers: {
+                // Authorization: `Bearer ${token}`
+            }
+        }).then((response) => {
+            form.setFieldsValue({
+                id: response.data.id,
+                name: response.data.name,
+                email: response.data.email,
+                address: response.data.address,
+                roleId: response.data.roleId
+            })
+            setUrlImage(response.data.image)
+        }).catch(error => console.log(error))
+    }
+
+    const confirmDelete = (id) => {
+        axios({
+            url: `https://pegoda.azurewebsites.net/api/v1.0/users/${id}`,
+            method: 'delete',
+            headers: {
+                // Authorization: `Bearer ${token}`
+            }
+        }).then(() => {
+            setLoadingButton(true)
+            setLoadingButton(false)
+        })
+            .catch(error => console.log(error))
+    }
 
     return (
         <>
@@ -110,11 +247,16 @@ const Admin = () => {
                             style={{ paddingRight: 10, paddingLeft: 10 }}
                             bordered={false}
                             className="criclebox tablespace mb-24"
-                            title="Quản lý cửa hàng"
+                            title="Quản lý tài khoản admin"
                             extra={
                                 <Button type='primary' onClick={() => {
+                                    setTextButton({
+                                        key: 0,
+                                        value: 'Đăng kí'
+                                    })
+                                    setUrlImage('')
                                     setVisible(true)
-                                }}>Tạo Cửa Hàng</Button>
+                                }}>Tạo tài khoản</Button>
                             }
                         >
                             <div className="table-responsive">
@@ -139,9 +281,10 @@ const Admin = () => {
                 </Row>
             </div>
             <Modal
-                title='Tạo tài khoản nhân viên'
+                title={title}
                 visible={visible}
                 onCancel={() => {
+                    setUrlImage('')
                     setVisible(false)
                     form.resetFields()
                 }}
@@ -155,6 +298,20 @@ const Admin = () => {
                     onFinish={onFinish}
                     autoComplete="off"
                 >
+                    <Form.Item
+                        label="roleId"
+                        name="roleId"
+                        style={{ display: 'none' }}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Id"
+                        name="id"
+                        style={{ display: 'none' }}
+                    >
+                        <Input />
+                    </Form.Item>
                     <Form.Item
                         label="Họ Và Tên"
                         name="name"
@@ -179,7 +336,6 @@ const Admin = () => {
                     <Form.Item
                         label='Hình ảnh'
                         name='image'
-                        rules={[{ required: true, message: 'Vui lòng tải lên ảnh' }]}
                     >
                         <Upload
                             listType='picture'
@@ -189,11 +345,12 @@ const Admin = () => {
                             <Button icon={<UploadOutlined />}>Tải hình ảnh</Button>
                         </Upload>
                     </Form.Item>
+                    {urlImage && <img src={urlImage} alt='hinhanh' width={70} style={{ paddingBottom: 11 }} />}
 
                     <Form.Item>
                         <Button type="primary" htmlType="submit" loading={loadingButton}>
-                            Đăng kí
-                </Button>
+                            {textButton.value}
+                        </Button>
                     </Form.Item>
                 </Form>
             </Modal>

@@ -179,7 +179,7 @@ function Sidenav({ color }) {
       </div>
       <hr />
       <Menu theme="light" mode="inline">
-        <Menu.Item key="1">
+        {/* <Menu.Item key="1">
           <NavLink to="/dashboard">
             <span
               className="icon"
@@ -191,7 +191,7 @@ function Sidenav({ color }) {
             </span>
             <span className="label">Dashboard</span>
           </NavLink>
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item key="2">
           <NavLink to="/center">
             <span
@@ -222,6 +222,26 @@ function Sidenav({ color }) {
               </span>
             </span>
             <span className="label">Nhân Viên</span>
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item key="5">
+          <NavLink to="/ServiceType">
+            <span
+              className="icon"
+              style={{
+                background: page === "ServiceType" ? color : "",
+              }}
+            >
+              <span
+                style={{
+                  opacity: page !== "ServiceType" ? '0.4' : "",
+                  color: page === "ServiceType" ? "white" : ""
+                }}
+                class="material-icons-outlined">
+                pets
+                </span>
+            </span>
+            <span className="label">Loại dịch vụ</span>
           </NavLink>
         </Menu.Item>
         <Menu.Item key="4">

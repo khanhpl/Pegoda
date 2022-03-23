@@ -40,9 +40,12 @@ namespace Api.Controllers
                 Image = newCustomer.Image,
                 RoleId = new Guid("142ed46c-3d55-4c0f-cef7-08d9fb4fdece"),
             };
-
             await _userService.Create(user);
-
+            User tempUser = await _userService.Create(user);
+            if (tempUser == null)
+            {
+                return BadRequest(new { message = "Email has exist" });
+            }
             await _customerService.Create(customer);
             return CreatedAtAction(nameof(GetById), new { id = customer.Id }, customer);
         }
@@ -73,12 +76,19 @@ namespace Api.Controllers
             return Ok(customer);
         }
         [HttpGet]
-        [SwaggerOperation(Summary = "Get list customer")]
-        public ActionResult GetList()
+        [SwaggerOperation(Summary = "Get list customer by name")]
+        public async Task<List<Customer>> GetList(String name, int pageNumber, int pageSize)
         {
-            List<Customer> listCustomers = _customerService.GetList();
-
-            return Ok(listCustomers);
+            List<Customer> listCustomers = new List<Customer>();
+            if (name == null)
+            {
+                listCustomers = _customerService.GetList(pageNumber, pageSize);
+            }
+            else
+            {
+                listCustomers = await _customerService.GetListByName(name, pageNumber, pageSize);
+            }
+            return listCustomers;
         }
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete customer by Id")]

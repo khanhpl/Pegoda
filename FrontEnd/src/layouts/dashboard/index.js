@@ -54,6 +54,7 @@ export default function DashboardLayout() {
           console.log(response.data)
           setName(response.data.name)
           setImage(response.data.image)
+          localStorage.setItem('centerId', decode.centerId)
         })
         .catch(error => console.log(error))
     }

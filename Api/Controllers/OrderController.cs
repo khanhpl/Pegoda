@@ -72,10 +72,18 @@ namespace Api.Controllers
             return Ok(order);
         }
         [HttpGet]
-        [SwaggerOperation(Summary = "Get list order and list order by centerId and pagination")]
-        public ActionResult GetList(int pageNumber, int pageSize, Guid centerId)
+        [SwaggerOperation(Summary = "Get list order by centerId or by userId and pagination")]
+        public ActionResult GetList(int pageNumber, int pageSize, Guid centerId, Guid userId)
         {
-            var listOrders = _service.GetList(pageNumber, pageSize, centerId);
+            var listOrders = _service.GetList(pageNumber, pageSize, centerId, userId);
+
+            return Ok(listOrders);
+        }
+        [HttpGet("customer")]
+        [SwaggerOperation(Summary = "Get list order by email")]
+        public ActionResult GetListOrderByCustomerId(string email)
+        {
+            var listOrders = _service.GetListOrderByCustomerId(email);
 
             return Ok(listOrders);
         }

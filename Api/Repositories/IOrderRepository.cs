@@ -11,7 +11,8 @@ namespace Api.Repositories
         Task<Order> Create(Order order);
         Task<bool> Update(Order newOrder);
         Task<Order> GetById(Guid id);
-        dynamic GetList(int pageNumber, int pageSize, Guid centerId);
+        dynamic GetList(int pageNumber, int pageSize, Guid centerId, Guid userId);
+        dynamic GetListOrderByCustomerId(string email);
         Task<bool> Delete(Guid id);
     }
 }
