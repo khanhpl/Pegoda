@@ -1,18 +1,37 @@
 
 import 'package:flutter/material.dart';
+import 'package:pegoda/MyLib/class/Pet_Model.dart';
 import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:pegoda/MyLib/models/show_pet_item.dart';
+import 'package:pegoda/MyLib/repository/get_api.dart';
 import '../../../MyLib/constants.dart' as Constants;
 import '../../../MyLib/globals.dart' as Globals;
 
-class PetScreen extends StatelessWidget {
-  List<Pet> _petList = Globals.petList;
+class PetScreen extends StatefulWidget{
+  @override
+  State<PetScreen> createState() => _PetScreenState();
+}
+
+class _PetScreenState extends State<PetScreen> {
+
+  List<PetModel>? _listPetModel;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    GetAPI().GetPetModelByEmail(Globals.userEmail).then((value) => {
+      setState(() {
+        _listPetModel = value;
+      })
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
     var _pageWidth = MediaQuery.of(context).size.width;
     var _primaryColor = Constants.primaryColor;
     // TODO: implement build
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: _primaryColor,
@@ -64,12 +83,12 @@ class PetScreen extends StatelessWidget {
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
-                  itemCount: _petList.length,
+                  itemCount: _listPetModel!.length,
                   separatorBuilder: (BuildContext context, int index) {
                     return SizedBox(height: _pageHeight * 0.02);
                   },
                   itemBuilder: (BuildContext context, int index) {
-                    return ShowPetItem(pet: _petList[index]);
+                    return ShowPetModelItem(petModel: _listPetModel![index]);
                   },
                 ),
               ],

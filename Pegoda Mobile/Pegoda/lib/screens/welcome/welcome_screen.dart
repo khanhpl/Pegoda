@@ -1,11 +1,12 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pegoda/MyLib/repository/login_api.dart';
 import 'package:pegoda/controllers/customer_main.dart';
 import 'package:pegoda/screens/welcome/register_screen.dart';
 import 'package:pegoda/screens/welcome/sign_up_widget.dart';
+import 'package:pegoda/screens/welcome/split_role_screen.dart';
 import '../../MyLib/constants.dart' as Constants;
+import '../../MyLib/globals.dart' as Globals;
+import '../../MyLib/repository/login_api.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -13,40 +14,31 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  bool checkExistedEmail = false;
+  String token = "";
+
+  // final Stream<dynamic> _stream = (() async* {
+  //   FirebaseAuth.instance.authStateChanges();
+  //   final user = FirebaseAuth.instance.currentUser!;
+  // })();
 
   @override
-  Widget build(BuildContext context) => Material(
-        child: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasData) {
-              final user = FirebaseAuth.instance.currentUser!;
-              String email = user.email!;
-              checkCurExistedUser(email) ;
-              if(checkExistedEmail){// true = old, false = new
-                return CusMain(selectedIndex: 0, isBottomNav: true);
-              }else{
-                return RegisterScreen();
-              }
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Something went wrong!'));
-            } else {
-              return SignUpWidget();
-            }
-          },
-        ),
-      );
+  Widget build(BuildContext context) {
+    return Material(
+      child: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasData) {
+            return SplitRoleScreen(user: FirebaseAuth.instance.currentUser!);
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Something went wrong!'));
+          } else {
+            return SignUpWidget();
+          }
+        },
+      ),
+    );
 
-    void checkCurExistedUser(String email) async {
-    bool checkCurUser = false;
-    checkCurUser = await LoginApi().checkCurUser(email);
-    if(checkCurUser){
-      checkExistedEmail = true;
-    }else{
-      checkExistedEmail = false;
-    }
   }
 }

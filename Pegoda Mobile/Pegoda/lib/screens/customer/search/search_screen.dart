@@ -4,12 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:pegoda/MyLib/class/pcc.dart';
-import 'package:pegoda/MyLib/models/show_pcc_detail.dart';
-import 'package:pegoda/MyLib/models/show_pcc_item.dart';
-import 'package:pegoda/MyLib/models/show_result.dart';
+import 'package:pegoda/MyLib/class/animal.dart';
+import 'package:pegoda/MyLib/class/service_model.dart';
+import 'package:pegoda/MyLib/class/service_type.dart';
+import 'package:pegoda/MyLib/models/show_service_model_item_on_result.dart';
+import 'package:pegoda/MyLib/repository/get_api.dart';
+import 'package:pegoda/MyLib/repository/search_api.dart';
 import '../../../MyLib/constants.dart' as Constants;
-import '../../../MyLib/globals.dart' as Globals;
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -23,17 +24,32 @@ class _SearchScreenState extends State<SearchScreen> {
   );
 
   Completer<GoogleMapController> _controller = Completer();
-  var _countResult;
-
   var _resultLabel = '';
   var pettypeValue;
   var serviceTypeValue;
   var pccContent =
       "Pet Hour / Day care & Month care - Home care service Pet Playground & Pet Bathing - Hotel";
   bool isHaveResult = false;
-  List _listPettype = Globals.listPettype;
-  List _listServiceType = Globals.listServiceType;
-  List<PCC> _pccList = Globals.pccList;
+  List<Animal>? _listAnimal;
+  List<ServiceType>? _listServiceType;
+  TextEditingController serviceNameController = new TextEditingController();
+  List<ServiceModel>? listResult;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    GetAPI().GetAllAnimal().then((value) => {
+          setState(() {
+            _listAnimal = value;
+          })
+        });
+    GetAPI().GetAllServiceType().then((value) => {
+          setState(() {
+            _listServiceType = value;
+          })
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +58,24 @@ class _SearchScreenState extends State<SearchScreen> {
     var _primaryColor = Constants.primaryColor;
     var _bgColor = Constants.bgColor;
     var _boxColor = Constants.boxColor;
-
+    List<DropdownMenuItem<String>> menuItemPetType = [];
+    List<DropdownMenuItem<String>> menuItemServiceType = [];
+    for (Animal animal in _listAnimal!) {
+      menuItemPetType.add(
+        DropdownMenuItem(
+          child: Text(animal.animalName.toString()),
+          value: animal.animalID,
+        ),
+      );
+    }
+    for (ServiceType serviceType in _listServiceType!) {
+      menuItemServiceType.add(
+        DropdownMenuItem(
+          child: Text(serviceType.serviceTypeName.toString()),
+          value: serviceType.serviceTypeID,
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -91,6 +124,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     Expanded(
                       child: Container(
                         child: TextField(
+                          controller: serviceNameController,
                           decoration: InputDecoration.collapsed(
                             hintText: 'Tìm kiếm dịch vụ',
                             hintStyle: TextStyle(
@@ -169,9 +203,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     SizedBox(width: _pageWidth * 0.02),
                     DropdownButton<String>(
                       value: pettypeValue,
-                      items: _listPettype
-                          .map<DropdownMenuItem<String>>(buildMenuPettypeItem)
-                          .toList(),
+                      items: menuItemPetType,
                       onChanged: (pettypeValue) =>
                           setState(() => this.pettypeValue = pettypeValue),
                     ),
@@ -198,10 +230,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     SizedBox(width: _pageWidth * 0.02),
                     DropdownButton<String>(
                       value: serviceTypeValue,
-                      items: _listServiceType
-                          .map<DropdownMenuItem<String>>(
-                              buildMenuServiceTypeItem)
-                          .toList(),
+                      items: menuItemServiceType,
                       onChanged: (serviceTypeValue) => setState(
                           () => this.serviceTypeValue = serviceTypeValue),
                     ),
@@ -221,6 +250,26 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                   onPressed: () {
+                    String name = '';
+                    String petType = '';
+                    String serviceType = '';
+                    if(serviceNameController.text.trim().isNotEmpty){
+                      name = serviceNameController.text.trim();
+                    }
+                    if(pettypeValue != null){
+                      petType = pettypeValue;
+                    }
+                    if(serviceTypeValue != null){
+                      serviceType = serviceTypeValue;
+                    }
+                    if(name.isEmpty && petType.isEmpty && serviceType.isEmpty){
+                      return;
+                    }
+                    print('Name: ' + name);
+                    print('Pettype: '+ petType);
+                    print('ServiceType: '+ serviceType);
+                    searchService(name, petType, serviceType);
+
                     _search();
                   },
                   child: Text(
@@ -234,51 +283,40 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
               SizedBox(height: _pageHeight * 0.03),
-              Container(
-                child: Text.rich(
-                  TextSpan(
-                      text: _countResult != null ? '($_countResult)' : '',
+              isHaveResult == false
+                  ? Container()
+                  : Text(
+                      'kết quả tìm kiếm',
                       style: TextStyle(
+                        fontSize: _pageHeight * 0.03,
                         fontWeight: FontWeight.w400,
-                        fontSize: _pageHeight * 0.025,
-                        color: Colors.black87,
                       ),
-                      children: <InlineSpan>[
-                        TextSpan(
-                          text: _resultLabel,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: _pageHeight * 0.025,
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ]),
-                ),
-              ),
+                    ),
 
               //show result
-              SizedBox(height: _pageHeight*0.02),
+              SizedBox(height: _pageHeight * 0.02),
               isHaveResult == false
                   ? Container()
                   : ListView.separated(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: _pccList.length,
-                separatorBuilder: (BuildContext context, int index) {
-                  return Container(
-                    width: _pageWidth,
-                    child: Column(
-                      children: [
-                        SizedBox(height: _pageHeight * 0.02),
-                      ],
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: listResult!.length,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Container(
+                          width: _pageWidth,
+                          child: Column(
+                            children: [
+                              SizedBox(height: _pageHeight * 0.02),
+                            ],
+                          ),
+                        );
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        return ShowServiceModelItemOnResult(
+                            serviceModel: listResult![index]);
+                      },
                     ),
-                  );
-                },
-                itemBuilder: (BuildContext context, int index) {
-                  return ShowResult(pcc: _pccList[index]);
-                },
-              ),
             ],
           ),
         ),
@@ -288,28 +326,20 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void _search() {
     setState(() {
-      _countResult = 1;
-
       _resultLabel = 'Kết quả tìm kiếm';
       isHaveResult = true;
     });
   }
 
-  DropdownMenuItem<String> buildMenuPettypeItem(var item) {
-    return DropdownMenuItem(
-      value: item,
-      child: Text(item),
-    );
+  Future searchService(String serviceName, String animalID, String serviceTypeID) async {
+    final service = await SearchAPI().SearchService(serviceName, animalID, serviceTypeID);
+    if (!mounted) return;
+    setState(() {
+      listResult = service;
+    });
   }
 
-  DropdownMenuItem<String> buildMenuServiceTypeItem(var item) {
-    return DropdownMenuItem(
-      value: item,
-      child: Text(item),
-    );
-  }
   void _ChooseLocation(BuildContext context) {
-
     var size = MediaQuery.of(context).size;
     showDialog(
       context: context,
@@ -320,7 +350,7 @@ class _SearchScreenState extends State<SearchScreen> {
           scrollable: true,
           content: Container(
             width: size.width,
-            height: size.height*0.5,
+            height: size.height * 0.5,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
@@ -338,5 +368,3 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
-
-
