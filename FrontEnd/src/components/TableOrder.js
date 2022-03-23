@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
 import { Close, InfoOutlined } from '@mui/icons-material'
-import { Box, Button, ButtonGroup, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Card, CardContent, Chip } from "@mui/material"
+import { Box, Button, ButtonGroup, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Card, CardContent, Chip, Stack, Pagination } from "@mui/material"
 import axios from "axios"
 import { useEffect, useState } from "react"
 
@@ -11,10 +12,12 @@ const TableOrder = () => {
     const [dataOrderDetail, setDataOrderDetail] = useState([])
     const [refreshData, setRefreshData] = useState(false)
     const [loadingButton, setLoadingButton] = useState(false)
+    const [length, setLength] = useState()
+    const [page, setPage] = useState(1)
 
     const token = localStorage.getItem('token')
     const centerId = localStorage.getItem('centerId')
-    const apiUrl = `https://pegoda.azurewebsites.net/api/v1.0/orders?pageNumber=1&pageSize=10&centerId=${centerId}`
+    const apiUrl = `https://pegoda.azurewebsites.net/api/v1.0/orders?pageNumber=${page}&pageSize=10&centerId=${centerId}`
     useEffect(() => {
         axios.get(apiUrl, {
             'Authorization': `Bearer ${token}`
@@ -25,6 +28,16 @@ const TableOrder = () => {
         })
             .catch(error => console.log(error))
     }, [token, centerId, apiUrl, refreshData])
+
+    useEffect(() => {
+        axios({
+            url: `https://pegoda.azurewebsites.net/api/v1.0/orders?centerId=${centerId}`,
+            method: 'get'
+        }).then((response) => {
+            console.log(response.data)
+            setLength(Math.ceil(response.data.length / 10))
+        }).catch(error => console.log(error.response))
+    }, [centerId])
 
     const handleCloseDialog = () => {
         setOpenDialog(false)
@@ -133,6 +146,14 @@ const TableOrder = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    <Stack spacing={2}>
+                        {/* <Pagination count={length} style={{ display: 'flex', justifyContent: 'center' }} getItemAriaLabel={(_, page, selected) => {
+                        selected && setPage(page)
+                    }} /> */}
+                        <Pagination count={length} style={{ display: 'flex', justifyContent: 'center', paddingBottom: 10, paddingTop: 10 }} getItemAriaLabel={(_, page, selected) => {
+                            selected && setPage(page)
+                        }} />
+                    </Stack>
                     <BootstrapDialog
                         aria-labelledby="customized-dialog-title"
                         open={openDialog}
