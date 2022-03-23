@@ -12,7 +12,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 import { UploadOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
-import { Button, Card, Col, Form, Input, Modal, Row, Select, Table, Upload, Space, Popconfirm } from "antd"
+import { Button, Card, Col, Form, Input, Modal, Row, Select, Table, Upload, Space, Popconfirm, message } from "antd"
 import axios from "axios"
 import { useEffect, useState } from "react"
 
@@ -103,7 +103,9 @@ function Staff() {
             setVisible(false)
           })
             .catch(error => console.log(error.response))
-        }).catch(error => console.log(error.response))
+        }).catch(error => {
+          console.log(error.response)
+        })
       } else {
         axios.post('https://pegoda.azurewebsites.net/api/v1.0/staffs/register', {
           // headers: {
@@ -121,7 +123,13 @@ function Staff() {
           setLoadingButton(false)
           setVisible(false)
         })
-          .catch(error => console.log(error.response))
+          .catch(error => {
+            if (error.response.status === 400) {
+              message.error('Email đã tồn tại')
+            }
+            setLoadingButton(false)
+            console.log(error.response)
+          })
       }
     } else if (textButton.key === 1) {
       if (urlImage) {

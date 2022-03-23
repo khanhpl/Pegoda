@@ -1,5 +1,5 @@
 import { UploadOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
-import { Button, Card, Col, Form, Input, Modal, Row, Table, Upload, Space, Popconfirm } from 'antd'
+import { Button, Card, Col, Form, Input, Modal, Row, Table, Upload, Space, Popconfirm, message } from 'antd'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
@@ -94,7 +94,13 @@ const Admin = () => {
                     setLoadingButton(false)
                     setVisible(false)
                 })
-                    .catch(error => console.log(error.response))
+                    .catch(error => {
+                        console.log(error.response)
+                        if (error.response.status === 400) {
+                            message.error('Email đã tồn tại')
+                        }
+                        setLoadingButton(false)
+                    })
             } else {
                 const formData = new FormData()
                 formData.append('file', values.image.file)

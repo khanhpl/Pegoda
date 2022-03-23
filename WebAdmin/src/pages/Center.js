@@ -9,7 +9,7 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import { Button, Card, Col, Form, Input, InputNumber, Modal, Row, Table, Space, Popconfirm } from "antd"
+import { Button, Card, Col, Form, Input, InputNumber, Modal, Row, Table, Space, Popconfirm, message } from "antd"
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import axios from "axios"
 import { useEffect, useState } from "react"
@@ -64,7 +64,13 @@ function Center() {
         console.log(response.data)
         setLoadingButton(false)
         setVisible(false)
-      }).catch(error => console.log(error))
+      }).catch(error => {
+        if (error.response.status === 400) {
+          message.error('Email đã tồn tại')
+        }
+        setLoadingButton(false)
+        console.log(error)
+      })
     } else if (textButton.key === 1) {
       axios({
         url: `https://pegoda.azurewebsites.net/api/v1.0/centers/${values.id}`,
