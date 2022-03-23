@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:pegoda/MyLib/class/Pet_Model.dart';
 import 'package:pegoda/MyLib/class/animal.dart';
+import 'package:pegoda/MyLib/class/order_model.dart';
 import 'package:pegoda/MyLib/class/pcc_image.dart';
 import 'package:pegoda/MyLib/class/pcc_model.dart';
 import 'package:pegoda/MyLib/class/service_model.dart';
@@ -130,6 +132,57 @@ class GetAPI {
       }
     } finally {}
   }
+  Future<List<OrderModel>> GetOrderModelByEmail(String email) async {
+    try {
+      var url =
+      Uri.parse("https://pegoda.azurewebsites.net/api/v1.0/orders/customer?email=${email}");
+      final response = await http.get(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode.toString() == '200') {
+        return parseAgentsOrderModel(response.body);
+      } else {
+        throw Exception('Unable to fetch OrderModel from the REST API');
+      }
+    } finally {}
+  }
+  Future<List<PetModel>> GetPetModelByEmail(String email) async {
+    try {
+      var url =
+      Uri.parse("https://pegoda.azurewebsites.net/api/v1.0/pets?email=${email}");
+      final response = await http.get(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode.toString() == '200') {
+        return parseAgentsPetModel(response.body);
+      } else {
+        throw Exception('Unable to fetch PetModel from the REST API');
+      }
+    } finally {}
+  }
+  Future<String> GetAnimalNameByID(String id) async {
+    try {
+      var url =
+      Uri.parse("https://pegoda.azurewebsites.net/api/v1.0/animals/${id}");
+      final response = await http.get(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode.toString() == '200') {
+        return json.decode(response.body)['type'];
+      } else {
+        throw Exception('Unable to fetch Animal from the REST API');
+      }
+    } finally {}
+  }
 }
 
 List<PCCModel> parseAgentsPCCModel(String responseBody) {
@@ -154,6 +207,14 @@ List<Animal> parseAgentsAnimal(String responseBody) {
 List<ServiceType> parseAgentsServiceType(String responseBody) {
   final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
   return parsed.map<ServiceType>((json) => ServiceType.fromJson(json)).toList();
+}
+List<OrderModel> parseAgentsOrderModel(String responseBody) {
+  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+  return parsed.map<OrderModel>((json) => OrderModel.fromJson(json)).toList();
+}
+List<PetModel> parseAgentsPetModel(String responseBody) {
+  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+  return parsed.map<PetModel>((json) => PetModel.fromJson(json)).toList();
 }
 
 

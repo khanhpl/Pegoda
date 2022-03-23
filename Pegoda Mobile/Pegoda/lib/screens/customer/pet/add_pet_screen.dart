@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pegoda/MyLib/class/animal.dart';
+import 'package:pegoda/MyLib/repository/get_api.dart';
 
 class AddPetScreen extends StatefulWidget {
   @override
@@ -8,10 +10,31 @@ class AddPetScreen extends StatefulWidget {
 class _AddPetScreenState extends State<AddPetScreen> {
   bool _isGenderMale = false;
   bool _isGenderFemale = false;
+  List<Animal>? _listAnimal;
+  var pettypeValue;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    GetAPI().GetAllAnimal().then((value) => {
+      setState(() {
+        _listAnimal = value;
+      })
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    List<DropdownMenuItem<String>> menuItemPetType = [];
+    for (Animal animal in _listAnimal!) {
+      menuItemPetType.add(
+        DropdownMenuItem(
+          child: Text(animal.animalName.toString()),
+          value: animal.animalID,
+        ),
+      );
+    }
     // TODO: implement build
     return Material(
       child: Container(
@@ -181,26 +204,11 @@ class _AddPetScreenState extends State<AddPetScreen> {
                     ),
 
                     SizedBox(height: size.height * 0.02),
-                    Container(
-                      height: size.height * 0.06,
-                      alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.only(
-                          left: size.width * 0.03, right: size.width * 0.03),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Color(0xffDADADA)),
-                      ),
-                      child: TextField(
-                        controller: TextEditingController(),
-                        decoration: InputDecoration.collapsed(
-                          hintText: '',
-                          hintStyle: TextStyle(
-                            fontSize: size.height * 0.02,
-                            color: Color(0xff666666),
-                          ),
-                        ),
-                      ),
+                    DropdownButton<String>(
+                      value: pettypeValue,
+                      items: menuItemPetType,
+                      onChanged: (pettypeValue) =>
+                          setState(() => this.pettypeValue = pettypeValue),
                     ),
                     SizedBox(height: size.height * 0.03),
                     Text(
@@ -249,14 +257,16 @@ class _AddPetScreenState extends State<AddPetScreen> {
                 ),
                 child: FlatButton(
                   child: Text(
-                    'Cập nhật',
+                    'Xác nhận',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: size.height * 0.024,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+
+                  },
                 ),
               ),
               SizedBox(height: size.height * 0.4),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pegoda/MyLib/class/order_review.dart';
-import '../../../MyLib/globals.dart' as globals;
-import '../../../MyLib/models/show_order_item.dart';
+import 'package:pegoda/MyLib/class/order_model.dart';
+import 'package:pegoda/MyLib/models/show_order_model_item.dart';
+import 'package:pegoda/MyLib/repository/get_api.dart';
+import '../../../MyLib/globals.dart' as Globals;
 import '../../../MyLib/constants.dart' as Constants;
 
 class OrderHistoryScreen extends StatefulWidget {
@@ -10,11 +11,20 @@ class OrderHistoryScreen extends StatefulWidget {
 }
 
 class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
-  List<OrderReview> _orderReviewList = globals.orderReviewList;
+  List<OrderModel>? _orderModelList;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    GetAPI().GetOrderModelByEmail(Globals.userEmail).then((value) => {
+    setState(() {
+      _orderModelList = value;
+    })
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
     var _primaryColor = Constants.primaryColor;
     var _bgColor = Constants.bgColor;
     var _boxColor = Constants.boxColor;
@@ -57,13 +67,16 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
-                itemCount: _orderReviewList.length,
+                itemCount: _orderModelList!.length,
                 separatorBuilder: (BuildContext context, int index) {
                   return SizedBox(height: size.height * 0.02);
                 },
                 itemBuilder: (BuildContext context, int index) {
-                  return ShowOrderItem(orderReview: _orderReviewList[index]);
+                  return ShowOrderModelItem(orderModel: _orderModelList![index]);
                 },
+              ),
+              SizedBox(
+                height: size.height*0.2
               ),
             ],
           ),

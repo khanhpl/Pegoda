@@ -3,6 +3,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/service_model.dart';
 import 'package:pegoda/MyLib/repository/get_api.dart';
+import 'package:pegoda/screens/customer/search/order_screen.dart';
 import '../constants.dart' as Constants;
 
 class ShowServiceModelDetail extends StatefulWidget {
@@ -58,7 +59,12 @@ class _ShowServiceModelDetailState extends State<ShowServiceModelDetail> {
       ),
       floatingActionButton: ElevatedButton(
         onPressed: (){
-          Navigator.popAndPushNamed(context, '/orderScreen');
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OrderScreen(centerID: serviceModel.centerId),
+            ),
+          );
 
         },
         style: ButtonStyle(

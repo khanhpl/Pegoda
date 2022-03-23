@@ -25,7 +25,6 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
     var _pageWidth = MediaQuery.of(context).size.width;
-    List<Pet> _petList = Globals.petList;
     List<Coupon> _couponList = Globals.couponList;
     final getAPI = GetAPI().GetAllPCC().then((value) => checkGetPcc = value);
 

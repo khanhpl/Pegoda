@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:pegoda/MyLib/class/Pet_Model.dart';
 import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:pegoda/MyLib/class/service_model.dart';
 import 'package:pegoda/MyLib/models/show_pet_item_on_order.dart';
 import 'package:pegoda/MyLib/models/show_service_model_item_on_result.dart';
-import 'package:pegoda/MyLib/models/show_time_slot_item.dart';
+import 'package:pegoda/MyLib/models/show_service_model_on_order.dart';
+import 'package:pegoda/MyLib/repository/create_api.dart';
 import 'package:pegoda/MyLib/repository/get_api.dart';
 import '../../../MyLib/constants.dart' as Constants;
 import '../../../MyLib/globals.dart' as Globals;
-
+import 'package:intl/intl.dart';
 class OrderScreen extends StatefulWidget {
   var centerID;
 
@@ -24,7 +26,6 @@ class _OrderScreenState extends State<OrderScreen> {
 
   _OrderScreenState({required this.centerID});
 
-  List<Pet> _petList = Globals.petList;
   var paymentValue;
   List _listPayment = Globals.listPayment;
   List<ServiceModel>? _serviceList;
@@ -32,25 +33,32 @@ class _OrderScreenState extends State<OrderScreen> {
   var _boxColor = Constants.boxColor;
   var _bgColor = Constants.bgColor;
   var _date = 'Chọn thời gian thực hiện';
-
+  String dateInputStr ='';
+  List<PetModel>? _listPetModel;
+  String petId = '';
+  bool result = false;
+  var totalPrice=0;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    GetAPI()
-        .GetServiceModelByCenterID('AE750B41-8D37-5807-5807-08D9F90AA2DD')
-        .then((value) => {
-      setState(() {
-        _serviceList = value;
-      })
-    });
+    GetAPI().GetServiceModelByCenterID(centerID).then((value) => {
+          setState(() {
+            _serviceList = value;
+          })
+        });
+    GetAPI().GetPetModelByEmail(Globals.userEmail).then((value) => {
+          setState(() {
+            _listPetModel = value;
+          })
+        });
+    Globals.listServiceOnOrder.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
     var _pageWidth = MediaQuery.of(context).size.width;
-    
 
     return Scaffold(
       appBar: AppBar(
@@ -101,7 +109,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
                 Spacer(),
                 Text(
-                  '500.000đ',
+                  totalPrice.toString()+'đ',
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: _pageHeight * 0.03,
@@ -137,23 +145,22 @@ class _OrderScreenState extends State<OrderScreen> {
               FlatButton(
                 padding: EdgeInsets.all(0),
                 onPressed: () {
-                  setState(() {
-                    DatePicker.showDateTimePicker(context,
-                        showTitleActions: true,
-                        minTime: DateTime.now(),
-                        maxTime: DateTime(2023, 12, 31),
-                        onChanged: (date) {}, onConfirm: (date) {
-                      setState(() {
-                        String dateInput = 'Ngày: ' +
-                            date.day.toString() +
-                            '-' +
-                            date.month.toString() +
-                            '-' +
-                            date.year.toString();
-                        _changeDate(dateInput);
-                      });
-                    }, currentTime: DateTime.now(), locale: LocaleType.vi);
-                  });
+                  DatePicker.showDateTimePicker(context,
+                      showTitleActions: true,
+                      minTime: DateTime.now(),
+                      maxTime: DateTime(2023, 12, 31),
+                      onChanged: (date) {}, onConfirm: (date) {
+                    String dateInput =
+                        date.year.toString() +
+                        '-' +
+                        date.month.toString() +
+                        '-' +
+                        date.day.toString();
+
+                    dateInputStr = DateFormat("yyyy-MM-ddTKK:mm:ss").format(date);
+
+                    _changeDate(dateInput);
+                  }, currentTime: DateTime.now(), locale: LocaleType.vi);
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -179,7 +186,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     ),
                     SizedBox(width: _pageWidth * 0.03),
                     Text(
-                      'Chọn thời gian thực hiện',
+                      'Ngày: '+_date,
                       style: TextStyle(
                         color: Colors.grey[600],
                         fontSize: _pageHeight * 0.02,
@@ -201,15 +208,27 @@ class _OrderScreenState extends State<OrderScreen> {
               Container(
                 height: _pageHeight * 0.15,
                 child: ListView.separated(
-                  physics: NeverScrollableScrollPhysics(),
+                  // physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: 1,
+                  itemCount: _listPetModel!.length,
                   separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(height: _pageHeight * 0.02);
+                    return SizedBox(width: _pageWidth * 0.02);
                   },
                   itemBuilder: (BuildContext context, int index) {
-                    return ShowPetItemOnOrder(pet: _petList[index]);
+                    return InkWell(
+                      //highlightColor: Colors.red,
+                      splashColor: Colors.blueAccent,
+                      onTap: () {
+                        setState(() {
+                          _listPetModel!
+                              .forEach((element) => element.isSelected = false);
+                          _listPetModel![index].isSelected = true;
+                        });
+                      },
+                      child:
+                          ShowPetItemOnOrder(petModel: _listPetModel![index]),
+                    );
                   },
                 ),
               ),
@@ -226,7 +245,8 @@ class _OrderScreenState extends State<OrderScreen> {
                   Spacer(),
                   ElevatedButton(
                     onPressed: () {
-                      _ChooseService(context);
+                        _ChooseService(context);
+                        _calTotalPrice();
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
@@ -244,51 +264,41 @@ class _OrderScreenState extends State<OrderScreen> {
                 ],
               ),
               SizedBox(height: _pageHeight * 0.03),
-              Container(
-                child: Row(
-                  children: [
-                    Text(
-                      'Tắm chó - Dog Bathing',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: _pageHeight * 0.024,
-                        color: Colors.grey[800],
-                      ),
+              Globals.listServiceOnOrder.length == 0
+                  ? Container()
+                  : ListView.separated(
+                      // physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: Globals.listServiceOnOrder.length,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(width: _pageWidth * 0.02);
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          child: Row(
+                            children: [
+                              Text(
+                                Globals.listServiceOnOrder[index].name,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: _pageHeight * 0.024,
+                                  color: Colors.grey[800],
+                                ),
+                              ),
+                              Spacer(),
+                              Text(
+                                Globals.listServiceOnOrder[index].price.toString()+'đ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: _pageHeight * 0.026,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     ),
-                    Spacer(),
-                    Text(
-                      '250.000đ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: _pageHeight * 0.026,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: _pageHeight * 0.03),
-              Container(
-                child: Row(
-                  children: [
-                    Text(
-                      'Tiêm phòng 4 bệnh Felocell - Pfizer',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: _pageHeight * 0.024,
-                        color: Colors.grey[800],
-                      ),
-                    ),
-                    Spacer(),
-                    Text(
-                      '250.000đ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: _pageHeight * 0.026,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               SizedBox(height: _pageHeight * 0.04),
               Row(
                 children: [
@@ -344,7 +354,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   ),
                   Spacer(),
                   Text(
-                    '500.000đ',
+                  totalPrice.toString()+"đ",
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: _pageHeight * 0.028,
@@ -382,40 +392,42 @@ class _OrderScreenState extends State<OrderScreen> {
 
   void _ChooseService(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          contentPadding: EdgeInsets.all(0),
-          backgroundColor: Color.fromRGBO(0, 0, 0, 0),
-          scrollable: true,
-          content: Container(
-            padding: EdgeInsets.all(size.width * 0.03),
-            width: size.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Container(
+    setState(() {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.all(0),
+            backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+            scrollable: true,
+            content: Container(
+              padding: EdgeInsets.all(size.width * 0.03),
               width: size.width,
-              height: size.height * 0.7,
-              child: ListView.separated(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: _serviceList!.length,
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(height: size.height * 0.02);
-                },
-                itemBuilder: (BuildContext context, int index) {
-                  return ShowServiceModelItemOnResult(serviceModel: _serviceList![index]);
-                },
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Container(
+                width: size.width,
+                height: size.height * 0.7,
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: _serviceList!.length,
+                  separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(height: size.height * 0.02);
+                  },
+                  itemBuilder: (BuildContext context, int index) {
+                    return ShowServiceModelItemOnOrder(
+                        serviceModel: _serviceList![index]);
+                  },
+                ),
               ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    });
   }
 
   DropdownMenuItem<String> buildMenuPaymentItem(var item) {
@@ -427,7 +439,6 @@ class _OrderScreenState extends State<OrderScreen> {
 
   void _changeDate(String date) async {
     setState(() {
-      print('ngày được set: ' + date);
       _date = date;
     });
   }
@@ -453,7 +464,14 @@ class _OrderScreenState extends State<OrderScreen> {
                 style: TextStyle(color: _primaryColor),
               ),
               onPressed: () {
+                _getPetId();
+                if(_date=="Chọn thời gian thực hiện" || totalPrice == 0 || petId.isEmpty){
+                  return;
+                }
+                createOrder(dateInputStr, totalPrice.toString(), centerID, petId);
                 Navigator.pushNamed(context, '/orderSuccessScreen');
+
+
               },
             ),
             TextButton(
@@ -469,5 +487,27 @@ class _OrderScreenState extends State<OrderScreen> {
         );
       },
     );
+  }
+  void _calTotalPrice(){
+    setState(() {
+      totalPrice = 0;
+      for(ServiceModel service in Globals.listServiceOnOrder){
+        totalPrice = totalPrice + int.parse(service.price.toString());
+      }
+    });
+  }
+  void _getPetId(){
+    for(PetModel pet in _listPetModel!){
+      if(pet.isSelected){
+        petId = pet.petId;
+      }
+    }
+  }
+  Future createOrder(String date, String totalPrice, String centerId, String petId) async {
+    final createResult = await CreateApi().createOrder(date, totalPrice, centerId, petId);
+    if (!mounted) return;
+    setState(() {
+      result = createResult;
+    });
   }
 }

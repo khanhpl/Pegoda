@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:pegoda/MyLib/class/order_review.dart';
-import 'package:pegoda/MyLib/models/show_order_detail.dart';
+import 'package:pegoda/MyLib/class/order_model.dart';
+import 'package:pegoda/MyLib/models/show_order_model_detail.dart';
 import '../../MyLib/constants.dart' as Constants;
 
-class ShowOrderItem extends StatefulWidget {
-  OrderReview orderReview;
+class ShowOrderModelItem extends StatefulWidget {
+  OrderModel orderModel;
 
-  ShowOrderItem({required this.orderReview});
+  ShowOrderModelItem({required this.orderModel});
 
   @override
-  State<ShowOrderItem> createState() =>
-      _ShowOrderItemState(orderReview: this.orderReview);
+  State<ShowOrderModelItem> createState() =>
+      _ShowOrderModelItemState(orderModel: this.orderModel);
 }
 
-class _ShowOrderItemState extends State<ShowOrderItem> {
-  OrderReview orderReview;
+class _ShowOrderModelItemState extends State<ShowOrderModelItem> {
+  OrderModel orderModel;
 
-  _ShowOrderItemState({required this.orderReview});
+  _ShowOrderModelItemState({required this.orderModel});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    ShowOrderDetail(orderReview: this.orderReview),
+                    ShowOrderModelDetail(orderModel: orderModel),
               ),
             );
           },
@@ -54,6 +54,7 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
                 child: Icon(
                   Icons.bookmarks,
                   size: size.width * 0.08,
+                  color: _primaryColor,
                 ),
               ),
               Container(
@@ -62,17 +63,21 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Mã đặt lịch' + orderReview.OrderID,
-                      style: TextStyle(
-                        color: Color(0xff333333),
-                        fontSize: size.height * 0.016,
-                        fontWeight: FontWeight.w400,
+                    Container(
+                      width: size.width*0.55,
+                      child: Text(
+                        'Mã đặt lịch: ' + orderModel.orderId,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Color(0xff333333),
+                          fontSize: size.height * 0.016,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                     SizedBox(height: size.height * 0.006),
                     Text(
-                      'Thú cưng: ' + orderReview.PetName,
+                      'Thú cưng: ' + orderModel.petName,
                       style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: size.height * 0.016,
@@ -82,7 +87,7 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
                     SizedBox(height: size.height * 0.006),
                     RichText(
                       text: TextSpan(
-                        text: orderReview.Date + ' | ',
+                        text: orderModel.date.toString() + ' | ',
                         style: TextStyle(
                           color: Color(0xff666666),
                           fontSize: size.height * 0.016,
@@ -103,7 +108,7 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
               ),
               Spacer(),
               Text(
-                orderReview.TotalPrice,
+                orderModel.totalPrice.toString(),
                 style: TextStyle(
                   color: Color(0xff333333),
                   fontSize: size.height * 0.016,
@@ -128,13 +133,13 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
   }
 
   String _getOrderStatus() {
-    String orderStatus = orderReview.Status;
+    String orderStatus = orderModel.orderStatus;
 
-    if (orderStatus == "1") {
+    if (orderStatus == "pending") {
       return "Đang xử lý";
-    } else if (orderStatus == "2") {
+    } else if (orderStatus == "approved") {
       return "Đã xác nhận";
-    } else if (orderStatus == "3") {
+    } else if (orderStatus == "finished") {
       return "Đã hoàn thành";
     } else {
       return "Đã hủy";
@@ -142,12 +147,12 @@ class _ShowOrderItemState extends State<ShowOrderItem> {
   }
 
   Color _getStatusColor(){
-    String orderStatus = orderReview.Status;
-    if (orderStatus == "1") {
+    String orderStatus = orderModel.orderStatus;
+    if (orderStatus == "pending") {
       return Colors.yellow;
-    } else if (orderStatus == "2") {
+    } else if (orderStatus == "approved") {
       return Colors.blueAccent;
-    } else if (orderStatus == "3") {
+    } else if (orderStatus == "finished") {
       return Colors.lightGreen;
     } else {
       return Colors.redAccent;

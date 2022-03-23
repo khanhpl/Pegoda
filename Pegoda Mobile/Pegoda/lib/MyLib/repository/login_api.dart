@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:http/http.dart' as http;
 import '../globals.dart' as Globals;
 
@@ -19,7 +19,9 @@ class LoginApi {
           },
         ),
       );
+
       if (response.statusCode.toString() == '200') {
+        Globals.userEmail = Jwt.parseJwt(response.body)['Email'];
         return true;
       } else {
         return false;
