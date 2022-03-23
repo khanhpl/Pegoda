@@ -4,7 +4,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../../../MyLib/constants.dart' as Constants;
-import '../../../main.dart';
 import 'package:http/http.dart' as http;
 class NotificationScreen extends StatefulWidget {
 
@@ -137,6 +136,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               ),
                               Text((sendTime.isNegative ?  (sendTime*-1).toString() : (sendTime.toString()))+ " gio truoc")
                             ],
+
 
                           ),
                           subtitle:
