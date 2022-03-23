@@ -1,19 +1,32 @@
 
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
-import 'package:pegoda/MyLib/class/service.dart';
+import 'package:pegoda/MyLib/class/service_model.dart';
+import 'package:pegoda/MyLib/repository/get_api.dart';
+import 'package:pegoda/screens/customer/search/order_screen.dart';
 import '../constants.dart' as Constants;
 
-class ShowServiceDetail extends StatefulWidget {
-  Service service;
-  ShowServiceDetail({required this.service});
+class ShowServiceModelDetail extends StatefulWidget {
+  ServiceModel serviceModel;
+  ShowServiceModelDetail({required this.serviceModel});
   @override
-  State<ShowServiceDetail> createState() => _ShowServiceDetailState(service: this.service);
+  State<ShowServiceModelDetail> createState() => _ShowServiceModelDetailState(serviceModel: this.serviceModel);
 }
 
-class _ShowServiceDetailState extends State<ShowServiceDetail> {
-  Service service;
-  _ShowServiceDetailState({required this.service});
+class _ShowServiceModelDetailState extends State<ShowServiceModelDetail> {
+  ServiceModel serviceModel;
+  _ShowServiceModelDetailState({required this.serviceModel});
+  String? _serviceTypeName;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    GetAPI().GetServiceTypeNameById(serviceModel.serviceTypeId).then((value) => {
+      setState(() {
+        _serviceTypeName = value;
+      })
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var _pageHeight = MediaQuery.of(context).size.height;
@@ -22,18 +35,6 @@ class _ShowServiceDetailState extends State<ShowServiceDetail> {
     var _bgColor = Constants.bgColor;
     var _boxColor = Constants.boxColor;
     var _starColor = Constants.starColor;
-    Widget CaroselImage = Center(
-      child: Carousel(
-        images: service.ServiceSlideImage,
-        autoplay: true,
-        dotSize: 5,
-        dotSpacing: 30,
-        indicatorBgPadding: 0,
-        autoplayDuration: Duration(seconds: 5),
-        borderRadius: true,
-        dotBgColor: Colors.black.withOpacity(0),
-      ),
-    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: _primaryColor,
@@ -58,7 +59,12 @@ class _ShowServiceDetailState extends State<ShowServiceDetail> {
       ),
       floatingActionButton: ElevatedButton(
         onPressed: (){
-          Navigator.popAndPushNamed(context, '/orderScreen');
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OrderScreen(centerID: serviceModel.centerId),
+            ),
+          );
 
         },
         style: ButtonStyle(
@@ -83,6 +89,7 @@ class _ShowServiceDetailState extends State<ShowServiceDetail> {
             children: [
               Container(
                 height: _pageHeight * 0.4,
+                width: _pageWidth,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -90,11 +97,11 @@ class _ShowServiceDetailState extends State<ShowServiceDetail> {
                     topRight: Radius.circular(20),
                   ),
                 ),
-                child: CaroselImage,
+                child: Image.network(serviceModel.image),
               ),
               SizedBox(height: _pageHeight * 0.04),
               Text(
-                service.ServiceType..toString().toUpperCase(),
+                _serviceTypeName!,
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: _pageHeight * 0.022,
@@ -103,7 +110,7 @@ class _ShowServiceDetailState extends State<ShowServiceDetail> {
               ),
               SizedBox(height: _pageHeight * 0.03),
               Text(
-                service.ServiceName,
+                serviceModel.name,
                 style: TextStyle(
                   fontSize: _pageHeight * 0.03,
                   fontWeight: FontWeight.w500,
@@ -111,7 +118,7 @@ class _ShowServiceDetailState extends State<ShowServiceDetail> {
               ),
               SizedBox(height: _pageHeight * 0.03),
               Text(
-                'Giá dịch vụ: '+service.ServicePrice+'đ',
+                'Giá dịch vụ: '+serviceModel.price.toString()+'đ',
                 style: TextStyle(
                   fontSize: _pageHeight * 0.026,
                   fontWeight: FontWeight.w500,
@@ -127,7 +134,7 @@ class _ShowServiceDetailState extends State<ShowServiceDetail> {
               ),
               SizedBox(height: _pageHeight * 0.02),
               Text(
-                service.ServiceDescription,
+                serviceModel.description,
                 style: TextStyle(
                   fontSize: _pageHeight * 0.022,
                   fontWeight: FontWeight.w400,

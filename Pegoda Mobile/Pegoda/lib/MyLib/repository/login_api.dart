@@ -1,12 +1,13 @@
 import 'dart:convert';
-
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:http/http.dart' as http;
+import '../globals.dart' as Globals;
 
 class LoginApi {
-  Future<bool> checkCurUser(String email) async {
+  Future<bool> checkCurUser(String token) async {
     try {
-      var url = Uri.parse(
-          "https://pegoda.azurewebsites.net/api/v1.0/users/login");
+      var url =
+          Uri.parse("https://pegoda.azurewebsites.net/api/v1.0/users/login");
       final response = await http.post(
         url,
         headers: <String, String>{
@@ -14,15 +15,33 @@ class LoginApi {
         },
         body: jsonEncode(
           <String, String>{
-            'email': email,
+            'token': token,
           },
         ),
       );
+
       if (response.statusCode.toString() == '200') {
+        Globals.userEmail = Jwt.parseJwt(response.body)['Email'];
         return true;
+      } else {
+        return false;
       }
-      print('Sai nè');
-      return false;
     } finally {}
+  }
+}
+// List<ResToken> parseAgents(String responseBody) {
+// final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+// return parsed.map<ResToken>((json) => ResToken.fromJson(json)).toList();
+// }
+
+class ResToken {
+  var resToken;
+
+  ResToken({required this.resToken});
+
+  factory ResToken.fromJson(Map<dynamic, dynamic> json) {
+    return ResToken(
+      resToken: json['token'],
+    );
   }
 }
