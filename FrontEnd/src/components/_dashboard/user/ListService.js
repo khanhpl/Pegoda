@@ -87,7 +87,7 @@ export default function ListService() {
                                     {/* <TableCell align="right">{row.protein}</TableCell> */}
                                     <TableCell align='right'>
                                         {/* <InfoOutlined color='primary' style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => console.log('info')} /> */}
-                                        <Edit color="info" style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => {
+                                        {/* <Edit color="info" style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => {
                                             axios({
                                                 url: `https://pegoda.azurewebsites.net/api/v1.0/services/${row.id}`,
                                                 method: 'get',
@@ -107,7 +107,7 @@ export default function ListService() {
                                                 })
                                                 setOpenDialog(true)
                                             }).catch(error => console.log(error))
-                                        }} />
+                                        }} /> */}
                                         <Delete color="error" style={{ cursor: 'pointer' }} onClick={() => {
                                             axios({
                                                 url: `https://pegoda.azurewebsites.net/api/v1.0/services/${row.id}`,

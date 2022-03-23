@@ -48,7 +48,7 @@ export default function ListStaff() {
                                     <TableCell align="right">Email</TableCell>
                                     <TableCell align="right">Giới Tính</TableCell>
                                     <TableCell align="right">Hình Ảnh</TableCell>
-                                    <TableCell align="right">Hành Động</TableCell>
+                                    {/* <TableCell align="right">Hành Động</TableCell> */}
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -66,11 +66,11 @@ export default function ListStaff() {
                                         <TableCell style={{ display: 'flex', justifyContent: 'right' }}>
                                             {row.image && <img src={row.image} alt='hinhanh' width={70} />}
                                         </TableCell>
-                                        <TableCell align='right'>
+                                        {/* <TableCell align='right'>
                                             <InfoOutlined color='primary' style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => console.log('info')} />
                                             <Edit color="info" style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => { console.log('edit') }} />
                                             <Delete color="error" style={{ cursor: 'pointer' }} onClick={() => { console.log('delete') }} />
-                                        </TableCell>
+                                        </TableCell> */}
                                     </TableRow>
                                 ))}
                             </TableBody>
