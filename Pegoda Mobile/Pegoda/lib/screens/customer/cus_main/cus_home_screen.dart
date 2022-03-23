@@ -331,23 +331,6 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
                   ),
                 ]),
                 SizedBox(height: _pageHeight * 0.03),
-                Row(
-                  children: [
-                    Text(
-                      'Thú cưng của bạn   ',
-                      style: TextStyle(
-                        fontSize: _pageHeight * 0.028,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    Icon(
-                      Icons.pets,
-                      color: _primaryColor,
-                    ),
-                  ],
-                ),
-                SizedBox(height: _pageHeight * 0.02),
-                SizedBox(height: _pageHeight * 0.03),
                 Row(children: [
                   Container(
                     child: Text(
