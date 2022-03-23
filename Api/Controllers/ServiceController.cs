@@ -28,7 +28,8 @@ namespace Api.Controllers
                 Image = newService.Image,
                 Duration = newService.Duration,
                 CenterId = newService.CenterId,
-                AnimalId = newService.AnimalId
+                AnimalId = newService.AnimalId,
+                ServiceTypeId = newService.ServiceTypeId
             };
             await _service.Create(service);
             return CreatedAtAction(nameof(GetById), new { Id = service.Id }, service);
@@ -50,7 +51,8 @@ namespace Api.Controllers
                 Image = updateService.Image,
                 Duration = updateService.Duration,
                 CenterId = updateService.CenterId,
-                AnimalId = updateService.AnimalId
+                AnimalId = updateService.AnimalId,
+                ServiceTypeId = updateService.ServiceTypeId
             };
             bool check = await _service.Update(service);
             if (!check)
@@ -82,24 +84,44 @@ namespace Api.Controllers
             return NoContent();
         }
         [HttpGet]
-        [SwaggerOperation(Summary = "Search by name and paging")]
-        public async Task<List<Service>> SearchByName(String name, int pageNumber, int pageSize)
+        [SwaggerOperation(Summary = "Search by name or center id or animalId, serviceTypeId and paging")]
+        public async Task<List<Service>> SearchByName(String name, Guid centerId, int pageNumber, int pageSize, Guid animalId, Guid serviceTypeId)
         {
-            if (name == null)
+            List<Service> listService = new List<Service>();
+            if (name == null && centerId == Guid.Empty)
             {
-                List<Service> listService = _service.GetList(pageNumber, pageSize);
+                listService = _service.GetList(pageNumber, pageSize);
 
                 return listService;
             }
-            else
+            if (name != null && centerId != Guid.Empty)
             {
-                List<Service> service = await _service.SearchByName(name, pageNumber, pageSize);
-                if (service == null)
+                listService = await _service.SearchByNameAndCenterId(centerId, name, pageNumber, pageSize);
+
+                return listService;
+            }
+            else if (name != null && centerId == Guid.Empty)
+            {
+                listService = await _service.SearchByName(name, pageNumber, pageSize);
+                if (listService == null)
                 {
                     return null;
                 }
-                return service;
+                return listService;
             }
+            else if (centerId != Guid.Empty && name == null)
+            {
+                listService = await _service.SearchByCenterId(centerId, pageNumber, pageSize);
+                if (listService == null)
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                listService = await _service.Search(name, animalId, serviceTypeId);
+            }
+            return listService;
         }
     }
 }

@@ -40,6 +40,7 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
               Center(
                 child: Column(
                   children: [
+                    SizedBox(height: _pageHeight * 0.03),
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: SizedBox(
@@ -54,8 +55,7 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
-                                        image: NetworkImage(
-                                            'https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg'),
+                                        image: AssetImage('assets/app_ic.png'),
                                         fit: BoxFit.fill,
                                       ),
                                     ),
@@ -73,19 +73,6 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
                                     width: _pageHeight * 0.07,
                                     height: _pageHeight * 0.07,
                                   ),
-                            Positioned(
-                              right: -10,
-                              bottom: 0,
-                              child: SizedBox(
-                                width: 36,
-                                height: 36,
-                                child: TextButton(
-                                    style: flatButtonStyle,
-                                    onPressed: () {},
-                                    child: Image.asset(
-                                        "assets/cus/account_screen/iconGooglePlus.png")),
-                              ),
-                            )
                           ],
                         ),
                       ),
@@ -94,7 +81,7 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
                       height: 10,
                     ),
                     Text(
-                      "Hieu",
+                      "Khánh",
                       style: TextStyle(
                         fontSize: 25,
                       ),
@@ -193,30 +180,34 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
                       height: 55,
                     ),
                     TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Constants.boxColor,
-                          primary: _primaryColor,
-                          padding: EdgeInsets.all(15),
-                        ),
-                        onPressed: () {
-                          final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
-                          provider.logout();
-                          Navigator.pushNamed(context, '/');
-                        },
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                "Đăng xuất",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: _pageHeight * 0.023,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                      style: TextButton.styleFrom(
+                        backgroundColor: Constants.boxColor,
+                        primary: _primaryColor,
+                        padding: EdgeInsets.all(15),
+                      ),
+                      onPressed: () {
+                        final provider = Provider.of<GoogleSignInProvider>(
+                            context,
+                            listen: false);
+                        provider.logout();
+
+                        Navigator.pushNamed(context, '/');
+                      },
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Đăng xuất",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: _pageHeight * 0.023,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                          ],
-                        )),
+                          ),
+                        ],
+                      ),
+                    ),
                     SizedBox(
                       height: 100,
                     ),

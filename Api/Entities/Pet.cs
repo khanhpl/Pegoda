@@ -12,7 +12,6 @@ namespace Api.Entities
         public string Name { get; set; }
         public string Status { get; set; }
         public string Gender { get; set; }
-        public string Image { get; set; }
         public Guid AnimalId { get; set; }
         public virtual Animal Animal { get; set; }
         public Guid CustomerId { get; set; }

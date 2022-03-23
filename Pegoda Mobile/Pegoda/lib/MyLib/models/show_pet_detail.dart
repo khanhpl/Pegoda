@@ -1,25 +1,45 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:pegoda/MyLib/class/pet.dart';
+import 'package:pegoda/MyLib/class/Pet_Model.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pegoda/MyLib/repository/get_api.dart';
 import '../globals.dart' as globals;
 import 'package:flutter/services.dart';
 
-class ShowPetDetail extends StatefulWidget{
-  Pet pet;
-  ShowPetDetail({required this.pet});
+class ShowPetDetail extends StatefulWidget {
+  PetModel petModel;
+
+  ShowPetDetail({required this.petModel});
+
   @override
-  State<ShowPetDetail> createState() => _ShowPetDetailState(pet: this.pet);
+  State<ShowPetDetail> createState() =>
+      _ShowPetDetailState(petModel: this.petModel);
 }
 
 class _ShowPetDetailState extends State<ShowPetDetail> {
-  Pet pet;
-  _ShowPetDetailState({required this.pet});
+  PetModel petModel;
+
+  _ShowPetDetailState({required this.petModel});
+
   bool _isGenderMale = false;
   bool _isGenderFemale = false;
   late File imageFile;
   bool _picIsChose = false;
+  String? animalName;
+
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    GetAPI().GetAnimalNameByID(petModel.animalId).then((value) => {
+          setState(() {
+            animalName = value;
+          })
+        });
+    _isGenderMale = petModel.genderPet == "Đực" ? true : false;
+    _isGenderMale = petModel.genderPet == "Cái" ? true : false;
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -68,39 +88,39 @@ class _ShowPetDetailState extends State<ShowPetDetail> {
                   },
                   child: globals.isAvatarChecked == false
                       ? Container(
-                    width: size.height * 0.12,
-                    height: size.height * 0.12,
-                    alignment: Alignment.bottomCenter,
-                    padding: EdgeInsets.only(bottom: size.height * 0.01),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: NetworkImage(pet.PetImage),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    child: Icon(
-                      Icons.add_a_photo,
-                      color: Colors.white,
-                    ),
-                  )
+                          width: size.height * 0.12,
+                          height: size.height * 0.12,
+                          alignment: Alignment.bottomCenter,
+                          padding: EdgeInsets.only(bottom: size.height * 0.01),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: NetworkImage(petModel.petImage),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.add_a_photo,
+                            color: Colors.white,
+                          ),
+                        )
                       : Container(
-                    width: size.height * 0.12,
-                    height: size.height * 0.12,
-                    alignment: Alignment.bottomCenter,
-                    padding: EdgeInsets.only(bottom: size.height * 0.01),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: FileImage(globals.petAvatarFile),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    child: Icon(
-                      Icons.add_a_photo,
-                      color: Colors.white,
-                    ),
-                  ),
+                          width: size.height * 0.12,
+                          height: size.height * 0.12,
+                          alignment: Alignment.bottomCenter,
+                          padding: EdgeInsets.only(bottom: size.height * 0.01),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: FileImage(globals.petAvatarFile),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.add_a_photo,
+                            color: Colors.white,
+                          ),
+                        ),
                 ),
               ),
               SizedBox(height: size.height * 0.03),
@@ -116,6 +136,40 @@ class _ShowPetDetailState extends State<ShowPetDetail> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      'Tên thú cưng',
+                      style: TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: size.height * 0.02,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+
+                    SizedBox(height: size.height * 0.02),
+                    Container(
+                      height: size.height * 0.06,
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.only(
+                          left: size.width * 0.03, right: size.width * 0.03),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Color(0xffDADADA)),
+                      ),
+                      child: TextField(
+                        controller:
+                            TextEditingController(text: petModel.petName),
+                        decoration: InputDecoration.collapsed(
+                          hintText: '',
+                          hintStyle: TextStyle(
+                            fontSize: size.height * 0.02,
+                            color: Color(0xff666666),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: size.height * 0.03),
                     Text(
                       'Giới tính',
                       style: TextStyle(
@@ -169,40 +223,6 @@ class _ShowPetDetailState extends State<ShowPetDetail> {
                         ],
                       ),
                     ),
-                    SizedBox(height: size.height * 0.03),
-                    Text(
-                      'Tên thú cưng',
-                      style: TextStyle(
-                        color: Color(0xff333333),
-                        fontSize: size.height * 0.02,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-
-                    SizedBox(height: size.height * 0.02),
-                    Container(
-                      height: size.height * 0.06,
-                      alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.only(
-                          left: size.width * 0.03, right: size.width * 0.03),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Color(0xffDADADA)),
-                      ),
-                      child: TextField(
-                        controller: TextEditingController(text: pet.PetName),
-                        decoration: InputDecoration.collapsed(
-                          hintText: '',
-                          hintStyle: TextStyle(
-                            fontSize: size.height * 0.02,
-                            color: Color(0xff666666),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(height: size.height * 0.03),
                     Text(
                       'Loại thú cưng',
                       style: TextStyle(
@@ -224,7 +244,7 @@ class _ShowPetDetailState extends State<ShowPetDetail> {
                         border: Border.all(color: Color(0xffDADADA)),
                       ),
                       child: TextField(
-                        controller: TextEditingController(text: pet.PetType),
+                        controller: TextEditingController(text: animalName),
                         decoration: InputDecoration.collapsed(
                           hintText: '',
                           hintStyle: TextStyle(
@@ -256,7 +276,8 @@ class _ShowPetDetailState extends State<ShowPetDetail> {
                         border: Border.all(color: Color(0xffDADADA)),
                       ),
                       child: TextField(
-                        controller: TextEditingController(text: pet.PetStatus),
+                        controller:
+                            TextEditingController(text: petModel.petStatus),
                         decoration: InputDecoration.collapsed(
                           hintText: '',
                           hintStyle: TextStyle(
@@ -266,7 +287,6 @@ class _ShowPetDetailState extends State<ShowPetDetail> {
                         ),
                       ),
                     ),
-
 
                     //end box----------------------------------------------------------
                   ],
@@ -299,6 +319,7 @@ class _ShowPetDetailState extends State<ShowPetDetail> {
       ),
     );
   }
+
   _getFromGallery() async {
     PickedFile? pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,

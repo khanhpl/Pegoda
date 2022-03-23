@@ -20,6 +20,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using quiz_app_dotnet_api.Helper;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 
 namespace Api
 {
@@ -60,11 +62,16 @@ namespace Api
             {
                 options.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins("http://localhost:3000", "http://localhost:3001", "https://www.pegoda.xyz")
+                    builder.WithOrigins("http://localhost:3000", "http://localhost:3001", "https://www.pegoda.xyz", "https://pegoda-admin.vercel.app")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
                 });
+            });
+
+            FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile("Config/Firebase/pegoda-firebase-adminsdk.json")
             });
 
             services.AddControllers();
@@ -96,6 +103,15 @@ namespace Api
             services.AddTransient<IPaymentRepository<Payment>, PaymentRepository>();
             services.AddTransient<PaymentService, PaymentService>();
             services.AddTransient<IJwtHelper, JwtHelper>();
+            services.AddTransient<IServiceTypeRepository<ServiceType>, ServiceTypeRepository>();
+            services.AddTransient<ServiceTypeService, ServiceTypeService>();
+            services.AddTransient<IAlbumImageRepository<AlbumImage>, AlbumImageRepository>();
+            services.AddTransient<AlbumImageService, AlbumImageService>();
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = _config["RedisConnectionString"];
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

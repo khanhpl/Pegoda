@@ -1,27 +1,47 @@
 import 'dart:convert';
-
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:http/http.dart' as http;
+import '../globals.dart' as Globals;
 
 class LoginApi {
-  Future<bool> checkCurUser(String email) async {
-    var url = Uri.parse(
-        'https://pegoda.azurewebsites.net/swagger/api/v1.0/user/login');
-    final response = await http.post(
-      url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'email': email,
-      }),
+  Future<bool> checkCurUser(String token) async {
+    try {
+      var url =
+          Uri.parse("https://pegoda.azurewebsites.net/api/v1.0/users/login");
+      final response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          <String, String>{
+            'token': token,
+          },
+        ),
+      );
+
+      if (response.statusCode.toString() == '200') {
+        Globals.userEmail = Jwt.parseJwt(response.body)['Email'];
+        return true;
+      } else {
+        return false;
+      }
+    } finally {}
+  }
+}
+// List<ResToken> parseAgents(String responseBody) {
+// final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+// return parsed.map<ResToken>((json) => ResToken.fromJson(json)).toList();
+// }
+
+class ResToken {
+  var resToken;
+
+  ResToken({required this.resToken});
+
+  factory ResToken.fromJson(Map<dynamic, dynamic> json) {
+    return ResToken(
+      resToken: json['token'],
     );
-    print('email: ' + email);
-    print('Status code: ' + response.statusCode.toString());
-    print('token: ' + response.body);
-    print('response: ' + response.toString());
-    if (response.statusCode == 400) {
-      return false;
-    }
-    return true;
   }
 }

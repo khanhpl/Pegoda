@@ -25,7 +25,6 @@ namespace Api.Controllers
                 Name = newPet.Name,
                 Status = newPet.Status,
                 Gender = newPet.Gender,
-                Image = newPet.Image,
                 AnimalId = newPet.AnimalId,
                 CustomerId = newPet.CustomerId
             };
@@ -46,7 +45,6 @@ namespace Api.Controllers
                 Name = updatePet.Name,
                 Status = updatePet.Status,
                 Gender = updatePet.Gender,
-                Image = updatePet.Image,
                 AnimalId = updatePet.AnimalId,
                 CustomerId = updatePet.CustomerId
             };
@@ -69,10 +67,10 @@ namespace Api.Controllers
             return Ok(pet);
         }
         [HttpGet]
-        [SwaggerOperation(Summary = "Get list pet")]
-        public ActionResult GetList()
+        [SwaggerOperation(Summary = "Get list pet by email customer")]
+        public ActionResult GetList(string email)
         {
-            List<Pet> listPets = _service.GetList();
+            var listPets = _service.GetList(email);
 
             return Ok(listPets);
         }

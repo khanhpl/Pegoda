@@ -25,17 +25,17 @@ namespace Api.Services
         {
             return await _repo.GetById(id);
         }
-        public List<Center> GetList()
+        public List<Center> GetList(int pageNumber, int pageSize)
         {
-            return _repo.GetList();
+            return _repo.GetList(pageNumber, pageSize);
         }
         public async Task<bool> Delete(Guid id)
         {
             return await _repo.Delete(id);
         }
-        public async Task<List<Center>> SearchByAddressAndName(String name, String address)
+        public async Task<List<Center>> SearchByAddressAndName(String name, String address, int pageNumber, int pageSize)
         {
-            return await _repo.SearchByAddressAndName(name,address);
+            return await _repo.SearchByAddressAndName(name,address,pageNumber,pageSize);
         }
     }
 }

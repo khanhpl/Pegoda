@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Api.Entities;
 using Api.Models;
@@ -17,13 +18,17 @@ namespace Api.Services
         {
             return await _repo.Create(user);
         }
-        public string Login(LoginModel loginModel)
+        public string Login(string email)
         {
-            return _repo.Login(loginModel);
+            return _repo.Login(email);
         }
         public User GetByEmail(string email)
         {
             return _repo.GetByEmail(email);
+        }
+        public async Task<List<User>> GetList(Guid roleId, int pageNumber, int pageSize)
+        {
+            return await _repo.GetList(roleId, pageNumber, pageSize);
         }
         public async Task<bool> Delete(Guid id)
         {

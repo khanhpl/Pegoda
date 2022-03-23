@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Api.Entities;
 using Api.Models;
 using Api.Services;
+using FirebaseAdmin.Auth;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -18,7 +19,7 @@ namespace Api.Controllers
 
         [Route("Register")]
         [HttpPost]
-        [SwaggerOperation(Summary = "Register new user")]
+        [SwaggerOperation(Summary = "Register new user with role ADMIN")]
         public async Task<ActionResult> Register(RegisterUserModel newUser)
         {
             User user = new User
@@ -27,40 +28,27 @@ namespace Api.Controllers
                 Email = newUser.Email,
                 Address = newUser.Address,
                 Image = newUser.Image,
-                RoleId = newUser.RoleId
+                RoleId = new Guid("9e675f86-b425-4047-a36f-08d9fb37c635")
             };
-            await _service.Create(user);
-            return CreatedAtAction(nameof(GetByEmail), new { email = newUser.Email }, newUser);
-        }
-
-        [HttpGet]
-        [SwaggerOperation(Summary = "Get information user by email")]
-        public ActionResult GetByEmail(string email)
-        {
-            User response = _service.GetByEmail(email);
-            if (response == null)
+            var tempUser = await _service.Create(user);
+            if (tempUser == null)
             {
-                return NotFound();
+                return BadRequest(new { message = "Email has exist" });
             }
-            ResponseUserModel user = new ResponseUserModel
-            {
-                Id = response.Id,
-                Name = response.Name,
-                Email = response.Email,
-                Address = response.Address,
-                Image = response.Image,
-                RoleId = response.RoleId
-            };
-            return Ok(user);
+            return CreatedAtAction(nameof(GetList), new { email = newUser.Email }, newUser);
         }
         [Route("Login")]
         [HttpPost]
-        public ActionResult Login(LoginModel loginModel)
+        public async Task<ActionResult> Login(LoginModel loginModel)
         {
-            var response = _service.Login(loginModel);
+            FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(loginModel.Token);
+            string uid = decodedToken.Uid;
+            UserRecord user = await FirebaseAuth.DefaultInstance.GetUserAsync(uid);
+
+            var response = _service.Login(user.Email);
             if (response == null)
             {
-                return BadRequest(new { message = "User name or password not correct" });
+                return BadRequest(new { message = "Token is invalid" });
             }
             return Ok(new { token = response });
         }
@@ -99,6 +87,33 @@ namespace Api.Controllers
                 return BadRequest();
             }
             return NoContent();
+        }
+        [HttpGet]
+        [SwaggerOperation(Summary = "Get information user by email, by roleId and pagination")]
+        public async Task<ActionResult> GetList(string email, Guid roleId, int pageNumber, int pageSize)
+        {
+            if (email == null)
+            {
+                return Ok(await _service.GetList(roleId, pageNumber, pageSize));
+            }
+            else
+            {
+                User response = _service.GetByEmail(email);
+                if (response == null)
+                {
+                    return NotFound();
+                }
+                ResponseUserModel user = new ResponseUserModel
+                {
+                    Id = response.Id,
+                    Name = response.Name,
+                    Email = response.Email,
+                    Address = response.Address,
+                    Image = response.Image,
+                    RoleId = response.RoleId
+                };
+                return Ok(user);
+            }
         }
     }
 }
