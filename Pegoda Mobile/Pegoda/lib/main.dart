@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/provider/google_sign_in_provider.dart';
 import 'package:pegoda/controllers/customer_main.dart';
@@ -19,16 +20,29 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:pegoda/screens/welcome/register_screen.dart';
 import 'package:pegoda/screens/customer/cus_main/chat_screen.dart';
 
+import 'models/local_notification.dart';
+
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+
+
+  print("Handling a background message: ${message.messageId}");
+}
 
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+  );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  LocalNotificationService.initilize();
+
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
+
         create: (context) => GoogleSignInProvider(),
         child: MaterialApp(
           initialRoute: '/',
