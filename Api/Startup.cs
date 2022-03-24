@@ -122,6 +122,8 @@ namespace Api
             services.AddHttpClient<ApnSender>();
             var appSettingsSection = _config.GetSection("FCM");
             services.Configure<FcmNotificationSetting>(appSettingsSection);
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
