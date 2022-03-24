@@ -57,7 +57,7 @@ class _ShowPetModelItemState extends State<ShowPetModelItem> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: NetworkImage(petModel.petImage),
+                    image: NetworkImage('https://firebasestorage.googleapis.com/v0/b/pegoda-6de8a.appspot.com/o/images%2F1648118019596.367.jpg?alt=media&token=4770c4ff-d703-4d74-b356-12e86c830f13'),
                     fit: BoxFit.fill,
                   ),
                 ),

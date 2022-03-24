@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/Pet_Model.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pegoda/MyLib/class/animal.dart';
 import 'package:pegoda/MyLib/repository/get_api.dart';
 import '../globals.dart' as globals;
 import 'package:flutter/services.dart';
@@ -27,6 +28,10 @@ class _ShowPetDetailState extends State<ShowPetDetail> {
   late File imageFile;
   bool _picIsChose = false;
   String? animalName;
+  List<Animal>? _listAnimal;
+  TextEditingController? nameController;
+  TextEditingController? statusController;
+  var pettypeValue;
 
   void initState() {
     // TODO: implement initState
@@ -36,13 +41,30 @@ class _ShowPetDetailState extends State<ShowPetDetail> {
             animalName = value;
           })
         });
+    GetAPI().GetAllAnimal().then((value) => {
+      setState(() {
+        _listAnimal = value;
+      })
+    });
+    nameController = new TextEditingController(text: animalName);
+    statusController = new TextEditingController(text: petModel.petStatus);
     _isGenderMale = petModel.genderPet == "Đực" ? true : false;
     _isGenderMale = petModel.genderPet == "Cái" ? true : false;
+    pettypeValue = petModel.animalId;
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    List<DropdownMenuItem<String>> menuItemPetType = [];
+    for (Animal animal in _listAnimal!) {
+      menuItemPetType.add(
+        DropdownMenuItem(
+          child: Text(animal.animalName.toString()),
+          value: animal.animalID,
+        ),
+      );
+    }
     // TODO: implement build
     return Material(
       child: Container(
@@ -95,7 +117,7 @@ class _ShowPetDetailState extends State<ShowPetDetail> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: NetworkImage(petModel.petImage),
+                              image: NetworkImage('https://firebasestorage.googleapis.com/v0/b/pegoda-6de8a.appspot.com/o/images%2F1648118019596.367.jpg?alt=media&token=4770c4ff-d703-4d74-b356-12e86c830f13'),
                               fit: BoxFit.fill,
                             ),
                           ),
@@ -223,13 +245,11 @@ class _ShowPetDetailState extends State<ShowPetDetail> {
                         ],
                       ),
                     ),
-                    Text(
-                      'Loại thú cưng',
-                      style: TextStyle(
-                        color: Color(0xff333333),
-                        fontSize: size.height * 0.02,
-                        fontWeight: FontWeight.w400,
-                      ),
+                    DropdownButton<String>(
+                      value: pettypeValue,
+                      items: menuItemPetType,
+                      onChanged: (pettypeValue) =>
+                          setState(() => this.pettypeValue = pettypeValue),
                     ),
 
                     SizedBox(height: size.height * 0.02),

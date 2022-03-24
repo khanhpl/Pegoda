@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/animal.dart';
+import 'package:pegoda/MyLib/repository/create_api.dart';
 import 'package:pegoda/MyLib/repository/get_api.dart';
 
 class AddPetScreen extends StatefulWidget {
@@ -12,6 +13,9 @@ class _AddPetScreenState extends State<AddPetScreen> {
   bool _isGenderFemale = false;
   List<Animal>? _listAnimal;
   var pettypeValue;
+  bool result = false;
+  TextEditingController? nameController;
+  TextEditingController? statusController;
   @override
   void initState() {
     // TODO: implement initState
@@ -21,6 +25,8 @@ class _AddPetScreenState extends State<AddPetScreen> {
         _listAnimal = value;
       })
     });
+    nameController = new TextEditingController(text: '');
+    statusController = new TextEditingController(text: '');
   }
 
   @override
@@ -182,7 +188,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                         border: Border.all(color: Color(0xffDADADA)),
                       ),
                       child: TextField(
-                        controller: TextEditingController(),
+                        controller: nameController,
                         decoration: InputDecoration.collapsed(
                           hintText: '',
                           hintStyle: TextStyle(
@@ -232,7 +238,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                         border: Border.all(color: Color(0xffDADADA)),
                       ),
                       child: TextField(
-                        controller: TextEditingController(),
+                        controller: statusController,
                         decoration: InputDecoration.collapsed(
                           hintText: '',
                           hintStyle: TextStyle(
@@ -265,6 +271,13 @@ class _AddPetScreenState extends State<AddPetScreen> {
                     ),
                   ),
                   onPressed: () {
+                    String genderStr = _isGenderMale ? 'Đực' : 'Cái';
+                    // print('Test Name: '+nameController!.text);
+                    // print('Test status: '+statusController!.text);
+                    // print('Test gender: '+genderStr);
+                    // print('Test animalid: '+ pettypeValue );
+                    createPet(nameController!.text, statusController!.text, genderStr, pettypeValue);
+                    Navigator.pushNamed(context, '/addPetSuccessScreen');
 
                   },
                 ),
@@ -275,5 +288,12 @@ class _AddPetScreenState extends State<AddPetScreen> {
         ),
       ),
     );
+  }
+  Future createPet(String name, String status, String gender, String animalID) async {
+    final createResult = await CreateApi().createPet(name, status, gender, animalID);
+    if (!mounted) return;
+    setState(() {
+      result = createResult;
+    });
   }
 }

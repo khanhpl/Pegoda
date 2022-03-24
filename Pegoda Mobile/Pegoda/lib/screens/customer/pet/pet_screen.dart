@@ -63,35 +63,38 @@ class _PetScreenState extends State<PetScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Material(
-        child: Container(
-          padding:
-          EdgeInsets.only(left: _pageWidth * 0.03, right: _pageHeight * 0.03),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: _pageHeight * 0.03),
-                Text(
-                  'Thú cưng của bạn',
-                  style: TextStyle(
-                    fontSize: _pageHeight*0.028,
-                    fontWeight: FontWeight.w400,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Container(
+            padding:
+            EdgeInsets.only(left: _pageWidth * 0.03, right: _pageHeight * 0.03),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: _pageHeight * 0.03),
+                  Text(
+                    'Thú cưng của bạn',
+                    style: TextStyle(
+                      fontSize: _pageHeight*0.028,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
-                ),
-                SizedBox(height: _pageHeight*0.02),
-                ListView.separated(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemCount: _listPetModel!.length,
-                  separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(height: _pageHeight * 0.02);
-                  },
-                  itemBuilder: (BuildContext context, int index) {
-                    return ShowPetModelItem(petModel: _listPetModel![index]);
-                  },
-                ),
-              ],
+                  SizedBox(height: _pageHeight*0.02),
+                  ListView.separated(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemCount: _listPetModel!.length,
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(height: _pageHeight * 0.02);
+                    },
+                    itemBuilder: (BuildContext context, int index) {
+                      return ShowPetModelItem(petModel: _listPetModel![index]);
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
