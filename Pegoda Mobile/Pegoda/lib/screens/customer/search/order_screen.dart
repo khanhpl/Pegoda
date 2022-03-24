@@ -468,10 +468,9 @@ class _OrderScreenState extends State<OrderScreen> {
                 if(_date=="Chọn thời gian thực hiện" || totalPrice == 0 || petId.isEmpty){
                   return;
                 }
-                createOrder(dateInputStr, totalPrice.toString(), centerID, petId);
+                String curDate =DateFormat("yyyy-MM-ddTKK:mm:ss").format(DateTime.now()) ;
+                createOrder(curDate, totalPrice.toString(), centerID, petId);
                 Navigator.pushNamed(context, '/orderSuccessScreen');
-
-
               },
             ),
             TextButton(
