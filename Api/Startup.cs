@@ -22,6 +22,9 @@ using System.Text;
 using quiz_app_dotnet_api.Helper;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
+using Api.Models;
+using CorePush.Google;
+using CorePush.Apple;
 
 namespace Api
 {
@@ -112,6 +115,12 @@ namespace Api
             {
                 options.Configuration = _config["RedisConnectionString"];
             });
+
+            services.AddTransient<INotificationService, NotificationService>();
+            services.AddHttpClient<FcmSender>();
+            services.AddHttpClient<ApnSender>();
+            var appSettingsSection = _config.GetSection("FCM");
+            services.Configure<FcmNotificationSetting>(appSettingsSection);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
