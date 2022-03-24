@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/Pet_Model.dart';
-import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:pegoda/MyLib/models/show_pet_item.dart';
 import 'package:pegoda/MyLib/repository/get_api.dart';
 import '../../../MyLib/constants.dart' as Constants;

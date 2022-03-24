@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:pegoda/MyLib/class/Pet_Model.dart';
-import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:pegoda/MyLib/class/service_model.dart';
 import 'package:pegoda/MyLib/models/show_pet_item_on_order.dart';
 import 'package:pegoda/MyLib/models/show_service_model_item_on_result.dart';

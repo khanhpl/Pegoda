@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/coupon.dart';
 import 'package:pegoda/MyLib/class/pcc_model.dart';
-import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:pegoda/MyLib/models/show_coupon_on_home_screen.dart';
 
 import 'package:pegoda/MyLib/models/show_pcc_model_item.dart';

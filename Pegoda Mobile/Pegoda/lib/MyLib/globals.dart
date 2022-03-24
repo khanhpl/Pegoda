@@ -4,9 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/coupon.dart';
-import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:pegoda/MyLib/class/service_model.dart';
-import 'package:pegoda/MyLib/class/time_slot.dart';
 
 bool isAvatarChecked = false;
 File avatarFile = File('');

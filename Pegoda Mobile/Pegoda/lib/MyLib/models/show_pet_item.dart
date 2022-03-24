@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pegoda/MyLib/class/Pet_Model.dart';
-import 'package:pegoda/MyLib/class/pet.dart';
 import 'package:pegoda/MyLib/models/show_pet_detail.dart';
 import 'package:pegoda/MyLib/repository/get_api.dart';
 
