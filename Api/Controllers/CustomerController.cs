@@ -40,7 +40,6 @@ namespace Api.Controllers
                 Image = newCustomer.Image,
                 RoleId = new Guid("142ed46c-3d55-4c0f-cef7-08d9fb4fdece"),
             };
-            await _userService.Create(user);
             User tempUser = await _userService.Create(user);
             if (tempUser == null)
             {
