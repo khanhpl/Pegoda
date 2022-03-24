@@ -22,6 +22,7 @@ class LoginApi {
 
       if (response.statusCode.toString() == '200') {
         Globals.userEmail = Jwt.parseJwt(response.body)['Email'];
+        Globals.customerId = Jwt.parseJwt(response.body)['Id'];
         return true;
       } else {
         return false;

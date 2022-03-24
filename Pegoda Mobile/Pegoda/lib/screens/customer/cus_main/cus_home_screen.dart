@@ -19,8 +19,13 @@ class CusHomeScreen extends StatefulWidget {
 
 class _CusHomeScreenState extends State<CusHomeScreen> {
   var checkGetPcc;
-
   final Future<List<PCCModel>> pccModels = GetAPI().GetAllPCC();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('Test device token: '+ Globals.deviceToken);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +36,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
     var _bgColor = Constants.bgColor;
     List<Coupon> _couponList = Globals.couponList;
     final getAPI = GetAPI().GetAllPCC().then((value) => checkGetPcc = value);
+
 
     return Scaffold(
       appBar: UpAppBar(context),

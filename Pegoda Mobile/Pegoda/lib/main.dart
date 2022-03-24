@@ -13,6 +13,7 @@ import 'package:pegoda/screens/customer/cus_account/order_history_screen.dart';
 import 'package:pegoda/screens/customer/cus_main/neareast_pcc_screen.dart';
 import 'package:pegoda/screens/customer/cus_main/questions_screen.dart';
 import 'package:pegoda/screens/customer/pet/add_pet_screen.dart';
+import 'package:pegoda/screens/customer/search/add_pet_success_screen.dart';
 import 'package:pegoda/screens/customer/search/order_screen.dart';
 import 'package:pegoda/screens/customer/search/order_success_screen.dart';
 import 'package:pegoda/screens/customer/search/search_screen.dart';
@@ -23,6 +24,7 @@ import 'package:pegoda/screens/welcome/register_screen.dart';
 import 'package:pegoda/screens/customer/cus_main/chat_screen.dart';
 
 import 'models/local_notification.dart';
+import 'MyLib/globals.dart' as Globals;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -77,9 +79,10 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
+
   String? token = await FirebaseMessaging.instance.getToken();
   print(token);
-
+  Globals.deviceToken = token!;
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   FirebaseMessaging.onMessage.listen((RemoteMessage event) {
@@ -135,8 +138,9 @@ class MyApp extends StatelessWidget {
             '/registerScreen': (context) => RegisterScreen(),
             '/orderSuccessScreen': (context) => OrderSuccessScreen(),
             '/cancelOrderScreen': (context) => CancelOrderScreen(),
-            '/cancelOrderSuccessScreen': (context) =>
-                CancelOrderSuccessScreen(),
+            '/cancelOrderSuccessScreen': (context) => CancelOrderSuccessScreen(),
+            '/addPetSuccessScreen': (context) => AddPetSuccessScreen(),
+
           },
           // home: WelcomeScreen(),
         ),
