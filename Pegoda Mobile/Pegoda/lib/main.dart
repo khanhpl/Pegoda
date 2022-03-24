@@ -6,8 +6,6 @@ import 'package:pegoda/MyLib/provider/google_sign_in_provider.dart';
 import 'package:pegoda/controllers/customer_main.dart';
 import 'package:pegoda/screens/customer/cus_account/cancel_order_screen.dart';
 import 'package:pegoda/screens/customer/cus_account/cancel_order_success_screen.dart';
-import 'package:pegoda/screens/customer/cus_account/cus_app_infor_screen.dart';
-import 'package:pegoda/screens/customer/cus_account/cus_app_setting_screen.dart';
 import 'package:pegoda/screens/customer/cus_account/cus_personal_setting_screen.dart';
 import 'package:pegoda/screens/customer/cus_account/order_history_screen.dart';
 import 'package:pegoda/screens/customer/cus_main/neareast_pcc_screen.dart';
@@ -130,8 +128,6 @@ class MyApp extends StatelessWidget {
             '/chatScreen': (context) => ChatPage(),
             '/personalSettingScreen': (context) => PersonalSettingScreen(),
             '/orderHistoryScreen': (context) => OrderHistoryScreen(),
-            '/appInforScreen': (context) => AppInforScreen(),
-            '/appSettingScreen': (context) => AppSettingScreen(),
             '/questionScreen': (context) => QuestionsScreen(),
             '/addPetScreen': (context) => AddPetScreen(),
             '/neareastPCCScreen': (context) => NearestPCCScreen(),

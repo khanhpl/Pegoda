@@ -20,11 +20,7 @@ class _CusHomeScreenState extends State<CusHomeScreen> {
   var checkGetPcc;
   final Future<List<PCCModel>> pccModels = GetAPI().GetAllPCC();
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print('Test device token: '+ Globals.deviceToken);
-  }
+
 
   @override
   Widget build(BuildContext context) {

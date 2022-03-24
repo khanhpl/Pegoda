@@ -134,9 +134,8 @@ class _PersonalSettingScreenState extends State<PersonalSettingScreen> {
                         border: Border.all(color: Color(0xffDADADA)),
                       ),
                       child: TextField(
-                        controller: TextEditingController(text: 'khanhpl'),
                         decoration: InputDecoration.collapsed(
-                          hintText: '',
+                          hintText: 'khanhpl',
                           hintStyle: TextStyle(
                             fontSize: size.height * 0.02,
                             color: Color(0xff666666),

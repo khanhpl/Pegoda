@@ -81,7 +81,7 @@ class _CusAccountScreenState extends State<CusAccountScreen> {
                       height: 10,
                     ),
                     Text(
-                      "Khánh",
+                      globals.userName,
                       style: TextStyle(
                         fontSize: 25,
                       ),

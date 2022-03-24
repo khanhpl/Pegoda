@@ -19,10 +19,10 @@ class LoginApi {
           },
         ),
       );
-
       if (response.statusCode.toString() == '200') {
         Globals.userEmail = Jwt.parseJwt(response.body)['Email'];
         Globals.customerId = Jwt.parseJwt(response.body)['Id'];
+        Globals.userName = Jwt.parseJwt(response.body)['FullName'];
         return true;
       } else {
         return false;
@@ -30,10 +30,6 @@ class LoginApi {
     } finally {}
   }
 }
-// List<ResToken> parseAgents(String responseBody) {
-// final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-// return parsed.map<ResToken>((json) => ResToken.fromJson(json)).toList();
-// }
 
 class ResToken {
   var resToken;

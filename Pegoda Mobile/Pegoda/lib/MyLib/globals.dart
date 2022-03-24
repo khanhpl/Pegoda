@@ -72,4 +72,5 @@ List<String> listCancelReport = [
 String userEmail = '';
 String customerId = '';
 String deviceToken = '';
+String userName = '';
 List<ServiceModel> listServiceOnOrder = [];

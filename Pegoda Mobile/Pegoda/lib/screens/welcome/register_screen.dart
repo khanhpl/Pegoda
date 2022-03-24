@@ -30,22 +30,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                width: size.width,
-                height: size.height * 0.12,
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  child: IconButton(
-                    onPressed: () {
-                    },
-                    icon: ImageIcon(
-                      AssetImage('assets/cus/account_screen/cancel.png'),
-                      size: size.height * 0.04,
-                      color: Color(0xFFBDBDBD),
-                    ),
-                  ),
-                ),
-              ),
+              SizedBox(height: size.height*0.1),
               Text(
                 'Thông tin đăng ký',
                 style: TextStyle(
@@ -133,9 +118,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         border: Border.all(color: Color(0xffDADADA)),
                       ),
                       child: TextField(
-                        controller: TextEditingController(text: 'khanhpl'),
                         decoration: InputDecoration.collapsed(
-                          hintText: '',
+                          hintText: 'khanhpl',
                           hintStyle: TextStyle(
                             fontSize: size.height * 0.02,
                             color: Color(0xff666666),
