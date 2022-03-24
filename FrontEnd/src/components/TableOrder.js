@@ -1,9 +1,11 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
 import { Close, InfoOutlined } from '@mui/icons-material'
-import { Box, Button, ButtonGroup, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Card, CardContent, Chip, Stack, Pagination } from "@mui/material"
+import { Box, Button, ButtonGroup, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Card, CardContent, Chip, Stack, Pagination, Snackbar, Alert } from "@mui/material"
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { HubConnectionBuilder } from '@microsoft/signalr'
+import { connect } from 'formik'
 
 const TableOrder = () => {
     const [data, setData] = useState([])
@@ -11,9 +13,10 @@ const TableOrder = () => {
     const [openDialog, setOpenDialog] = useState(false)
     const [dataOrderDetail, setDataOrderDetail] = useState([])
     const [refreshData, setRefreshData] = useState(false)
-    const [loadingButton, setLoadingButton] = useState(false)
     const [length, setLength] = useState()
     const [page, setPage] = useState(1)
+    const [connection, setConnection] = useState()
+    const [openSnackbar, setOpenSnackbar] = useState()
 
     const token = localStorage.getItem('token')
     const centerId = localStorage.getItem('centerId')
@@ -38,6 +41,25 @@ const TableOrder = () => {
             setLength(Math.ceil(response.data.length / 10))
         }).catch(error => console.log(error.response))
     }, [centerId])
+
+    useEffect(() => {
+        const newConnection = new HubConnectionBuilder().withUrl('https://pegoda.azurewebsites.net/chatHub').withAutomaticReconnect().build()
+
+        setConnection(newConnection)
+    }, [])
+
+    useEffect(() => {
+        if (connection) {
+            connection.start().then(() => {
+                console.log('Connected!')
+
+                connection.on('Receive', message => {
+                    console.log('message: ', message)
+                    setRefreshData(!refreshData)
+                })
+            }).catch(error => console.log('Connection failed: ', error))
+        }
+    }, [connection])
 
     const handleCloseDialog = () => {
         setOpenDialog(false)
@@ -73,6 +95,9 @@ const TableOrder = () => {
         }).catch(error => console.log(error.response))
     }
 
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false)
+    }
     return (
         <>
             {loading
@@ -126,17 +151,19 @@ const TableOrder = () => {
                                         <TableCell align='right'>
                                             <Button variant='outlined' color='info' onClick={() => {
                                                 console.log(row.orderId)
-                                                axios({
-                                                    url: `https://pegoda.azurewebsites.net/api/v1.0/orderitems?orderId=${row.orderId}`,
-                                                    method: 'get',
-                                                    headers: {
-                                                        // 'Authorization': `Bearer ${token}`
-                                                    }
-                                                }).then((response) => {
-                                                    console.log(response.data)
-                                                    setDataOrderDetail(response.data)
-                                                    setOpenDialog(true)
-                                                }).catch(error => console.log(error))
+                                                // axios({
+                                                //     url: `https://pegoda.azurewebsites.net/api/v1.0/orderitems?orderId=${row.orderId}`,
+                                                //     method: 'get',
+                                                //     headers: {
+                                                //         // 'Authorization': `Bearer ${token}`
+                                                //     }
+                                                // }).then((response) => {
+                                                //     console.log(response.data)
+                                                //     setDataOrderDetail(response.data)
+                                                //     setOpenDialog(true)
+                                                // }).catch(error => console.log(error))
+
+                                                setOpenSnackbar(true)
                                             }}>Chi Tiết</Button>
                                             {/* <Edit color="info" style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => { console.log('edit') }} />
                                         <Delete color="error" style={{ cursor: 'pointer' }} onClick={() => { console.log('delete') }} /> */}
@@ -196,6 +223,11 @@ const TableOrder = () => {
                             </Button>
                         </DialogActions> */}
                     </BootstrapDialog>
+                    <Snackbar open={openSnackbar} autoHideDuration={5000} onClose={handleCloseSnackbar}>
+                        <Alert onClose={handleCloseSnackbar} severity="info" sx={{ width: '100%' }} variant="filled">
+                            Bạn có đơn hàng mới kìa!!
+                        </Alert>
+                    </Snackbar>
                 </>
             }
         </>
