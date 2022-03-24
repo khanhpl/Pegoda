@@ -14,6 +14,7 @@ namespace Api.Entities
         public string Status { get; set; }
         public string Scores { get; set; }
         public string Feedback { get; set; }
+        public string DeviceId { get; set; }
         public Guid CenterId { get; set; }
         public virtual Center Center { get; set; }
         public Guid PetId { get; set; }

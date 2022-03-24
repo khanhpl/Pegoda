@@ -138,6 +138,9 @@ namespace Api.Data.Migrations
                     b.Property<string>("Feedback")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DeviceId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("PetId")
                         .HasColumnType("uniqueidentifier");
 

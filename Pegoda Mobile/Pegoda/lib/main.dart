@@ -1,5 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:pegoda/MyLib/models/notification_model.dart';
 import 'package:pegoda/MyLib/provider/google_sign_in_provider.dart';
 import 'package:pegoda/controllers/customer_main.dart';
 import 'package:pegoda/screens/customer/cus_account/cancel_order_screen.dart';
@@ -24,21 +26,86 @@ import 'package:pegoda/screens/customer/cus_main/chat_screen.dart';
 import 'models/local_notification.dart';
 import 'MyLib/globals.dart' as Globals;
 
-
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-
-
-  print("Handling a background message: ${message.messageId}");
+  await Firebase.initializeApp();
+  print('Handling a background message ${message.messageId}');
 }
 
-Future main() async{
+FirebaseMessaging messaging = FirebaseMessaging.instance;
+// NotificationModel? _notificationModel;
+late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+void registerNotification() async {
+  await Firebase.initializeApp();
+  messaging = FirebaseMessaging.instance;
+
+  NotificationSettings settings = await messaging.requestPermission(
+      alert: true, badge: true, provisional: false, sound: true);
+  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("on app");
+      NotificationModel notificationModel = NotificationModel(
+          title: message.notification!.title,
+          body: message.notification!.body,
+          dataTitle: message.data['title'],
+          dataBody: message.data['body']);
+
+      print("body: ${notificationModel.body}");
+      print("title: ${notificationModel.title}");
+      _showNotification(notificationModel.title!, notificationModel.body!);
+    });
+  } else {
+    print("not permission");
+  }
+}
+
+Future<void> _showNotification(String title, String content) async {
+  const AndroidNotificationDetails androidPlatformChannelSpecifics =
+      AndroidNotificationDetails('your channel id', 'your channel name',
+          channelDescription: 'your channel description',
+          importance: Importance.max,
+          priority: Priority.high,
+          icon: '@mipmap/ic_launcher',
+          tag: "TWE",
+          ticker: 'ticker');
+
+  const NotificationDetails platformChannelSpecifics =
+      NotificationDetails(android: androidPlatformChannelSpecifics);
+  await flutterLocalNotificationsPlugin
+      .show(0, title, content, platformChannelSpecifics, payload: 'item x');
+}
+
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  LocalNotificationService.initilize();
+
+
   String? token = await FirebaseMessaging.instance.getToken();
+  print(token);
   Globals.deviceToken = token!;
-  print(token!);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage event) {
+    print('message recieved');
+    print(event.notification!.body);
+  });
+
+  FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    print('message clicked');
+  });
+
+  const initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+  const initializationSettingsIOS = IOSInitializationSettings();
+  const initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+  flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  // flutterLocalNotificationsPlugin.initialize(initializationSettings,
+  //     onSelectNotification: (value) {
+  //   Navigator.pushNamed(context, "/notification");
+  // });
+
+  registerNotification();
 
   runApp(MyApp());
 }
@@ -46,7 +113,6 @@ Future main() async{
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
-
         create: (context) => GoogleSignInProvider(),
         child: MaterialApp(
           initialRoute: '/',
@@ -74,6 +140,7 @@ class MyApp extends StatelessWidget {
             '/cancelOrderScreen': (context) => CancelOrderScreen(),
             '/cancelOrderSuccessScreen': (context) => CancelOrderSuccessScreen(),
             '/addPetSuccessScreen': (context) => AddPetSuccessScreen(),
+
           },
           // home: WelcomeScreen(),
         ),

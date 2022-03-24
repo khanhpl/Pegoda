@@ -28,6 +28,7 @@ namespace Api.Controllers
                 Status = newOrder.Status,
                 Scores = newOrder.Scores,
                 Feedback = newOrder.Feedback,
+                DeviceId = newOrder.DeviceId,
                 CenterId = newOrder.CenterId,
                 PetId = newOrder.PetId
             };
@@ -50,6 +51,7 @@ namespace Api.Controllers
                 Status = updateOrder.Status,
                 Scores = updateOrder.Scores,
                 Feedback = updateOrder.Feedback,
+                DeviceId = updateOrder.DeviceId,
                 CenterId = updateOrder.CenterId,
                 PetId = updateOrder.PetId
             };

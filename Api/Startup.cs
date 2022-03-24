@@ -25,6 +25,7 @@ using Google.Apis.Auth.OAuth2;
 using Api.Models;
 using CorePush.Google;
 using CorePush.Apple;
+using Api.SignalR;
 
 namespace Api
 {
@@ -121,6 +122,8 @@ namespace Api
             services.AddHttpClient<ApnSender>();
             var appSettingsSection = _config.GetSection("FCM");
             services.Configure<FcmNotificationSetting>(appSettingsSection);
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -144,6 +147,7 @@ namespace Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
         }
     }

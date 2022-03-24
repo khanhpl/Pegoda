@@ -53,9 +53,9 @@ namespace Api.Repositories
             {
                 var list = from pet in _context.Pet
                            join customer in _context.Customer on pet.CustomerId equals customer.Id
-                           join albumImage in _context.AlbumImage on pet.Id equals albumImage.PetId
+                           //    join albumImage in _context.AlbumImage on pet.Id equals albumImage.PetId
                            where customer.Email == email
-                           select new { PetId = pet.Id, PetName = pet.Name, PetImage =albumImage.UrlImage, GenderPet = pet.Gender, PetStatus = pet.Status, AnimalId = pet.AnimalId, CustomerId = customer.Id, CustomerName = customer.Name, Email = customer.Email };
+                           select new { PetId = pet.Id, PetName = pet.Name, GenderPet = pet.Gender, PetStatus = pet.Status, AnimalId = pet.AnimalId, CustomerId = customer.Id, CustomerName = customer.Name, Email = customer.Email };
 
                 return list.ToList();
             }
