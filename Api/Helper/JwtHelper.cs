@@ -14,7 +14,7 @@ namespace quiz_app_dotnet_api.Helper
 {
     public interface IJwtHelper
     {
-        string generateJwtToken(User user, Role role, Guid centerId);
+        string generateJwtToken(User user, Role role, Guid centerId, Guid id);
     }
     public class JwtHelper : IJwtHelper
     {
@@ -25,7 +25,7 @@ namespace quiz_app_dotnet_api.Helper
             _config = config;
         }
 
-        public string generateJwtToken(User user, Role role, Guid centerId)
+        public string generateJwtToken(User user, Role role, Guid centerId, Guid id)
         {
             // security key
             string securityKey = _config["JWT:Key"];
@@ -37,7 +37,8 @@ namespace quiz_app_dotnet_api.Helper
             var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
 
             var claim = new[]{
-                new Claim("Id", user.Id.ToString()),
+                new Claim("IdUser", user.Id.ToString()),
+                new Claim("Id", id.ToString()),
                 new Claim("Email", user.Email),
                 new Claim("FullName", user.Name),
                 new Claim("centerId", centerId == Guid.Empty ? "" : centerId.ToString()),

@@ -54,18 +54,27 @@ namespace Api.Repositories
             Role role = _context.Role.FirstOrDefault(u => u.Id == user.RoleId);
             Center center;
             Staff staff;
+            Customer customer;
             Guid centerId = Guid.Empty;
+            Guid id = Guid.Empty;
             if (role.Name == "CENTER")
             {
                 center = _context.Center.FirstOrDefault(c => c.Email == user.Email && c.Status.Equals("active"));
                 centerId = center.Id;
+                id = center.Id;
             }
             else if (role.Name == "STAFF")
             {
                 staff = _context.Staff.FirstOrDefault(s => s.Email == user.Email && s.Status.Equals("active"));
                 centerId = staff.CenterId;
+                id = staff.Id;
             }
-            return _jwtHelper.generateJwtToken(user, role, centerId);
+            else if (role.Name == "CUSTOMER")
+            {
+                customer = _context.Customer.FirstOrDefault(x => x.Email == user.Email && x.Status.Equals("active"));
+                id = customer.Id;
+            }
+            return _jwtHelper.generateJwtToken(user, role, centerId, id);
         }
         public async Task<bool> Delete(Guid id)
         {
