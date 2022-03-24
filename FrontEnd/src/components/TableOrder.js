@@ -150,21 +150,21 @@ const TableOrder = () => {
                                             )}
                                         </TableCell>
                                         <TableCell align='right'>
-                                            <Button variant='outlined' color='info' onClick={async() => {
-                                                // console.log(row.orderId)
-                                                // axios({
-                                                //     url: `https://pegoda.azurewebsites.net/api/v1.0/orderitems?orderId=${row.orderId}`,
-                                                //     method: 'get',
-                                                //     headers: {
-                                                //         // 'Authorization': `Bearer ${token}`
-                                                //     }
-                                                // }).then((response) => {
-                                                //     console.log(response.data)
-                                                //     setDataOrderDetail(response.data)
-                                                //     setOpenDialog(true)
-                                                // }).catch(error => console.log(error))
+                                            <Button variant='outlined' color='info' onClick={() => {
+                                                console.log(row.orderId)
+                                                axios({
+                                                    url: `https://pegoda.azurewebsites.net/api/v1.0/orderitems?orderId=${row.orderId}`,
+                                                    method: 'get',
+                                                    headers: {
+                                                        // 'Authorization': `Bearer ${token}`
+                                                    }
+                                                }).then((response) => {
+                                                    console.log(response.data)
+                                                    setDataOrderDetail(response.data)
+                                                    setOpenDialog(true)
+                                                }).catch(error => console.log(error))
 
-                                                await connection.invoke("Request", 'hieu dep trai').catch((error) => console.log(error))
+                                                // await connection.invoke("Request", 'hieu dep trai').catch((error) => console.log(error))
                                             }}>Chi Tiết</Button>
                                             {/* <Edit color="info" style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => { console.log('edit') }} />
                                         <Delete color="error" style={{ cursor: 'pointer' }} onClick={() => { console.log('delete') }} /> */}
