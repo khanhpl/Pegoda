@@ -55,6 +55,7 @@ const TableOrder = () => {
 
                 connection.on('Receive', message => {
                     console.log('message: ', message)
+                    setOpenSnackbar(true)
                     setRefreshData(!refreshData)
                 })
             }).catch(error => console.log('Connection failed: ', error))
@@ -149,8 +150,8 @@ const TableOrder = () => {
                                             )}
                                         </TableCell>
                                         <TableCell align='right'>
-                                            <Button variant='outlined' color='info' onClick={() => {
-                                                console.log(row.orderId)
+                                            <Button variant='outlined' color='info' onClick={async() => {
+                                                // console.log(row.orderId)
                                                 // axios({
                                                 //     url: `https://pegoda.azurewebsites.net/api/v1.0/orderitems?orderId=${row.orderId}`,
                                                 //     method: 'get',
@@ -163,7 +164,7 @@ const TableOrder = () => {
                                                 //     setOpenDialog(true)
                                                 // }).catch(error => console.log(error))
 
-                                                setOpenSnackbar(true)
+                                                await connection.invoke("Request", 'hieu dep trai').catch((error) => console.log(error))
                                             }}>Chi Tiết</Button>
                                             {/* <Edit color="info" style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => { console.log('edit') }} />
                                         <Delete color="error" style={{ cursor: 'pointer' }} onClick={() => { console.log('delete') }} /> */}
