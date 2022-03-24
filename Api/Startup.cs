@@ -25,6 +25,7 @@ using Google.Apis.Auth.OAuth2;
 using Api.Models;
 using CorePush.Google;
 using CorePush.Apple;
+using Api.SignalR;
 
 namespace Api
 {
@@ -144,6 +145,7 @@ namespace Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
         }
     }
