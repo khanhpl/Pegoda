@@ -228,6 +228,7 @@ namespace Api.Data.Migrations
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Scores = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Feedback = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeviceId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CenterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PetId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
