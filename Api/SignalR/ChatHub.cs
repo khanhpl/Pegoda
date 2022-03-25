@@ -10,9 +10,9 @@ namespace Api.SignalR
     {
         public ChatHub() { }
 
-        public async Task Request(string message)
+        public async Task Request()
         {
-            await Clients.Caller.SendAsync("Receive", message);
+            await Clients.Caller.SendAsync("Receive");
         }
     }
 }
