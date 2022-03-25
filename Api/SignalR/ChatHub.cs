@@ -12,7 +12,7 @@ namespace Api.SignalR
 
         public async Task Request()
         {
-            await Clients.Caller.SendAsync("Receive");
+            await Clients.Caller.SendAsync("Receive","hieu");
         }
     }
 }
