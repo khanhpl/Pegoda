@@ -10,6 +10,7 @@ import 'package:pegoda/MyLib/repository/get_api.dart';
 import '../../../MyLib/constants.dart' as Constants;
 import '../../../MyLib/globals.dart' as Globals;
 import 'package:intl/intl.dart';
+
 class OrderScreen extends StatefulWidget {
   var centerID;
 
@@ -32,11 +33,11 @@ class _OrderScreenState extends State<OrderScreen> {
   var _boxColor = Constants.boxColor;
   var _bgColor = Constants.bgColor;
   var _date = 'Chọn thời gian thực hiện';
-  String dateInputStr ='';
+  String dateInputStr = '';
   List<PetModel>? _listPetModel;
   String petId = '';
   bool result = false;
-  var totalPrice=0;
+  var totalPrice = 0;
   @override
   void initState() {
     // TODO: implement initState
@@ -108,7 +109,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
                 Spacer(),
                 Text(
-                  totalPrice.toString()+'đ',
+                  totalPrice.toString() + 'đ',
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: _pageHeight * 0.03,
@@ -149,14 +150,14 @@ class _OrderScreenState extends State<OrderScreen> {
                       minTime: DateTime.now(),
                       maxTime: DateTime(2023, 12, 31),
                       onChanged: (date) {}, onConfirm: (date) {
-                    String dateInput =
-                        date.year.toString() +
+                    String dateInput = date.year.toString() +
                         '-' +
                         date.month.toString() +
                         '-' +
                         date.day.toString();
 
-                    dateInputStr = DateFormat("yyyy-MM-ddTKK:mm:ss").format(date);
+                    dateInputStr =
+                        DateFormat("yyyy-MM-ddTKK:mm:ss").format(date);
 
                     _changeDate(dateInput);
                   }, currentTime: DateTime.now(), locale: LocaleType.vi);
@@ -185,7 +186,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     ),
                     SizedBox(width: _pageWidth * 0.03),
                     Text(
-                      'Ngày: '+_date,
+                      'Ngày: ' + _date,
                       style: TextStyle(
                         color: Colors.grey[600],
                         fontSize: _pageHeight * 0.02,
@@ -244,8 +245,8 @@ class _OrderScreenState extends State<OrderScreen> {
                   Spacer(),
                   ElevatedButton(
                     onPressed: () {
-                        _ChooseService(context);
-                        _calTotalPrice();
+                      _ChooseService(context);
+                      _calTotalPrice();
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
@@ -287,7 +288,9 @@ class _OrderScreenState extends State<OrderScreen> {
                               ),
                               Spacer(),
                               Text(
-                                Globals.listServiceOnOrder[index].price.toString()+'đ',
+                                Globals.listServiceOnOrder[index].price
+                                        .toString() +
+                                    'đ',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: _pageHeight * 0.026,
@@ -353,7 +356,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   ),
                   Spacer(),
                   Text(
-                  totalPrice.toString()+"đ",
+                    totalPrice.toString() + "đ",
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: _pageHeight * 0.028,
@@ -462,13 +465,17 @@ class _OrderScreenState extends State<OrderScreen> {
                 'Xác nhận',
                 style: TextStyle(color: _primaryColor),
               ),
-              onPressed: () {
+              onPressed: () async {
                 _getPetId();
-                if(_date=="Chọn thời gian thực hiện" || totalPrice == 0 || petId.isEmpty){
+                if (_date == "Chọn thời gian thực hiện" ||
+                    totalPrice == 0 ||
+                    petId.isEmpty) {
                   return;
                 }
-                String curDate =DateFormat("yyyy-MM-ddTKK:mm:ss").format(DateTime.now()) ;
-                createOrder(curDate, totalPrice.toString(), centerID, petId);
+                String curDate =
+                    DateFormat("yyyy-MM-ddTKK:mm:ss").format(DateTime.now());
+                await createOrder(
+                    curDate, totalPrice.toString(), centerID, petId);
                 Navigator.pushNamed(context, '/orderSuccessScreen');
               },
             ),
@@ -486,23 +493,28 @@ class _OrderScreenState extends State<OrderScreen> {
       },
     );
   }
-  void _calTotalPrice(){
+
+  void _calTotalPrice() {
     setState(() {
       totalPrice = 0;
-      for(ServiceModel service in Globals.listServiceOnOrder){
+      for (ServiceModel service in Globals.listServiceOnOrder) {
         totalPrice = totalPrice + int.parse(service.price.toString());
       }
     });
   }
-  void _getPetId(){
-    for(PetModel pet in _listPetModel!){
-      if(pet.isSelected){
+
+  void _getPetId() {
+    for (PetModel pet in _listPetModel!) {
+      if (pet.isSelected) {
         petId = pet.petId;
       }
     }
   }
-  Future createOrder(String date, String totalPrice, String centerId, String petId) async {
-    final createResult = await CreateApi().createOrder(date, totalPrice, centerId, petId);
+
+  Future createOrder(
+      String date, String totalPrice, String centerId, String petId) async {
+    final createResult =
+        await CreateApi().createOrder(date, totalPrice, centerId, petId);
     if (!mounted) return;
     setState(() {
       result = createResult;
