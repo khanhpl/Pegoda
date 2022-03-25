@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
 import { Close, InfoOutlined } from '@mui/icons-material'
-import { Box, Button, ButtonGroup, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Card, CardContent, Chip, Stack, Pagination, Snackbar, Alert } from "@mui/material"
+import { Box, Button, ButtonGroup, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Card, CardContent, Chip, Stack, Pagination, Snackbar, Alert, setRef } from "@mui/material"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { HubConnectionBuilder } from '@microsoft/signalr'
@@ -21,10 +21,12 @@ const TableOrder = () => {
     const token = localStorage.getItem('token')
     const centerId = localStorage.getItem('centerId')
     const apiUrl = `https://pegoda.azurewebsites.net/api/v1.0/orders?pageNumber=${page}&pageSize=10&centerId=${centerId}`
+    // console.log('0 ', refreshData)
     useEffect(() => {
         axios.get(apiUrl, {
             'Authorization': `Bearer ${token}`
         }).then(response => {
+            console.log('reload')
             setData(response.data)
             setLoading(false)
             console.log(response.data)
@@ -55,8 +57,10 @@ const TableOrder = () => {
 
                 connection.on('Receive', message => {
                     console.log('message: ', message)
-                    setOpenSnackbar(true)
+                    // console.log('1 ', refreshData)
                     setRefreshData(!refreshData)
+                    // console.log('2 ', refreshData)
+                    setOpenSnackbar(true)
                 })
             }).catch(error => console.log('Connection failed: ', error))
         }
@@ -99,6 +103,35 @@ const TableOrder = () => {
     const handleCloseSnackbar = () => {
         setOpenSnackbar(false)
     }
+
+    const pushNotifyApproved = async (deviceId) => {
+        axios({
+            url: 'https://pegoda.azurewebsites.net/api/v1.0/notifications',
+            method: 'post',
+            data: {
+                "deviceId": deviceId,
+                "title": "PEGODA",
+                "body": "Lịch khám bệnh cho Pet của bạn đã được phê duyệt",
+            }
+        }).then((response) => {
+            console.log(response.data)
+        }).catch(error => console.log(error))
+    }
+
+    const pushNotifyCanceled = async (deviceId) => {
+        axios({
+            url: 'https://pegoda.azurewebsites.net/api/v1.0/notifications',
+            method: 'post',
+            data: {
+                "deviceId": deviceId,
+                "title": "PEGODA",
+                "body": "Lịch khám bệnh cho Pet của bạn đã bị huỷ",
+            }
+        }).then((response) => {
+            console.log(response.data)
+        }).catch(error => console.log(error))
+    }
+
     return (
         <>
             {loading
@@ -136,11 +169,13 @@ const TableOrder = () => {
                                         <TableCell align="right">
                                             {row.status === 'pending' && (
                                                 <ButtonGroup>
-                                                    <Button variant="contained" color="secondary" onClick={() => {
+                                                    <Button variant="contained" color="secondary" onClick={async () => {
                                                         updateStatus(row.orderId, 'approved')
+                                                        await pushNotifyApproved(row.deviceId)
                                                     }}>Xác Nhận</Button>
-                                                    <Button variant="outlined" color="error" onClick={() => {
+                                                    <Button variant="outlined" color="error" onClick={async () => {
                                                         updateStatus(row.orderId, 'canceled')
+                                                        await pushNotifyCanceled(row.deviceId)
                                                     }}>Huỷ</Button>
                                                 </ButtonGroup>
                                             ) || row.status === 'canceled' && (
@@ -150,21 +185,21 @@ const TableOrder = () => {
                                             )}
                                         </TableCell>
                                         <TableCell align='right'>
-                                            <Button variant='outlined' color='info' onClick={() => {
-                                                console.log(row.orderId)
-                                                axios({
-                                                    url: `https://pegoda.azurewebsites.net/api/v1.0/orderitems?orderId=${row.orderId}`,
-                                                    method: 'get',
-                                                    headers: {
-                                                        // 'Authorization': `Bearer ${token}`
-                                                    }
-                                                }).then((response) => {
-                                                    console.log(response.data)
-                                                    setDataOrderDetail(response.data)
-                                                    setOpenDialog(true)
-                                                }).catch(error => console.log(error))
+                                            <Button variant='outlined' color='info' onClick={async () => {
+                                                // console.log(row.orderId)
+                                                // axios({
+                                                //     url: `https://pegoda.azurewebsites.net/api/v1.0/orderitems?orderId=${row.orderId}`,
+                                                //     method: 'get',
+                                                //     headers: {
+                                                //         // 'Authorization': `Bearer ${token}`
+                                                //     }
+                                                // }).then((response) => {
+                                                //     console.log(response.data)
+                                                //     setDataOrderDetail(response.data)
+                                                //     setOpenDialog(true)
+                                                // }).catch(error => console.log(error))
 
-                                                // await connection.invoke("Request", 'hieu dep trai').catch((error) => console.log(error))
+                                                await connection.invoke("Request").catch((error) => console.log(error))
                                             }}>Chi Tiết</Button>
                                             {/* <Edit color="info" style={{ marginRight: 10, cursor: 'pointer' }} onClick={() => { console.log('edit') }} />
                                         <Delete color="error" style={{ cursor: 'pointer' }} onClick={() => { console.log('delete') }} /> */}
