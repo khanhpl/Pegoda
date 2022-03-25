@@ -92,7 +92,7 @@ namespace Api.Repositories
                              join pet in _context.Pet on order.PetId equals pet.Id
                              join customer in _context.Customer on pet.CustomerId equals customer.Id
                              where order.CenterId == centerId
-                             select new { OrderId = order.Id, Date = order.Date, TotalPrice = order.TotalPrice, Status = order.Status, PetId = pet.Id, PetName = pet.Name, Gender = pet.Gender, CustomerId = customer.Id, CustomerName = customer.Name, CustomerEmail = customer.Email };
+                             select new { OrderId = order.Id, Date = order.Date, TotalPrice = order.TotalPrice, Status = order.Status, PetId = pet.Id, PetName = pet.Name, Gender = pet.Gender, CustomerId = customer.Id, CustomerName = customer.Name, CustomerEmail = customer.Email, DeviceId = order.DeviceId };
                 return orders.OrderByDescending(x => x.Date).ToList();
             }
             else if (pageNumber != 0 && pageSize != 0 && centerId != Guid.Empty && userId == Guid.Empty)
@@ -101,7 +101,7 @@ namespace Api.Repositories
                              join pet in _context.Pet on order.PetId equals pet.Id
                              join customer in _context.Customer on pet.CustomerId equals customer.Id
                              where order.CenterId == centerId
-                             select new { OrderId = order.Id, Date = order.Date, TotalPrice = order.TotalPrice, Status = order.Status, PetId = pet.Id, PetName = pet.Name, Gender = pet.Gender, CustomerId = customer.Id, CustomerName = customer.Name, CustomerEmail = customer.Email };
+                             select new { OrderId = order.Id, Date = order.Date, TotalPrice = order.TotalPrice, Status = order.Status, PetId = pet.Id, PetName = pet.Name, Gender = pet.Gender, CustomerId = customer.Id, CustomerName = customer.Name, CustomerEmail = customer.Email, DeviceId = order.DeviceId };
                 return orders.OrderByDescending(x => x.Date).ToPagedList(pageNumber, pageSize).ToList();
             }
             else if (pageNumber == 0 && pageSize == 0 && userId != Guid.Empty && centerId == Guid.Empty)
