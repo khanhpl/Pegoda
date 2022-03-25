@@ -86,6 +86,7 @@ namespace Api.Repositories
         }
         public async Task<bool> Update(User newUser)
         {
+            newUser.Status = "active";
             User user = await _context.User.AsNoTracking().FirstOrDefaultAsync(x => x.Id == newUser.Id && x.Status.Equals("active"));
             if (user == null)
             {

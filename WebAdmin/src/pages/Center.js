@@ -59,7 +59,8 @@ function Center() {
         description: values.description,
         address: values.address,
         longitude: 0,
-        latitude: 0
+        latitude: 0,
+        status: 'active'
       }).then(response => {
         console.log(response.data)
         setLoadingButton(false)
@@ -85,7 +86,8 @@ function Center() {
           description: values.description,
           address: values.address,
           longitude: 0,
-          latitude: 0
+          latitude: 0,
+          status: 'active'
         }
       }).then(response => {
         console.log(response.data)

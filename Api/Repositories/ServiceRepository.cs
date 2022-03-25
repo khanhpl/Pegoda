@@ -29,6 +29,7 @@ namespace Api.Repositories
             {
                 return false;
             }
+            newService.Status = "active";
             _context.Service.Update(newService);
             await _context.SaveChangesAsync();
             return true;

@@ -90,6 +90,8 @@ namespace Api.Repositories
                 Address = newCustomer.Address,
                 RoleId = user.RoleId,
             };
+            newUser.Status = "active";
+            newCustomer.Status = "active";
             _context.User.Update(newUser);
             _context.Customer.Update(newCustomer);
             await _context.SaveChangesAsync();

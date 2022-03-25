@@ -13,6 +13,7 @@ namespace Api.Models
         public string Gender { get; set; }
         public string Email { get; set; }
         public string Image { get; set; }
+        public string Status { get; set; }
         public Guid CenterId { get; set; }
     }
 }

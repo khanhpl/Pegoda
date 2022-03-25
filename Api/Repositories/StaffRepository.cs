@@ -119,6 +119,8 @@ namespace Api.Repositories
                 Address = user.Address,
                 RoleId = user.RoleId,
             };
+            newStaff.Status = "active";
+            newUser.Status = "active";
             _context.Staff.Update(newStaff);
             _context.User.Update(newUser);
             await _context.SaveChangesAsync();

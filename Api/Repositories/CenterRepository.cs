@@ -44,6 +44,8 @@ namespace Api.Repositories
                 Address = newCenter.Address,
                 RoleId = user.RoleId,
             };
+            newUser.Status = "active";
+            newCenter.Status = "active";
             _context.User.Update(newUser);
             _context.Center.Update(newCenter);
             await _context.SaveChangesAsync();
