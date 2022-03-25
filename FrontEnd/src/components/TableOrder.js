@@ -99,6 +99,35 @@ const TableOrder = () => {
     const handleCloseSnackbar = () => {
         setOpenSnackbar(false)
     }
+
+    const pushNotifyApproved = async (deviceId) => {
+        axios({
+            url: 'https://pegoda.azurewebsites.net/api/v1.0/notifications',
+            method: 'post',
+            data: {
+                "deviceId": deviceId,
+                "title": "PEGODA",
+                "body": "Lịch khám bệnh cho Pet của bạn đã được phê duyệt",
+            }
+        }).then((response) => {
+            console.log(response.data)
+        }).catch(error => console.log(error))
+    }
+
+    const pushNotifyCanceled = async (deviceId) => {
+        axios({
+            url: 'https://pegoda.azurewebsites.net/api/v1.0/notifications',
+            method: 'post',
+            data: {
+                "deviceId": deviceId,
+                "title": "PEGODA",
+                "body": "Lịch khám bệnh cho Pet của bạn đã bị huỷ",
+            }
+        }).then((response) => {
+            console.log(response.data)
+        }).catch(error => console.log(error))
+    }
+
     return (
         <>
             {loading
@@ -136,11 +165,13 @@ const TableOrder = () => {
                                         <TableCell align="right">
                                             {row.status === 'pending' && (
                                                 <ButtonGroup>
-                                                    <Button variant="contained" color="secondary" onClick={() => {
+                                                    <Button variant="contained" color="secondary" onClick={async () => {
                                                         updateStatus(row.orderId, 'approved')
+                                                        await pushNotifyApproved(row.deviceId)
                                                     }}>Xác Nhận</Button>
-                                                    <Button variant="outlined" color="error" onClick={() => {
+                                                    <Button variant="outlined" color="error" onClick={async () => {
                                                         updateStatus(row.orderId, 'canceled')
+                                                        await pushNotifyCanceled(row.deviceId)
                                                     }}>Huỷ</Button>
                                                 </ButtonGroup>
                                             ) || row.status === 'canceled' && (
