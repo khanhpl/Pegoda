@@ -182,8 +182,9 @@ function Center() {
         email: response.data.email,
         description: response.data.description,
         address: response.data.address,
-        // longitude: response.data.longitude,
-        // latitude: response.data.latitude,
+        longitude: response.data.longitude,
+        latitude: response.data.latitude,
+        status: 'active'
       })
       setTitle('Chỉnh sửa thông tin cửa hàng')
       setTextButton({

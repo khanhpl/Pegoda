@@ -87,7 +87,8 @@ const Admin = () => {
                     name: values.name,
                     email: values.email,
                     image: null,
-                    address: values.address
+                    address: values.address,
+                    status: 'active',
                     // }
                 }).then(response => {
                     console.log(response.data)
@@ -121,7 +122,8 @@ const Admin = () => {
                         name: values.name,
                         email: values.email,
                         image,
-                        address: values.address
+                        address: values.address,
+                        status: 'active'
                         // }
                     }).then(response => {
                         console.log(response.data)
@@ -145,6 +147,7 @@ const Admin = () => {
                         email: values.email,
                         image: urlImage,
                         address: values.address,
+                        status: 'active',
                         roleId: values.roleId
                     }
                 }).then(() => {
@@ -175,6 +178,7 @@ const Admin = () => {
                             email: values.email,
                             image,
                             address: values.address,
+                            status: 'active',
                             roleId: values.roleId
                         }
                     }).then(() => {

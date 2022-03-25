@@ -84,6 +84,7 @@ function Staff() {
             gender: values.gender,
             email: values.email,
             image,
+            status: 'active',
             centerId: values.centerId
           })
           axios.post('https://pegoda.azurewebsites.net/api/v1.0/staffs/register', {
@@ -95,6 +96,7 @@ function Staff() {
             gender: values.gender,
             email: values.email,
             image,
+            status: 'active',
             centerId: values.centerId
             // }
           }).then(response => {
@@ -116,6 +118,7 @@ function Staff() {
           gender: values.gender,
           email: values.email,
           image: null,
+          status: 'active',
           centerId: values.centerId
           // }
         }).then(response => {
@@ -145,6 +148,7 @@ function Staff() {
             email: values.email,
             gender: values.gender,
             image: urlImage,
+            status: 'active',
             centerId: values.centerId
           }
         }).then(() => {
@@ -174,6 +178,7 @@ function Staff() {
               gender: values.gender,
               email: values.email,
               image,
+              status: 'active',
               centerId: values.centerId
               // }
             }).then(response => {
@@ -197,6 +202,7 @@ function Staff() {
               gender: values.gender,
               email: values.email,
               image: null,
+              status: 'active',
               centerId: centerId ? centerId : values.centerId
             }
           }).then(response => {
